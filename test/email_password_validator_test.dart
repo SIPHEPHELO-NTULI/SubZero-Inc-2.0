@@ -19,7 +19,7 @@ void main(){
     var result = PasswordFieldValidator.validate('');
     expect(result, "Password Required");
   });
-
+ 
   test('non-empty password returns null',()async{
     var result = PasswordFieldValidator.validate('pass');
     expect(result, "Please Enter Valid Password (6 Characters Min)");
