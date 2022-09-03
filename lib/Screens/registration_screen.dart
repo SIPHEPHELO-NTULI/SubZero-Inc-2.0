@@ -17,7 +17,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 
-
 class surnameFieldValidator{
   static String? validate(String? value){
     RegExp regex = new RegExp(r'^.{3,}$');
