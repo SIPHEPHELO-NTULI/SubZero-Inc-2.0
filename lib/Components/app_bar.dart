@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/auth_service.dart';
 import 'package:give_a_little_sdp/Screens/Home/bar_item.dart';
 import 'package:give_a_little_sdp/Screens/Home/home_screen.dart';
+import 'package:give_a_little_sdp/Screens/login_screen.dart';
+import 'package:give_a_little_sdp/Screens/registration_screen.dart';
 
 //appbar for website
 //in the form of a container at the top of the screen
@@ -45,11 +47,17 @@ class CustomAppBar extends StatelessWidget {
         const Spacer(),
         BarItem(
           title: "LOGIN",
-          click: () {},
+          click: () {
+            Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()));
+          },
         ),
         BarItem(
           title: "REGISTER",
-          click: () {},
+          click: () {
+            Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const RegistrationScreen()));
+          },
         ),
         BarItem(
           title: "CART",
