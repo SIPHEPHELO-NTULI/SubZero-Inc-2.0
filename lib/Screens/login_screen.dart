@@ -3,9 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
-import 'package:give_a_little_sdp/Screens/Home/products.dart';
 import 'package:give_a_little_sdp/Screens/forgot_password.dart';
-import 'package:give_a_little_sdp/Screens/login_screen.dart';
+
 import 'package:give_a_little_sdp/Screens/registration_screen.dart';
 import 'package:give_a_little_sdp/Screens/utils.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
