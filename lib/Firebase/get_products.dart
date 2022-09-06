@@ -5,11 +5,11 @@ import 'package:flutter/cupertino.dart';
 //gets the documents as snapshots then adds to the list
 //then returns the list
 class FireStoreDataBase {
-  List products = [];
-  final CollectionReference collectionRef =
-      FirebaseFirestore.instance.collection("Products");
+  static Future getData() async {
+    final CollectionReference collectionRef =
+        FirebaseFirestore.instance.collection("Products");
+    List products = [];
 
-  Future getData() async {
     try {
       await collectionRef.get().then((querySnapshot) {
         for (var result in querySnapshot.docs) {

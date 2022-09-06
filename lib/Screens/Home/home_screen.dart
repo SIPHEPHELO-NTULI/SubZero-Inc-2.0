@@ -18,13 +18,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     //size shows total height and width of screen
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           border: Border.all(color: const Color.fromARGB(255, 3, 79, 255)),
         ),
-        child: Column(
-          children: <Widget>[const CustomAppBar(), Products()],
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[const CustomAppBar(), Products()],
+          ),
         ),
       ),
     );

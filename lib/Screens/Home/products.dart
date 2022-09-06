@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/get_products.dart';
 import 'package:give_a_little_sdp/Screens/Home/product_card.dart';
-import 'package:give_a_little_sdp/firebase/get_products.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 
 //This class is used to display the products from the database
 // it uses the getProducts class and produces a builder.
@@ -17,65 +14,54 @@ class Products extends StatefulWidget {
 }
 
 class _ProductsState extends State<Products> {
-  TextEditingController _searchController = TextEditingController();
-  late Future resultsLoaded;
-  List allProducts = [];
+  final TextEditingController _searchController = TextEditingController();
+
   List searchProducts = [];
+  List products = [];
 
   @override
   void initState() {
     super.initState();
-    _searchController.addListener(
-        _onSearchChanged); // the _onSearchChanged funtion is called very time when value search box changes.
+    _searchController.addListener(_onSearchChanged);
+    // the _onSearchChanged funtion is called every time when value in search box changes.
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    resultsLoaded = getProductsStreamSnapshorts();
+    getProducts();
   }
 
   _onSearchChanged() {
     searchResults();
   }
 
-  // sets the values in searchProducts list to the values we want from the allProducts list.
+  // sets the values in searchProducts list to the values we want from the products list.
   searchResults() {
     var showProduct = [];
 
     if (_searchController.text != "") {
       //show searched product.
-      for (var productSnapshot in allProducts) {
+      for (var productSnapshot in products) {
         var productName =
             productSnapshot["productName"].toString().toLowerCase();
-
-        if (productName.contains(_searchController.text.toLowerCase())) {
+        var category = productSnapshot["category"].toString().toLowerCase();
+        if (productName.contains(_searchController.text.toLowerCase()) ||
+            category.contains(_searchController.text.toLowerCase())) {
           showProduct.add(productSnapshot);
         }
       }
     } else {
       // show all the products in the data base.
-      showProduct = List.from(allProducts);
+      showProduct = List.from(products);
     }
-
     setState(() {
       searchProducts = showProduct;
     });
   }
 
-  getProductsStreamSnapshorts() async {
-    final CollectionReference collectionRef =
-        FirebaseFirestore.instance.collection("Products");
-
-    try {
-      await collectionRef.get().then((querySnapshot) {
-        for (var result in querySnapshot.docs) {
-          allProducts.add(result.data());
-        }
-      });
-    } catch (e) {
-      debugPrint("Error - $e");
-    }
+  getProducts() async {
+    products = await FireStoreDataBase.getData() as List;
     searchResults();
   }
 
@@ -110,7 +96,7 @@ class _ProductsState extends State<Products> {
                 itemCount: searchProducts.length,
                 // ignore: prefer_const_constructors
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 7,
+                  crossAxisCount: 4,
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
                   childAspectRatio: 1,
@@ -123,22 +109,7 @@ class _ProductsState extends State<Products> {
                       press: () => {/*Navigate to details page here*/},
                     )),
           ),
-        )
-        // FutureBuilder(
-        //   future: FireStoreDataBase().getData(),
-        //   builder: (context, snapshot) {
-        //     if (snapshot.hasError) {
-        //       return const Text(
-        //         "Something went wrong",
-        //       );
-        //     }
-        //     if (snapshot.connectionState == ConnectionState.done) {
-        //       allProducts = snapshot.data as List;
-
-        //     }
-        //     return const Center(child: CircularProgressIndicator());
-        //   },
-        // ),
+        ),
       ],
     );
   }
