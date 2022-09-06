@@ -43,7 +43,7 @@ class ProductCard extends StatelessWidget {
                       end: Alignment.bottomRight,
                       colors: [
                         Colors.blue,
-                        Color.fromARGB(255, 3, 163, 226),
+                        Color.fromARGB(255, 5, 9, 227),
                         Color.fromARGB(255, 8, 0, 59)
                       ])),
               child: Image.network(
