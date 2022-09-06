@@ -1,10 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/auth_service.dart';
 import 'package:give_a_little_sdp/Screens/Home/bar_item.dart';
 import 'package:give_a_little_sdp/Screens/Home/home_screen.dart';
-import 'package:give_a_little_sdp/Screens/Login/login_screen.dart';
-import 'package:give_a_little_sdp/Screens/Sell/sell_screen.dart';
+import 'package:give_a_little_sdp/Screens/login_screen.dart';
+import 'package:give_a_little_sdp/Screens/registration_screen.dart';
 
 //appbar for website
 //in the form of a container at the top of the screen
@@ -46,7 +45,20 @@ class CustomAppBar extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        loggedIn(context),
+        BarItem(
+          title: "LOGIN",
+          click: () {
+            Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()));
+          },
+        ),
+        BarItem(
+          title: "REGISTER",
+          click: () {
+            Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const RegistrationScreen()));
+          },
+        ),
         BarItem(
           title: "CART",
           click: () {},
@@ -57,38 +69,15 @@ class CustomAppBar extends StatelessWidget {
         ),
         BarItem(
           title: "SELL",
-          click: () {
-            if (FirebaseAuth.instance.currentUser == null) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const LoginScreen()));
-            } else {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SellScreen()));
-            }
-          },
+          click: () {},
         ),
+        BarItem(
+          title: "LOGOUT",
+          click: () {
+            AuthService().signOut();
+          },
+        )
       ]),
     );
-  }
-
-  BarItem loggedIn(BuildContext context) {
-    if (FirebaseAuth.instance.currentUser == null) {
-      return BarItem(
-        title: "LOGIN",
-        click: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const LoginScreen()));
-        },
-      );
-    } else {
-      return BarItem(
-        title: "LOGOUT",
-        click: () {
-          AuthService().signOut();
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()));
-        },
-      );
-    }
   }
 }
