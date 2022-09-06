@@ -1,10 +1,8 @@
-import 'dart:html';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker_web/image_picker_web.dart';
 
 class SellScreen extends StatefulWidget {
   SellScreen({Key? key, userId}) : super(key: key);
@@ -20,7 +18,7 @@ class _SellScreen extends State<SellScreen> {
 
   late String downloadURL;
   late String Price;
-  late File _image;
+  //late File _image;
   // ignore: non_constant_identifier_names
   late String ProductName;
 
@@ -73,7 +71,7 @@ class _SellScreen extends State<SellScreen> {
                   imageAvailable ? Image.memory(imagefile) : const SizedBox(),
             ),
             const SizedBox(height: 10),
-            GestureDetector(
+            /*    GestureDetector(
                 onTap: () async {
                   // i think the issue was caused because i was fetching the image
                   //as a data file
@@ -81,7 +79,7 @@ class _SellScreen extends State<SellScreen> {
                   //try changing the display code from Image.Network to Image.memory
                   // think it might work
 
-                  final image = await ImagePickerWeb.getImageAsBytes();
+                //  final image = await ImagePickerWeb.getImageAsBytes();
 
                   setState(() {
                     imagefile = image!;
@@ -95,7 +93,7 @@ class _SellScreen extends State<SellScreen> {
                     color: Colors.blue,
                     child: const Center(
                       child: Text("Select Image"),
-                    ))),
+                    ))), */
             const SizedBox(height: 10),
             Container(
                 height: 40,
