@@ -46,3 +46,6 @@ Visual Studio Code, also commonly referred to as VS Code, is a source-code edito
 
 ### Flutter
 Flutter is an open-source UI software development kit created by Google. It is used to develop cross platform applications for Android, iOS, Linux, macOS, Windows, Google Fuchsia, and the web from a single codebase. GiveALittle makes use of the development kit alongside VS Code for the front-end development of the application. We make use of the Dart as the programming language as it is stable and creates high-performance applications as it is an object-oriented language.  
+
+### Status Badge
+[![Flutter Test](https://github.com/SIPHEPHELO-NTULI/SubZero-Inc-2.0/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/SIPHEPHELO-NTULI/SubZero-Inc-2.0/actions/workflows/tests.yml)
