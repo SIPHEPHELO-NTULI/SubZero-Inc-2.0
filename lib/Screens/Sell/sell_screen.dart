@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
@@ -18,10 +16,9 @@ class SellScreen extends StatefulWidget {
 class _SellScreenState extends State<SellScreen> {
   final _formKey = GlobalKey<FormState>();
   bool imageAvailable = false;
-  late Uint8List imagefile;
+  //late Uint8List imagefile;
   late String downloadURL;
   late String Price;
-  late FilePickerResult? _image;
 
   final productNameController = TextEditingController();
   final priceController = TextEditingController();
@@ -193,16 +190,10 @@ class _SellScreenState extends State<SellScreen> {
                                           ),
                                         ),
                                         onTap: () {
-                                          if (imageAvailable == false) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(const SnackBar(
-                                                    content: Text(
-                                                        "No Image Uploaded")));
-                                          } else if (_formKey.currentState!
+                                          if (_formKey.currentState!
                                               .validate()) {
                                             SendProduct()
                                                 .uploadImageToStorage(
-                                                    imagefile,
                                                     priceController.text,
                                                     productNameController.text,
                                                     descriptionController.text)
@@ -227,7 +218,7 @@ class _SellScreenState extends State<SellScreen> {
   addCoverPhoto() {
     return InkWell(
         onTap: () async {
-          final image = await FilePicker.platform.pickFiles();
+          /*   final image = await FilePicker.platform.pickFiles();
           if (image != null) {
             setState(() {
               imagefile = image.files.single.bytes!;
@@ -236,21 +227,26 @@ class _SellScreenState extends State<SellScreen> {
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text("No Image Selected")));
-          }
+          } */
         },
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              imageAvailable
-                  ? Image.memory(imagefile, width: 100)
-                  : const Icon(
-                      Icons.photo,
-                      size: 65,
-                      color: Colors.grey,
-                    ),
+            children: const [
+              Icon(
+                Icons.photo,
+                size: 65,
+                color: Colors.grey,
+              ),
+              Text(
+                'upload image',
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.black),
+              ),
             ],
           ),
         ));
