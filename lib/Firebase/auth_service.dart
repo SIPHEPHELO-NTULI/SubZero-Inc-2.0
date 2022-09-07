@@ -21,6 +21,7 @@ class AuthService {
     }
   }
 
+//Used to sign up new users
   Future<String> signUp(email, password) async {
     try {
       await FirebaseAuth.instance
@@ -31,6 +32,7 @@ class AuthService {
     }
   }
 
+//stores user details in database
   void createUser(name, surname, username, email) {
     FirebaseFirestore.instance.collection('Users').add({
       'name': name,

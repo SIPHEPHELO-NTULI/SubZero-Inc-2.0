@@ -78,9 +78,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         const Text(
                           'Welcome Back',
                           style: TextStyle(
-                            fontSize: 35,
-                            fontWeight: FontWeight.bold,
-                          ),
+                              fontSize: 35,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 3, 79, 255)),
                         ),
                         const SizedBox(
                           height: 20,

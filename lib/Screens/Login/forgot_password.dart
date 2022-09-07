@@ -2,7 +2,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
 
@@ -21,6 +20,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -59,9 +59,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 const Text(
                   'Reset Password',
                   style: TextStyle(
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      fontSize: 35,
+                      fontWeight: FontWeight.normal,
+                      color: Color.fromARGB(255, 3, 79, 255)),
                 ),
                 const SizedBox(
                   height: 20,

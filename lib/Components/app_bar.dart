@@ -47,6 +47,7 @@ class CustomAppBar extends StatelessWidget {
         ),
         const Spacer(),
         loggedIn(context),
+        //BarItem class used to structure app bar items
         BarItem(
           title: "CART",
           click: () {},

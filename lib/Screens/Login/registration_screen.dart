@@ -89,6 +89,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             const Text(
                               'Welcome',
                               style: TextStyle(
+                                color: Color.fromARGB(255, 3, 79, 255),
                                 fontSize: 35,
                                 fontWeight: FontWeight.bold,
                               ),

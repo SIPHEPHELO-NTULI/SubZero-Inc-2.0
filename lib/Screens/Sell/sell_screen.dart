@@ -1,8 +1,12 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
+import 'package:give_a_little_sdp/Firebase/send_product.dart';
 import 'package:give_a_little_sdp/Screens/Sell/Validation/pricevalidator.dart';
 import 'package:give_a_little_sdp/Screens/Sell/Validation/productNameValidator.dart';
-import 'package:give_a_little_sdp/Screens/Sell/custom_text_form_field.dart';
 
 class SellScreen extends StatefulWidget {
   const SellScreen({Key? key}) : super(key: key);
@@ -12,6 +16,17 @@ class SellScreen extends StatefulWidget {
 }
 
 class _SellScreenState extends State<SellScreen> {
+  final _formKey = GlobalKey<FormState>();
+  bool imageAvailable = false;
+  late Uint8List imagefile;
+  late String downloadURL;
+  late String Price;
+  late FilePickerResult? _image;
+
+  final productNameController = TextEditingController();
+  final priceController = TextEditingController();
+  final descriptionController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,74 +60,164 @@ class _SellScreenState extends State<SellScreen> {
                                 borderRadius: BorderRadius.circular(15)),
                             child: Padding(
                               padding: const EdgeInsets.all(20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  addCoverPhoto(),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  CustomTextField(
-                                    hint: "Enter Product name",
-                                    //validator: ProductNameValidator(),
-                                    radius: 15,
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  CustomTextField(
-                                    hint: "Description",
-                                    maxLines: 4,
-                                    radius: 15,
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  CustomTextField(
-                                    hint: "Price",
-                                    // validator: PriceValidator(),
-                                    maxLines: 1,
-                                    radius: 15,
-                                  ),
-                                  SizedBox(
-                                    height: 30,
-                                  ),
-                                  MouseRegion(
-                                    cursor: SystemMouseCursors.click,
-                                    child: GestureDetector(
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        width: 250,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                            gradient: const LinearGradient(
-                                                begin: Alignment.centerRight,
-                                                end: Alignment.centerLeft,
-                                                colors: [
-                                                  Colors.blue,
-                                                  Color.fromARGB(
-                                                      255, 5, 9, 227),
-                                                  Color.fromARGB(255, 8, 0, 59),
-                                                ])),
-                                        child: const Padding(
-                                          padding: EdgeInsets.all(12.0),
-                                          child: Text(
-                                            'POST',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold),
-                                          ),
+                              child: Form(
+                                key: _formKey,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      'UPLOAD YOUR PRODUCT',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.normal,
+                                          color: const Color.fromARGB(
+                                              255, 3, 79, 255)),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    addCoverPhoto(),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Container(
+                                      width: 250,
+                                      child: TextFormField(
+                                        maxLines: 1,
+                                        controller: productNameController,
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        validator:
+                                            ProductNameValidator.validate,
+                                        decoration: InputDecoration(
+                                          hintText: "Product Name",
+                                          hintStyle: Theme.of(context)
+                                              .textTheme
+                                              .subtitle1!
+                                              .copyWith(
+                                                  color: const Color.fromARGB(
+                                                      255, 3, 79, 255)),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              borderSide: const BorderSide(
+                                                  color: Color.fromARGB(
+                                                      255, 3, 79, 255))),
                                         ),
                                       ),
-                                      onTap: () {
-                                        //send to firebase
-                                        //send image to firebase storage
-                                      },
                                     ),
-                                  ),
-                                ],
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Container(
+                                      width: 250,
+                                      child: TextFormField(
+                                        maxLines: 1,
+                                        controller: priceController,
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        validator: PriceValidator.validate,
+                                        decoration: InputDecoration(
+                                          hintText: "Price",
+                                          hintStyle: Theme.of(context)
+                                              .textTheme
+                                              .subtitle1!
+                                              .copyWith(
+                                                  color: const Color.fromARGB(
+                                                      255, 3, 79, 255)),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              borderSide: const BorderSide(
+                                                  color: Color.fromARGB(
+                                                      255, 3, 79, 255))),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Container(
+                                      width: 250,
+                                      child: TextFormField(
+                                        maxLines: 5,
+                                        controller: descriptionController,
+                                        decoration: InputDecoration(
+                                          hintText: "Description",
+                                          hintStyle: Theme.of(context)
+                                              .textTheme
+                                              .subtitle1!
+                                              .copyWith(
+                                                  color: const Color.fromARGB(
+                                                      255, 3, 79, 255)),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              borderSide: const BorderSide(
+                                                  color: Color.fromARGB(
+                                                      255, 3, 79, 255))),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 30,
+                                    ),
+                                    MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: GestureDetector(
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          width: 250,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              gradient: const LinearGradient(
+                                                  begin: Alignment.centerRight,
+                                                  end: Alignment.centerLeft,
+                                                  colors: [
+                                                    Colors.blue,
+                                                    Color.fromARGB(
+                                                        255, 5, 9, 227),
+                                                    Color.fromARGB(
+                                                        255, 8, 0, 59),
+                                                  ])),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(12.0),
+                                            child: Text(
+                                              'POST',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          if (imageAvailable == false) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(const SnackBar(
+                                                    content: Text(
+                                                        "No Image Uploaded")));
+                                          } else if (_formKey.currentState!
+                                              .validate()) {
+                                            SendProduct()
+                                                .uploadImageToStorage(
+                                                    imagefile,
+                                                    priceController.text,
+                                                    productNameController.text,
+                                                    descriptionController.text)
+                                                .then((value) =>
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(SnackBar(
+                                                            content:
+                                                                Text(value))));
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             )),
                       ]))
@@ -121,24 +226,31 @@ class _SellScreenState extends State<SellScreen> {
 
   addCoverPhoto() {
     return InkWell(
-        onTap: () {
-          // pick image
-          //display image
+        onTap: () async {
+          final image = await FilePicker.platform.pickFiles();
+          if (image != null) {
+            setState(() {
+              imagefile = image.files.single.bytes!;
+              imageAvailable = true;
+            });
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("No Image Selected")));
+          }
         },
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Icon(
-                Icons.photo,
-                size: 65,
-                color: Colors.grey,
-              ),
-              Text(
-                "Add Photo",
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-              ),
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              imageAvailable
+                  ? Image.memory(imagefile, width: 100)
+                  : const Icon(
+                      Icons.photo,
+                      size: 65,
+                      color: Colors.grey,
+                    ),
             ],
           ),
         ));
