@@ -23,6 +23,11 @@ jobs:
 
       - name: Get all Flutter Packages
         run: flutter pub get
+      - name: Run tests with coverage
+        run: pub run test --coverage="coverage"
+        
+      - name: Convert coverage to ICOV
+        run: pub run coverage:format_coverage --lcov --in=coverage --out=coverage.lcov --packages=.packages --report-on=lib
         
       - name: Run Flutter Test
         run: flutter test --coverage 
