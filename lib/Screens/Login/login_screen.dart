@@ -233,9 +233,21 @@ class _LoginScreenState extends State<LoginScreen> {
         .signIn(emailController.text.trim(), passwordController.text.trim())
         .then((value) => {
               ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(value)))
+                  .showSnackBar(SnackBar(content: Text(value))),
+              if (value != "Success")
+                {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginScreen()))
+                }
+              else
+                {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomeScreen()))
+                }
             });
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const HomeScreen()));
   }
 }

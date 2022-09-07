@@ -75,7 +75,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         height: 20,
                       ),
                       Container(
-                        height: 600,
+                        height: MediaQuery.of(context).size.height,
                         width: 325,
                         decoration: BoxDecoration(
                             color: Colors.white,
@@ -223,34 +223,37 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             const SizedBox(
                               height: 20,
                             ),
-                            GestureDetector(
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  width: 250,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50),
-                                      gradient: const LinearGradient(
-                                          begin: Alignment.centerRight,
-                                          end: Alignment.centerLeft,
-                                          colors: [
-                                            Colors.blue,
-                                            Color.fromARGB(255, 5, 9, 227),
-                                            Color.fromARGB(255, 8, 0, 59),
-                                          ])),
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(12.0),
-                                    child: Text(
-                                      'SIGN UP',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
+                            MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: GestureDetector(
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    width: 250,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50),
+                                        gradient: const LinearGradient(
+                                            begin: Alignment.centerRight,
+                                            end: Alignment.centerLeft,
+                                            colors: [
+                                              Colors.blue,
+                                              Color.fromARGB(255, 5, 9, 227),
+                                              Color.fromARGB(255, 8, 0, 59),
+                                            ])),
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(12.0),
+                                      child: Text(
+                                        'SIGN UP',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                onTap: () {
-                                  signUp();
-                                }),
+                                  onTap: () {
+                                    signUp();
+                                  }),
+                            ),
                             const SizedBox(
                               height: 15,
                             ),
