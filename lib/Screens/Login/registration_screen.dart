@@ -53,240 +53,262 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+              Colors.blue,
+              Color.fromARGB(255, 5, 9, 227),
+              Color.fromARGB(255, 8, 0, 59),
+            ])),
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        colors: [
-                      Color.fromARGB(255, 5, 111, 197),
-                      Color.fromARGB(255, 5, 9, 227),
-                      Color.fromARGB(255, 8, 0, 59),
-                    ])),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const CustomAppBar(),
-                      const SizedBox(
-                        height: 20,
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            const CustomAppBar(),
+            const SizedBox(
+              height: 15,
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.85,
+              width: MediaQuery.of(context).size.width * 0.5,
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(15)),
+              child: Form(
+                key: _formKey,
+                child: SingleChildScrollView(
+                  child: Column(children: [
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    const Text(
+                      'Welcome',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 3, 79, 255),
+                        fontSize: 35,
+                        fontWeight: FontWeight.bold,
                       ),
-                      Container(
-                        height: MediaQuery.of(context).size.height,
-                        width: 325,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Form(
-                          key: _formKey,
-                          child: Column(children: [
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            const Text(
-                              'Welcome',
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 3, 79, 255),
-                                fontSize: 35,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 17,
-                            ),
-                            Container(
-                              width: 250,
-                              child: TextFormField(
-                                controller: nameEditingController,
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                validator: NameFieldValidator.validate,
-                                onSaved: (value) {
-                                  nameEditingController.text = value!;
-                                },
-                                textInputAction: TextInputAction.next,
-                                decoration: const InputDecoration(
-                                    labelText: 'Name',
-                                    suffixIcon: Icon(
-                                      FontAwesomeIcons.circleUser,
-                                      size: 17,
-                                    )),
-                              ),
-                            ),
-                            Container(
-                              width: 250,
-                              child: TextFormField(
-                                controller: surnameEditingController,
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                validator: SurnameFieldValidator.validate,
-                                onSaved: (value) {
-                                  surnameEditingController.text = value!;
-                                },
-                                //obscureText: true,
-                                textInputAction: TextInputAction.next,
-                                decoration: const InputDecoration(
-                                    labelText: 'Surname',
-                                    suffixIcon: Icon(
-                                      FontAwesomeIcons.circleUser,
-                                      size: 17,
-                                    )),
-                              ),
-                            ),
-                            Container(
-                              width: 250,
-                              child: TextFormField(
-                                controller: usernameEditingController,
-                                validator: UserNameFieldValidator.validate,
-                                decoration: const InputDecoration(
-                                    labelText: 'Username',
-                                    suffixIcon: Icon(
-                                      FontAwesomeIcons.circleUser,
-                                      size: 17,
-                                    )),
-                              ),
-                            ),
-                            Container(
-                              width: 250,
-                              child: TextFormField(
-                                controller: emailEditingController,
-                                onSaved: (value) {
-                                  emailEditingController.text = value!;
-                                },
-                                decoration: const InputDecoration(
-                                    labelText: 'Email Address',
-                                    suffixIcon: Icon(
-                                      FontAwesomeIcons
-                                          .envelope, //XXXXXXXXXXXXXXXXXX
-                                      size: 17,
-                                    )),
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                validator: (email) => email != null &&
-                                        !EmailValidator.validate(email)
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.2,
+                          child: TextFormField(
+                            controller: nameEditingController,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: NameFieldValidator.validate,
+                            onSaved: (value) {
+                              nameEditingController.text = value!;
+                            },
+                            textInputAction: TextInputAction.next,
+                            decoration: const InputDecoration(
+                                labelText: 'Name',
+                                suffixIcon: Icon(
+                                  FontAwesomeIcons.circleUser,
+                                  size: 17,
+                                )),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.2,
+                          child: TextFormField(
+                            controller: surnameEditingController,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: SurnameFieldValidator.validate,
+                            onSaved: (value) {
+                              surnameEditingController.text = value!;
+                            },
+                            //obscureText: true,
+                            textInputAction: TextInputAction.next,
+                            decoration: const InputDecoration(
+                                labelText: 'Surname',
+                                suffixIcon: Icon(
+                                  FontAwesomeIcons.circleUser,
+                                  size: 17,
+                                )),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.2,
+                          child: TextFormField(
+                            controller: usernameEditingController,
+                            validator: UserNameFieldValidator.validate,
+                            decoration: const InputDecoration(
+                                labelText: 'Username',
+                                suffixIcon: Icon(
+                                  FontAwesomeIcons.circleUser,
+                                  size: 17,
+                                )),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.2,
+                          child: TextFormField(
+                            controller: emailEditingController,
+                            onSaved: (value) {
+                              emailEditingController.text = value!;
+                            },
+                            decoration: const InputDecoration(
+                                labelText: 'Email Address',
+                                suffixIcon: Icon(
+                                  FontAwesomeIcons
+                                      .envelope, //XXXXXXXXXXXXXXXXXX
+                                  size: 17,
+                                )),
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (email) =>
+                                email != null && !EmailValidator.validate(email)
                                     ? 'Enter a valid email'
                                     : null,
-                              ),
-                            ),
-                            Container(
-                              width: 250,
-                              child: TextFormField(
-                                controller: passwordEditingController,
-                                obscureText: _obscureText,
-                                onSaved: (value) {
-                                  passwordEditingController.text = value!;
-                                },
-                                textInputAction: TextInputAction.next,
-                                decoration: InputDecoration(
-                                    labelText: 'Password',
-                                    suffixIcon: InkWell(
-                                        onTap: _toggle,
-                                        child: Icon(
-                                          _obscureText
-                                              ? FontAwesomeIcons.eye
-                                              : FontAwesomeIcons.eyeSlash,
-                                          size: 17,
-                                        ))),
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                //obscureText:true,
-                                validator: (value) =>
-                                    value != null && value.length < 6
-                                        ? 'Enter min. 6 characters'
-                                        : null,
-                              ),
-                            ),
-                            Container(
-                              width: 250,
-                              child: TextFormField(
-                                controller: confirmPasswordEditingController,
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                obscureText: true,
-                                validator: (value) {
-                                  if (confirmPasswordEditingController.text !=
-                                      passwordEditingController.text) {
-                                    return "Password don't match";
-                                  }
-                                },
-                                decoration: const InputDecoration(
-                                    labelText: 'Confirm Password',
-                                    suffixIcon: Icon(
-                                      FontAwesomeIcons.eyeSlash,
-                                      size: 17,
-                                    )),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            MouseRegion(
-                              cursor: SystemMouseCursors.click,
-                              child: GestureDetector(
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    width: 250,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        gradient: const LinearGradient(
-                                            begin: Alignment.centerRight,
-                                            end: Alignment.centerLeft,
-                                            colors: [
-                                              Colors.blue,
-                                              Color.fromARGB(255, 5, 9, 227),
-                                              Color.fromARGB(255, 8, 0, 59),
-                                            ])),
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(12.0),
-                                      child: Text(
-                                        'SIGN UP',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    signUp();
-                                  }),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            RichText(
-                                text: TextSpan(
-                                    style: const TextStyle(color: Colors.black),
-                                    text: 'Already have an account?  ',
-                                    children: [
-                                  TextSpan(
-                                      recognizer: TapGestureRecognizer()
-                                        //on..onTap = widget.onClickedSignIn,
-                                        ..onTap = () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const LoginScreen()));
-                                        },
-                                      text: 'Sign In',
-                                      style: const TextStyle(
-                                          decoration: TextDecoration.underline))
-                                ])),
-                            Image.asset(
-                              "assets/Logo2.png",
-                              width: 100,
-                            ),
-                          ]),
+                          ),
                         ),
-                      )
-                    ]),
+                      ],
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.2,
+                          child: TextFormField(
+                            controller: passwordEditingController,
+                            obscureText: _obscureText,
+                            onSaved: (value) {
+                              passwordEditingController.text = value!;
+                            },
+                            textInputAction: TextInputAction.next,
+                            decoration: InputDecoration(
+                                labelText: 'Password',
+                                suffixIcon: InkWell(
+                                    onTap: _toggle,
+                                    child: Icon(
+                                      _obscureText
+                                          ? FontAwesomeIcons.eye
+                                          : FontAwesomeIcons.eyeSlash,
+                                      size: 17,
+                                    ))),
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            //obscureText:true,
+                            validator: (value) =>
+                                value != null && value.length < 6
+                                    ? 'Enter min. 6 characters'
+                                    : null,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.2,
+                          child: TextFormField(
+                            controller: confirmPasswordEditingController,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            obscureText: true,
+                            validator: (value) {
+                              if (confirmPasswordEditingController.text !=
+                                  passwordEditingController.text) {
+                                return "Password don't match";
+                              }
+                            },
+                            decoration: const InputDecoration(
+                                labelText: 'Confirm Password',
+                                suffixIcon: Icon(
+                                  FontAwesomeIcons.eyeSlash,
+                                  size: 17,
+                                )),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 35,
+                    ),
+                    MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: MediaQuery.of(context).size.width * 0.30,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                gradient: const LinearGradient(
+                                    begin: Alignment.centerRight,
+                                    end: Alignment.centerLeft,
+                                    colors: [
+                                      Colors.blue,
+                                      Color.fromARGB(255, 5, 9, 227),
+                                      Color.fromARGB(255, 8, 0, 59),
+                                    ])),
+                            child: const Padding(
+                              padding: EdgeInsets.all(12.0),
+                              child: Text(
+                                'SIGN UP',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                          onTap: () {
+                            signUp();
+                          }),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    RichText(
+                        text: TextSpan(
+                            style: const TextStyle(color: Colors.black),
+                            text: 'Already have an account?  ',
+                            children: [
+                          TextSpan(
+                              recognizer: TapGestureRecognizer()
+                                //on..onTap = widget.onClickedSignIn,
+                                ..onTap = () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const LoginScreen()));
+                                },
+                              text: 'Sign In',
+                              style: const TextStyle(
+                                  color: Color.fromARGB(255, 3, 79, 255),
+                                  decoration: TextDecoration.underline))
+                        ])),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Image.asset(
+                      "assets/Logo2.png",
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      height: MediaQuery.of(context).size.height * 0.2,
+                    ),
+                  ]),
+                ),
               ),
-            ],
-          ),
+            )
+          ]),
         ),
       ),
     );

@@ -42,90 +42,88 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
             const CustomAppBar(),
             const SizedBox(
-              height: 20,
-            ),
-            const SizedBox(
-              height: 30,
+              height: 40,
             ),
             Container(
-              height: 450,
-              width: 325,
+              height: MediaQuery.of(context).size.height * 0.8,
+              width: MediaQuery.of(context).size.width * 0.5,
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(15)),
-              child: Column(children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                const Text(
-                  'Reset Password',
-                  style: TextStyle(
-                      fontSize: 35,
-                      fontWeight: FontWeight.normal,
-                      color: Color.fromARGB(255, 3, 79, 255)),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  width: 250,
-                  child: TextFormField(
-                    controller: emailController,
-                    decoration: const InputDecoration(
-                        labelText: 'Email Address',
-                        suffixIcon: Icon(
-                          FontAwesomeIcons.envelope,
-                          size: 17,
-                        )),
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (email) =>
-                        email != null && !EmailValidator.validate(email)
-                            ? 'Enter a valid email'
-                            : null,
+              child: SingleChildScrollView(
+                child: Column(children: [
+                  const SizedBox(
+                    height: 30,
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: 250,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          gradient: const LinearGradient(
-                              begin: Alignment.centerRight,
-                              end: Alignment.centerLeft,
-                              colors: [
-                                Colors.blue,
-                                Color.fromARGB(255, 5, 9, 227),
-                                Color.fromARGB(255, 8, 0, 59),
-                              ])),
-                      child: const Padding(
-                        padding: EdgeInsets.all(12.0),
-                        child: Text(
-                          'Reset Password',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
+                  const Text(
+                    'Reset Password',
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.normal,
+                        color: Color.fromARGB(255, 3, 79, 255)),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.45,
+                    child: TextFormField(
+                      controller: emailController,
+                      decoration: const InputDecoration(
+                          labelText: 'Email Address',
+                          suffixIcon: Icon(
+                            FontAwesomeIcons.envelope,
+                            size: 17,
+                          )),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (email) =>
+                          email != null && !EmailValidator.validate(email)
+                              ? 'Enter a valid email'
+                              : null,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            gradient: const LinearGradient(
+                                begin: Alignment.centerRight,
+                                end: Alignment.centerLeft,
+                                colors: [
+                                  Colors.blue,
+                                  Color.fromARGB(255, 5, 9, 227),
+                                  Color.fromARGB(255, 8, 0, 59),
+                                ])),
+                        child: const Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: Text(
+                            'Reset Password',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
+                      onTap: () {
+                        resetPassword();
+                      },
                     ),
-                    onTap: () {
-                      resetPassword();
-                    },
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Image.asset(
-                  "assets/Logo2.png",
-                  width: 200,
-                ),
-              ]),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Image.asset("assets/Logo2.png",
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      height: MediaQuery.of(context).size.height * 0.3),
+                ]),
+              ),
             )
           ]),
         )),
