@@ -49,3 +49,6 @@ Flutter is an open-source UI software development kit created by Google. It is u
 
 ### Status Badge
 [![Flutter Test](https://github.com/SIPHEPHELO-NTULI/SubZero-Inc-2.0/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/SIPHEPHELO-NTULI/SubZero-Inc-2.0/actions/workflows/main.yml)
+
+### CodeCov Badge
+[![codecov](https://codecov.io/gh/SIPHEPHELO-NTULI/SubZero-Inc-2.0/branch/main/graph/badge.svg?token=IOK7J1KSMY)](https://codecov.io/gh/SIPHEPHELO-NTULI/SubZero-Inc-2.0)
