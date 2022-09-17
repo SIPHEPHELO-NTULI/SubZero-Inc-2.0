@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/get_products.dart';
 import 'package:give_a_little_sdp/Screens/Home/product_card.dart';
+import 'package:give_a_little_sdp/Screens/ProductDetails/product_details.dart';
 
 //This class is used to display the products from the database
 // it uses the getProducts class and produces a builder.
@@ -101,12 +102,23 @@ class _ProductsState extends State<Products> {
                   crossAxisSpacing: 10,
                   childAspectRatio: 1,
                 ),
-                itemBuilder: (context, index) => ProductCard(
-                      productName: searchProducts[index]['productName'],
-                      price: searchProducts[index]['price'],
-                      description: "N/A",
-                      image: searchProducts[index]['imageURL'],
-                      press: () => {/*Navigate to details page here*/},
+                itemBuilder: (context, index) => MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: ProductCard(
+                        productName: searchProducts[index]['productName'],
+                        price: searchProducts[index]['price'],
+                        description: "N/A",
+                        image: searchProducts[index]['imageURL'],
+                        press: () => showModalBottomSheet(
+                          context: context,
+                          builder: (context) => DetailsScreen(
+                              productName: searchProducts[index]['productName'],
+                              price: searchProducts[index]['price'],
+                              description: "N/A",
+                              image: searchProducts[index]['imageURL'],
+                              category: searchProducts[index]['category']),
+                        ),
+                      ),
                     )),
           ),
         ),
