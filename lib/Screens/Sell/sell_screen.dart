@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
 import 'package:give_a_little_sdp/Firebase/send_product.dart';
+import 'package:give_a_little_sdp/Screens/Sell/Validation/categoryvalidator.dart';
 import 'package:give_a_little_sdp/Screens/Sell/Validation/pricevalidator.dart';
 import 'package:give_a_little_sdp/Screens/Sell/Validation/productNameValidator.dart';
 
@@ -22,6 +23,7 @@ class _SellScreenState extends State<SellScreen> {
 
   final productNameController = TextEditingController();
   final priceController = TextEditingController();
+  final categoryController = TextEditingController();
   final descriptionController = TextEditingController();
 
   @override
@@ -144,7 +146,36 @@ class _SellScreenState extends State<SellScreen> {
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   height:
-                                      MediaQuery.of(context).size.height * 0.2,
+                                      MediaQuery.of(context).size.height * 0.1,
+                                  child: TextFormField(
+                                    controller: categoryController,
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
+                                    validator: CategoryValidator.validate,
+                                    decoration: InputDecoration(
+                                      hintText: "Category",
+                                      hintStyle: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1!
+                                          .copyWith(
+                                              color: const Color.fromARGB(
+                                                  255, 3, 79, 255)),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: const BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 3, 79, 255))),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.01,
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.4,
                                   child: TextFormField(
                                     maxLines: 4,
                                     controller: descriptionController,
@@ -167,7 +198,7 @@ class _SellScreenState extends State<SellScreen> {
                                 ),
                                 SizedBox(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.01,
+                                      MediaQuery.of(context).size.height * 0.02,
                                 ),
                                 MouseRegion(
                                   cursor: SystemMouseCursors.click,
@@ -207,7 +238,8 @@ class _SellScreenState extends State<SellScreen> {
                                             .uploadImageToStorage(
                                                 priceController.text,
                                                 productNameController.text,
-                                                descriptionController.text)
+                                                descriptionController.text,
+                                                categoryController.text)
                                             .then((value) =>
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(

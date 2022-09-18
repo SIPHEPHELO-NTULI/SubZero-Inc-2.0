@@ -1,14 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:give_a_little_sdp/Firebase/cart_functions.dart';
 import 'package:give_a_little_sdp/Screens/ProductDetails/body.dart';
 
 class DetailsScreen extends StatelessWidget {
-  String image, productName, description, price, category;
+  String image, productName, description, price, category, productID;
   DetailsScreen(
       {required this.image,
       required this.productName,
       required this.description,
       required this.price,
       required this.category,
+      required this.productID,
       Key? key})
       : super(key: key);
 
@@ -62,11 +65,24 @@ class DetailsScreen extends StatelessWidget {
                       color: Colors.white,
                     )),
               ),
-              onTap: () {},
+              onTap: () {
+                isUserSignedIn(context);
+              },
             ),
           ),
         ],
       )),
     ));
+  }
+
+  isUserSignedIn(context) {
+    if (FirebaseAuth.instance.currentUser == null) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Please Sign In First")));
+    } else {
+      CartFunctions().addToCart(productID).then((value) =>
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(value))));
+    }
   }
 }

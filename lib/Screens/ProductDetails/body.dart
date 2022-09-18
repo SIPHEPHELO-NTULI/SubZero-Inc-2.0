@@ -31,7 +31,7 @@ class Body extends StatelessWidget {
                     productName,
                     style: Theme.of(context).textTheme.headline4?.copyWith(
                         color: Colors.white,
-                        fontStyle: FontStyle.italic,
+                        fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 20.0),
@@ -48,8 +48,30 @@ class Body extends StatelessWidget {
                               .headline4
                               ?.copyWith(
                                   color: Colors.white,
-                                  fontStyle: FontStyle.italic,
+                                  fontStyle: FontStyle.normal,
                                   fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20.0),
+                  RichText(
+                    //rating widget (subject to change)
+                    text: TextSpan(
+                      children: [
+                        const TextSpan(
+                            text: "Description: \n",
+                            style: TextStyle(color: Colors.white)),
+                        TextSpan(
+                          text:
+                              description, //put rating here (you can change the design/widget to how you want)
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall
+                              ?.copyWith(
+                                color: Colors.white,
+                                fontStyle: FontStyle.italic,
+                              ),
                         ),
                       ],
                     ),

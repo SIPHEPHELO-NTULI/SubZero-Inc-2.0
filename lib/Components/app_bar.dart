@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/auth_service.dart';
+import 'package:give_a_little_sdp/Screens/Cart/cart.dart';
 import 'package:give_a_little_sdp/Screens/Home/bar_item.dart';
 import 'package:give_a_little_sdp/Screens/Home/home_screen.dart';
 import 'package:give_a_little_sdp/Screens/Login/login_screen.dart';
@@ -50,7 +52,17 @@ class CustomAppBar extends StatelessWidget {
         //BarItem class used to structure app bar items
         BarItem(
           title: "CART",
-          click: () {},
+          click: () {
+            if (FirebaseAuth.instance.currentUser == null) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()));
+            } else {
+              showDialog(
+                  useSafeArea: true,
+                  context: context,
+                  builder: (context) => Cart());
+            }
+          },
         ),
         BarItem(
           title: "ACCOUNT",
@@ -64,7 +76,7 @@ class CustomAppBar extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const LoginScreen()));
             } else {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SellScreen()));
+                  MaterialPageRoute(builder: (context) => const SellScreen()));
             }
           },
         ),
