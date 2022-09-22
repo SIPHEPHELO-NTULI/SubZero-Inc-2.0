@@ -77,13 +77,39 @@ class _HistoryScreenState extends State<HistoryScreen>{
                     width: MediaQuery.of(context).size.width*2 ,
                     child: Stack(
                       children: [
-                        Positioned(
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[ 
+                            //crossAxisAlignment: CrossAxisAlignment.center,
+                            Positioned(
+                          
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: Image.network(
                             searchProducts[index]['imageURL'],
                             fit: BoxFit.fill,
-                          ) ,)
+                          ) ,)),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget> [
+                              //CrossAxisAlignment.start
+                              Text(
+                              searchProducts[index]['productName'],
+                               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
+                               ),
+                               Text(
+                              "R"+searchProducts[index]['price'],
+                               style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
+                               Text(
+                              "Date of Purchase",
+                               style: TextStyle(fontWeight: FontWeight.bold),),
+                            ], 
+                            )
+                          ]
+                        
+
+
                           ),
                           Positioned(
                             bottom: 0,
