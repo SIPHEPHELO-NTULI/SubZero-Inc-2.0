@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class SendProduct {
-  Future<String> uploadImageToStorage(String price, String productName,
-      String description, String category) async {
+  Future<String> uploadImageToStorage(String image, String price,
+      String productName, String description, String category) async {
     String downloadURL;
     String productID =
         FirebaseFirestore.instance.collection("Products").doc().id;
@@ -11,16 +11,8 @@ class SendProduct {
       description = "N/A";
     }
     try {
-      /*  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-      Reference ref = FirebaseStorage.instance
-          .ref()
-          .child("$uid/images")
-          .child("post_$postID");
-      await ref.putData(imagefile);
-      downloadURL = await ref.getDownloadURL(); */
       FirebaseFirestore.instance.collection('Products').doc(productID).set({
-        'imageURL':
-            "https://images.pexels.com/photos/2783873/pexels-photo-2783873.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        'imageURL': image,
         'price': price,
         'productName': productName,
         'category': category,
