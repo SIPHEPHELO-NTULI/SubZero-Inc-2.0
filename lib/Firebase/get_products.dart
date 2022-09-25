@@ -23,4 +23,16 @@ class FireStoreDataBase {
       return null;
     }
   }
+
+  static Future getSuggestedProducts(String category, String productID) async {
+    List allProducts = await getData() as List;
+    List suggestedProducts = [];
+    for (int i = 0; i < allProducts.length; i++) {
+      if (allProducts[i]["category"] == category &&
+          allProducts[i]["productID"] != productID) {
+        suggestedProducts.add(allProducts[i]);
+      }
+    }
+    return suggestedProducts;
+  }
 }

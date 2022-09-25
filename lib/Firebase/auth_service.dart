@@ -7,8 +7,15 @@ import 'package:give_a_little_sdp/Encryption/encryption.dart';
 
 class AuthService {
   //sign out method
-  signOut() {
-    FirebaseAuth.instance.signOut();
+  signOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      return "Success";
+    } on FirebaseAuthException catch (e) {
+      return e.message;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   //sign in method using email and password

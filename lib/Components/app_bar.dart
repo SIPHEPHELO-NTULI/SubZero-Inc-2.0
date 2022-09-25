@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/auth_service.dart';
 import 'package:give_a_little_sdp/Screens/Cart/cart.dart';
@@ -24,7 +23,7 @@ class CustomAppBar extends StatelessWidget {
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-          border: Border.all(color: Color.fromARGB(255, 3, 79, 255)),
+          border: Border.all(color: const Color.fromARGB(255, 3, 79, 255)),
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
@@ -82,17 +81,20 @@ class CustomAppBar extends StatelessWidget {
           },
         ),
         BarItem(
-          title: "HISTORY",
-          click: (){
-            if (FirebaseAuth.instance.currentUser == null) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const LoginScreen()));
-            } else {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => HistoryScreen()));
-            }
-
-          })
+            title: "HISTORY",
+            click: () {
+              if (FirebaseAuth.instance.currentUser == null) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen()));
+              } else {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HistoryScreen()));
+              }
+            })
       ]),
     );
   }

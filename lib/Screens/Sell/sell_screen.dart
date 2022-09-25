@@ -68,8 +68,7 @@ class _SellScreenState extends State<SellScreen> {
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.normal,
-                                      color: const Color.fromARGB(
-                                          255, 3, 79, 255)),
+                                      color: Color.fromARGB(255, 3, 79, 255)),
                                 ),
                                 SizedBox(
                                   height:

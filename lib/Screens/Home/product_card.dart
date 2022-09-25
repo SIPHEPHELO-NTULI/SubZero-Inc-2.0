@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const kTextColor = Color(0xFF535353);
-const kTextLightColor = Color(0xFFACACAC);
+const kTextLightColor = Color.fromARGB(255, 131, 129, 129);
 const kDefaultPaddin = 20.0;
 
 //This class is used to design the layout for the products

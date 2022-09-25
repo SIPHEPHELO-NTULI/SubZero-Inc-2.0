@@ -1,11 +1,9 @@
-
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:give_a_little_sdp/Components/app_bar.dart';
 
 import '../../Firebase/get_products.dart';
 
-class HistoryScreen extends StatefulWidget{
+class HistoryScreen extends StatefulWidget {
   const HistoryScreen({Key? key}) : super(key: key);
 
   @override
@@ -15,15 +13,13 @@ class HistoryScreen extends StatefulWidget{
 @override
 State<HistoryScreen> createState() => _HistoryScreenState();
 
-class _HistoryScreenState extends State<HistoryScreen>{
-    List searchProducts = [];
+class _HistoryScreenState extends State<HistoryScreen> {
+  List searchProducts = [];
   List products = [];
 
   @override
   void initState() {
     super.initState();
-   // _searchController.addListener(_onSearchChanged);
-    // the _onSearchChanged funtion is called every time when value in search box changes.
   }
 
   @override
@@ -32,16 +28,11 @@ class _HistoryScreenState extends State<HistoryScreen>{
     getProducts();
   }
 
-  _onSearchChanged() {
-    searchResults();
-  }
-
-  // sets the values in searchProducts list to the values we want from the products list.
   searchResults() {
     var showProduct = [];
 
-      showProduct = List.from(products);
-   
+    showProduct = List.from(products);
+
     setState(() {
       searchProducts = showProduct;
     });
@@ -55,96 +46,85 @@ class _HistoryScreenState extends State<HistoryScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "HISTORY",
+        body: Container(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        children: [
+          const CustomAppBar(),
+          const Text(
+            'Purchase History',
+            style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.normal,
+                color: Colors.black),
           ),
-          ),
-      body:  //_buildListView()
-      Container(
-        child: Column(
-          //crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: ListView.builder(
+          Expanded(
+            child: ListView.builder(
                 itemCount: searchProducts.length,
-                itemBuilder: (BuildContext context, int index){
+                itemBuilder: (BuildContext context, int index) {
                   return Container(
-                    margin: EdgeInsets.all(20),
-                    //width: 100,
-                    //height: 150,
-                    height: MediaQuery.of(context).size.height *.2,
-                    width: MediaQuery.of(context).size.width*2 ,
-                    child: Stack(
-                      children: [
+                      margin: const EdgeInsets.all(20),
+                      height: MediaQuery.of(context).size.height * .2,
+                      width: MediaQuery.of(context).size.width * 2,
+                      child: Stack(children: [
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[ 
-                            //crossAxisAlignment: CrossAxisAlignment.center,
-                            Positioned(
-                          
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Image.network(
-                            searchProducts[index]['imageURL'],
-                            fit: BoxFit.fill,
-                          ) ,)),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget> [
-                              //CrossAxisAlignment.start
-                              Text(
-                              searchProducts[index]['productName'],
-                               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
-                               ),
-                               Text(
-                              "R"+searchProducts[index]['price'],
-                               style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
-                               Text(
-                              "Date of Purchase",
-                               style: TextStyle(fontWeight: FontWeight.bold),),
-                            ], 
-                            )
-                          ]
-                        
-
-
-                          ),
-                          Positioned(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Positioned(
+                                  child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Image.network(
+                                  searchProducts[index]['imageURL'],
+                                  fit: BoxFit.fill,
+                                ),
+                              )),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.height * 0.1,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    searchProducts[index]['productName'],
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 21),
+                                  ),
+                                  Text(
+                                    "R" + searchProducts[index]['price'],
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                  ),
+                                  const Text(
+                                    "Date of Purchase : 22-09-22",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              )
+                            ]),
+                        Positioned(
                             bottom: 0,
                             left: 0,
                             right: 0,
                             child: Container(
-                              //width: 100,
-                            height:120,
-                            //width: 50,
-                            decoration: BoxDecoration(
-                              
-                              gradient: LinearGradient(
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.topCenter,
-                                colors: [
-                                  Colors.black.withOpacity(0.7),
-                                  Colors.transparent
-                                ]
-                              )
-                            )
-                          ))
-
-                          
-                      ]
-                    )
-                  );
-                }) ,)
-          ],
-        ),
-      )
-        
-      //_buildListView(),
-
-    
-    );
+                                height: 120,
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        begin: Alignment.bottomCenter,
+                                        end: Alignment.topCenter,
+                                        colors: [
+                                      Colors.black.withOpacity(0.7),
+                                      Colors.transparent
+                                    ]))))
+                      ]));
+                }),
+          )
+        ],
+      ),
+    ));
   }
-  
 }

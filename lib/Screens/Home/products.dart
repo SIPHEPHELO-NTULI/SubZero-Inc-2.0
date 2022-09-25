@@ -94,35 +94,37 @@ class _ProductsState extends State<Products> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: GridView.builder(
-                itemCount: searchProducts.length,
-                // ignore: prefer_const_constructors
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  childAspectRatio: 1,
-                ),
-                itemBuilder: (context, index) => MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: ProductCard(
-                        productName: searchProducts[index]['productName'],
-                        price: searchProducts[index]['price'],
-                        description: "N/A",
-                        image: searchProducts[index]['imageURL'],
-                        press: () => showModalBottomSheet(
-                          context: context,
-                          builder: (context) => DetailsScreen(
-                              productName: searchProducts[index]['productName'],
-                              price: searchProducts[index]['price'],
-                              description: "N/A",
-                              image: searchProducts[index]['imageURL'],
-                              category: searchProducts[index]['category'],
-                              productID: searchProducts[index]['productID']),
-                        ),
+              itemCount: searchProducts.length,
+              // ignore: prefer_const_constructors
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                childAspectRatio: 1,
+              ),
+              itemBuilder: (context, index) => MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: ProductCard(
+                    productName: searchProducts[index]['productName'],
+                    price: searchProducts[index]['price'],
+                    description: "N/A",
+                    image: searchProducts[index]['imageURL'],
+                    press: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailsScreen(
+                            productName: searchProducts[index]['productName'],
+                            price: searchProducts[index]['price'],
+                            description: "N/A",
+                            image: searchProducts[index]['imageURL'],
+                            category: searchProducts[index]['category'],
+                            productID: searchProducts[index]['productID']),
                       ),
-                    )),
+                    ),
+                  )),
+            ),
           ),
-        ),
+        )
       ],
     );
   }
