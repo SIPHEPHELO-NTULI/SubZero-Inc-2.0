@@ -1,4 +1,9 @@
 import 'dart:io';
+import 'dart:typed_data';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
@@ -17,15 +22,20 @@ class SellScreen extends StatefulWidget {
 class _SellScreenState extends State<SellScreen> {
   final _formKey = GlobalKey<FormState>();
   bool imageAvailable = false;
-  //late Uint8List imagefile;
+  Uint8List? imagefile;
   late String downloadURL;
   late String Price;
+  late String filename;
+  late File x;
+
+  final uid = FirebaseAuth.instance.currentUser!.uid;
+  String productID = FirebaseFirestore.instance.collection("Products").doc().id;
 
   final productNameController = TextEditingController();
   final priceController = TextEditingController();
   final categoryController = TextEditingController();
   final descriptionController = TextEditingController();
-
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +78,8 @@ class _SellScreenState extends State<SellScreen> {
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.normal,
-                                      color: Color.fromARGB(255, 3, 79, 255)),
+                                      color: const Color.fromARGB(
+                                          255, 3, 79, 255)),
                                 ),
                                 SizedBox(
                                   height:
@@ -231,18 +242,9 @@ class _SellScreenState extends State<SellScreen> {
                                         ),
                                       ),
                                     ),
-                                    onTap: () {
+                                    onTap: () async {
                                       if (_formKey.currentState!.validate()) {
-                                        SendProduct()
-                                            .uploadImageToStorage(
-                                                priceController.text,
-                                                productNameController.text,
-                                                descriptionController.text,
-                                                categoryController.text)
-                                            .then((value) =>
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(SnackBar(
-                                                        content: Text(value))));
+                                        uploadImage();
                                       }
                                     },
                                   ),
@@ -256,39 +258,87 @@ class _SellScreenState extends State<SellScreen> {
   }
 
   addCoverPhoto() {
-    return InkWell(
+    return GestureDetector(
         onTap: () async {
-          /*   final image = await FilePicker.platform.pickFiles();
-          if (image != null) {
+          FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+          if (result != null) {
             setState(() {
-              imagefile = image.files.single.bytes!;
+              Uint8List? fileBytes = result.files.first.bytes;
+
+              filename = result.files.first.name;
+              print(filename);
+
+              //imagefile = image.files.single.bytes!;
+              imagefile = fileBytes;
+
               imageAvailable = true;
             });
+
+            ScaffoldMessenger.of(context)
+                .showSnackBar(const SnackBar(content: Text("Image Selected")));
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("No Image Selected")));
-          } */
+                const SnackBar(content: Text("Image Not Selected")));
+          }
         },
-        child: Padding(
+        /*child: imageAvailable
+                                      ? Image.memory(imagefile!)
+                                      : Text("upload"),*/
+        child: Container(
           padding: const EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Icon(
-                Icons.photo,
-                size: 65,
-                color: Colors.grey,
-              ),
-              Text(
-                'upload image',
-                style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black),
-              ),
-            ],
-          ),
+          height: MediaQuery.of(context).size.height * 0.5,
+          width: MediaQuery.of(context).size.width * 0.3,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Colors.blue,
+                    Color.fromARGB(255, 5, 9, 227),
+                    Color.fromARGB(255, 8, 0, 59)
+                  ])),
+          child: imageAvailable
+              ? Image.memory(
+                  imagefile!,
+                  fit: BoxFit.fill,
+                )
+              : const Text(
+                  "Select Image",
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black),
+                ),
         ));
+  }
+
+  Future uploadImage() async {
+    final postID = DateTime.now().millisecondsSinceEpoch.toString();
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    Reference ref = FirebaseStorage.instance
+        .ref()
+        .child("${uid}/images")
+        .child("post_$postID");
+    await ref.putData(
+        imagefile!,
+        SettableMetadata(
+          cacheControl: "public,max-age=300",
+          contentType: "image/jpeg",
+        ));
+
+    downloadURL = await ref.getDownloadURL();
+
+    //print("uploaded$downloadURL");
+    SendProduct()
+        .uploadImageToStorage(
+            downloadURL,
+            priceController.text,
+            productNameController.text,
+            descriptionController.text,
+            categoryController.text)
+        .then((value) => ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(value))));
   }
 }
