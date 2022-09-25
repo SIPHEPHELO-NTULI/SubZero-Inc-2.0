@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/cart_functions.dart';
-import 'package:give_a_little_sdp/Screens/Cart/cart_total.dart';
+import 'package:give_a_little_sdp/Firebase/get_products.dart';
+import 'package:give_a_little_sdp/Screens/Login/login_screen.dart';
 
 class CartList extends StatefulWidget {
   CartList({Key? key}) : super(key: key);
@@ -27,7 +28,7 @@ class _CartListState extends State<CartList> {
             if (snapshot.connectionState == ConnectionState.done) {
               itemsInCart = snapshot.data as List;
               numProducts = itemsInCart.length;
-              cartTotal = CartTotal().getCartTotal(itemsInCart);
+              cartTotal = getCartTotal();
               return Column(
                 children: [
                   Center(
@@ -66,10 +67,7 @@ class _CartListState extends State<CartList> {
                         }),
                   ),
                   Text("${numProducts} items",
-                      style: const TextStyle(
-                        color: Colors.white,
-                      ),
-                      key: const Key("Cart Items")),
+                      style: const TextStyle(color: Colors.white)),
                   Text(" Cart Total : R${cartTotal}",
                       style: const TextStyle(color: Colors.white)),
                   const SizedBox(
@@ -120,5 +118,16 @@ class _CartListState extends State<CartList> {
         ),
       ],
     );
+  }
+
+  String getCartTotal() {
+    int totalInt = 0;
+    String total = "";
+    for (int i = 0; i < itemsInCart.length; i++) {
+      int temp = int.parse(itemsInCart[i]["price"]);
+      totalInt = totalInt + temp;
+    }
+    total = totalInt.toString();
+    return total;
   }
 }
