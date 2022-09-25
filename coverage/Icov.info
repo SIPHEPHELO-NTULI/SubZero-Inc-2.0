@@ -13,6 +13,15 @@ DA:8,1
 LF:4
 LH:4
 end_of_record
+SF:lib/Screens/Cart/cart_total.dart
+DA:2,1
+DA:5,3
+DA:6,3
+DA:7,1
+DA:9,1
+LF:5
+LH:5
+end_of_record
 SF:lib/Screens/Sell/Validation/categoryvalidator.dart
 DA:2,1
 DA:3,1
