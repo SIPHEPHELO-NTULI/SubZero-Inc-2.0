@@ -1,6 +1,6 @@
 class PriceValidator {
   static String? validate(String? value) {
-    RegExp regex = RegExp('^[0-9]*\$');
+    RegExp regex = RegExp('r^[0-9]*');
     if (value!.isEmpty) {
       return ("Price cannot be empty");
     }
