@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 
+//This is used for the core of the details screen
+//It displays the details of a selected product
+//The details are displayed in a singlechildscrollview
+// the scroll view wraps a column containing a row
+//within the row is positioned widget used to displaying the image
+// next to image is a column that shows the product name, category
+// and price as well as the description if necessary
 class Body extends StatelessWidget {
   String image, productName, description, price, category;
   Body(

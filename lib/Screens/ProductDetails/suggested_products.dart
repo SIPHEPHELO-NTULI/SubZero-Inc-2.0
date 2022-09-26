@@ -3,6 +3,11 @@ import 'package:give_a_little_sdp/Firebase/get_products.dart';
 import 'package:give_a_little_sdp/Screens/Home/product_card.dart';
 import 'package:give_a_little_sdp/Screens/ProductDetails/product_details.dart';
 
+//This class displays a horizontal list view
+// it takes in two parameters, the category and productID of the product
+// it then calls the suggestedproducts method to find related products based
+//on the category
+//when a product is clicked it will navigate to a new details screen
 class SuggestedProducts extends StatelessWidget {
   String category;
   String productID;

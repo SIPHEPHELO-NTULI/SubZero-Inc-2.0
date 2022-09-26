@@ -1,3 +1,6 @@
+//validator for the email in the registration screen and login page
+// checks if the email is empty and if its in the correct format
+
 class EmailFieldValidator {
   static String? validate(String? value) {
     //static becuase we won't have to create an instance

@@ -6,7 +6,12 @@ import 'package:give_a_little_sdp/Firebase/get_products.dart';
 //class used to get list of products from Firebase
 //gets the documents as snapshots then adds to the list
 //then returns the list
+
 class CartFunctions {
+  //this function will fetch all the documents in the Carts collection
+  //in the firestore database
+  // it then iterates through those documents to find all the products in
+  // the signed in user's cart
   static Future getProductsInCart() async {
     String? uid = FirebaseAuth.instance.currentUser?.uid;
     final CollectionReference collectionRef = FirebaseFirestore.instance
@@ -41,6 +46,10 @@ class CartFunctions {
     }
   }
 
+//function to add products to users cart in firestore datase Carts
+// it will store the products in a document named after the users
+//uid then creates a subsection populated with the productID for each product
+//in the car
   Future<String> addToCart(String productID) async {
     String? uid = FirebaseAuth.instance.currentUser?.uid;
     String docID = FirebaseFirestore.instance.collection("Carts").doc().id;
@@ -57,6 +66,11 @@ class CartFunctions {
     }
   }
 
+//function to removes products from users cart in firestore datase Carts
+// it will fetch all the documents in the cart database
+//it will then find the cart related to the signed in user
+//it then finds the product to delete using the productID
+//and deleted the document
   Future<String> deleteFromCart(String productID) async {
     String? uid = FirebaseAuth.instance.currentUser?.uid;
     List itemIDs = [];
@@ -88,17 +102,5 @@ class CartFunctions {
     } on FirebaseAuthException catch (e) {
       return e.message.toString();
     }
-  }
-
-  Future<String> getCartTotal() async {
-    List itemsInCart = await getProductsInCart() as List;
-    int totalInt = 0;
-    String total = "";
-    for (int i = 0; i < itemsInCart.length; i++) {
-      int temp = int.parse(itemsInCart[i]["price"]);
-      totalInt = totalInt + temp;
-    }
-    total = totalInt.toString();
-    return total;
   }
 }

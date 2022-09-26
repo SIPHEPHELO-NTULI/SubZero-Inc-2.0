@@ -1,3 +1,5 @@
+//validator for the category in the sell screen
+// checks if the category is empty and if its in the correct format
 class CategoryValidator {
   static String? validate(String? value) {
     RegExp regex = RegExp(r'^.{3,}$');

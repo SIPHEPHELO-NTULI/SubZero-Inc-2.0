@@ -24,6 +24,9 @@ class FireStoreDataBase {
     }
   }
 
+//Function used to get a list of suggested products for the user
+// the function gets all the products in the collection, then finds the products
+//with the same category as the product, the user is viewing
   static Future getSuggestedProducts(String category, String productID) async {
     List allProducts = await getData() as List;
     List suggestedProducts = [];

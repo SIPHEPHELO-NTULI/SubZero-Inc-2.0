@@ -5,6 +5,11 @@ import 'package:give_a_little_sdp/Firebase/cart_functions.dart';
 import 'package:give_a_little_sdp/Screens/ProductDetails/body.dart';
 import 'package:give_a_little_sdp/Screens/ProductDetails/suggested_products.dart';
 
+//this class wraps the widgets making up the details page
+// it consistss of a column that holds the appbar, as well as the body
+//of the page and an add to cart button
+//below this is the suggested product widget
+// it helps to expand the layout in the future
 class DetailsScreen extends StatelessWidget {
   String image, productName, description, price, category, productID;
   DetailsScreen(

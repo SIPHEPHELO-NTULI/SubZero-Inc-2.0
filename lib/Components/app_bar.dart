@@ -99,6 +99,11 @@ class CustomAppBar extends StatelessWidget {
     );
   }
 
+//function that determines if a user is logged in or not
+//if the user is not logged in the bar item widget will
+//return a bar item named LOGIN
+// if they are logged in, the bar item return a bar item named
+//LOGOUT
   BarItem loggedIn(BuildContext context) {
     if (FirebaseAuth.instance.currentUser == null) {
       return BarItem(

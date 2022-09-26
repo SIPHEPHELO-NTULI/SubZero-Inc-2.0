@@ -1,3 +1,6 @@
+//validator for the name in the registration screen
+// checks if the name is empty and if its in the correct format
+
 class NameFieldValidator {
   static String? validate(String? value) {
     RegExp regex = RegExp(r'^.{3,}$');

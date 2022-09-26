@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/cart_functions.dart';
 import 'package:give_a_little_sdp/Screens/Cart/cart_total.dart';
 
+//This class is used to display the items in the users cart
+// This class will only be displayed if the user is signed in
+// the UI consists of a list view builder that displays each product
+// next to each tile is a delete icon that allows users to delete an item from their cart
+
 class CartList extends StatefulWidget {
   CartList({Key? key}) : super(key: key);
 
@@ -27,7 +32,8 @@ class _CartListState extends State<CartList> {
             if (snapshot.connectionState == ConnectionState.done) {
               itemsInCart = snapshot.data as List;
               numProducts = itemsInCart.length;
-              cartTotal = CartTotal().getCartTotal(itemsInCart);
+              cartTotal = CartTotal().getCartTotal(
+                  itemsInCart); //calls the CartTotal class to get the total of the items in the cart
               return Column(
                 children: [
                   Center(

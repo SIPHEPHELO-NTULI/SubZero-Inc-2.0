@@ -3,10 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:give_a_little_sdp/Encryption/encryption.dart';
 
 //This class is used to verify the details of an existing user
-//And Sign out a user
+//And Sign out a user as well as create a new user
 
 class AuthService {
-  //sign out method
+  //sign out method using firebase Auth
   signOut() async {
     try {
       await FirebaseAuth.instance.signOut();
@@ -18,7 +18,7 @@ class AuthService {
     }
   }
 
-  //sign in method using email and password
+  //sign in method using email and password using firebase Auth
   Future<String> signIn(email, password) async {
     try {
       await FirebaseAuth.instance
@@ -29,7 +29,7 @@ class AuthService {
     }
   }
 
-//Used to sign up new users
+//Used to sign up new users using firebase Auth
   Future<String> signUp(email, password) async {
     try {
       await FirebaseAuth.instance
@@ -40,7 +40,8 @@ class AuthService {
     }
   }
 
-//stores user details in database
+//stores user details in firestore database
+//sends the users name,surname,username and encrypted email
   Future createUser(name, surname, username, email) async {
     String newEmail = Encryption().getEncryptedEmail(email);
 

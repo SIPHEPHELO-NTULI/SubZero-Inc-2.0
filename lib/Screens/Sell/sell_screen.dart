@@ -11,6 +11,12 @@ import 'package:give_a_little_sdp/Screens/Sell/Validation/categoryvalidator.dart
 import 'package:give_a_little_sdp/Screens/Sell/Validation/pricevalidator.dart';
 import 'package:give_a_little_sdp/Screens/Sell/Validation/productNameValidator.dart';
 
+//this screen allows users to upload their own items to sell
+//The users will upload an image, the image upload consists of a file picker, that
+//allows users to select an image from their local drive
+//once an image is selected it will be placed in the image box on the screen
+//the user will then enter the product name, price, category, and description
+//Once the details have been entered, they are sent to firestore database
 class SellScreen extends StatefulWidget {
   const SellScreen({Key? key}) : super(key: key);
 
@@ -266,9 +272,7 @@ class _SellScreenState extends State<SellScreen> {
               Uint8List? fileBytes = result.files.first.bytes;
 
               filename = result.files.first.name;
-              print(filename);
 
-              //imagefile = image.files.single.bytes!;
               imagefile = fileBytes;
 
               imageAvailable = true;
@@ -281,40 +285,40 @@ class _SellScreenState extends State<SellScreen> {
                 const SnackBar(content: Text("Image Not Selected")));
           }
         },
-        /*child: imageAvailable
-                                      ? Image.memory(imagefile!)
-                                      : Text("upload"),*/
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          height: MediaQuery.of(context).size.height * 0.5,
-          width: MediaQuery.of(context).size.width * 0.3,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              gradient: const LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Colors.blue,
-                    Color.fromARGB(255, 5, 9, 227),
-                    Color.fromARGB(255, 8, 0, 59)
-                  ])),
-          child: imageAvailable
-              ? Image.memory(
-                  imagefile!,
-                  fit: BoxFit.fill,
-                )
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    Text(
-                      "Select Image",
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.black),
-                    ),
-                  ],
-                ),
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            height: MediaQuery.of(context).size.height * 0.2,
+            width: MediaQuery.of(context).size.width * 0.2,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Colors.blue,
+                      Color.fromARGB(255, 5, 9, 227),
+                      Color.fromARGB(255, 8, 0, 59)
+                    ])),
+            child: imageAvailable
+                ? Image.memory(
+                    imagefile!,
+                    fit: BoxFit.fill,
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: const [
+                      Text(
+                        "Select Image",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.white),
+                      ),
+                    ],
+                  ),
+          ),
         ));
   }
 
@@ -334,7 +338,6 @@ class _SellScreenState extends State<SellScreen> {
 
     downloadURL = await ref.getDownloadURL();
 
-    //print("uploaded$downloadURL");
     SendProduct()
         .uploadImageToStorage(
             downloadURL,

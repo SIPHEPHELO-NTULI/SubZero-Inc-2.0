@@ -1,3 +1,6 @@
+//validator for the username in the registration screen
+// checks if the username is empty and if its in the correct format
+
 class UserNameFieldValidator {
   static String? validate(String? value) {
     RegExp regex = new RegExp(r'^.{3,}$');

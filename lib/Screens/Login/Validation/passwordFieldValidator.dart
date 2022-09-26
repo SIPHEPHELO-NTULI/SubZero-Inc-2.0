@@ -1,3 +1,6 @@
+//validator for the password in the registration screen and login page
+// checks if the category is empty and if its in the correct format
+
 class PasswordFieldValidator {
   static String? validate(String? value) {
     RegExp regex = new RegExp(r'^.{6,}$');
