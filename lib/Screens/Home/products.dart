@@ -106,6 +106,7 @@ class _ProductsState extends State<Products> {
                   cursor: SystemMouseCursors.click,
                   child: ProductCard(
                     productName: searchProducts[index]['productName'],
+                    category: searchProducts[index]['category'],
                     price: searchProducts[index]['price'],
                     description: "N/A",
                     image: searchProducts[index]['imageURL'],

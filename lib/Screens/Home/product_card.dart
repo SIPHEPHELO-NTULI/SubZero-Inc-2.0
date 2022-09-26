@@ -13,16 +13,17 @@ const kDefaultPaddin = 20.0;
 //Below the image
 
 class ProductCard extends StatelessWidget {
-  String image, productName, description, price;
+  String image, productName, description, price, category;
   final VoidCallback press;
 
-  ProductCard({
-    required this.image,
-    required this.productName,
-    required this.description,
-    required this.price,
-    required this.press,
-  }) : super();
+  ProductCard(
+      {required this.image,
+      required this.productName,
+      required this.description,
+      required this.price,
+      required this.press,
+      required this.category})
+      : super();
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +57,7 @@ class ProductCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin / 4),
             child: Text(
               // products is out demo list
-              productName,
+              productName + " (" + category + ")",
               style: const TextStyle(color: kTextLightColor),
             ),
           ),
