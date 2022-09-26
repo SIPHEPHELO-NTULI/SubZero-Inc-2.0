@@ -105,7 +105,7 @@ class DetailsScreen extends StatelessWidget {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text("Please Sign In First")));
     } else {
-      CartFunctions().addToCart(productID).then((value) =>
+      CartHistoryFunctions().addToCart(productID).then((value) =>
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(value))));
     }

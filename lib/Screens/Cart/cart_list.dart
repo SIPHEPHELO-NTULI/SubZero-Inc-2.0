@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/cart_functions.dart';
-import 'package:give_a_little_sdp/Screens/Cart/cart_total.dart';
+import 'package:give_a_little_sdp/Firebase/get_products.dart';
+import 'package:give_a_little_sdp/Screens/Login/login_screen.dart';
 
-//This class is used to display the items in the users cart
-// This class will only be displayed if the user is signed in
-// the UI consists of a list view builder that displays each product
-// next to each tile is a delete icon that allows users to delete an item from their cart
+import '../Home/home_screen.dart';
+import 'cart_total.dart';
 
 class CartList extends StatefulWidget {
   CartList({Key? key}) : super(key: key);
@@ -24,7 +23,7 @@ class _CartListState extends State<CartList> {
     return Column(
       children: [
         FutureBuilder(
-          future: CartFunctions.getProductsInCart(),
+          future: CartHistoryFunctions.getProductsIn_Cart_History("Carts"),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const Text("Something went wrong");
@@ -32,8 +31,7 @@ class _CartListState extends State<CartList> {
             if (snapshot.connectionState == ConnectionState.done) {
               itemsInCart = snapshot.data as List;
               numProducts = itemsInCart.length;
-              cartTotal = CartTotal().getCartTotal(
-                  itemsInCart); //calls the CartTotal class to get the total of the items in the cart
+              cartTotal = CartTotal().getCartTotal(itemsInCart);
               return Column(
                 children: [
                   Center(
@@ -59,7 +57,7 @@ class _CartListState extends State<CartList> {
                                 color: Colors.red,
                               ),
                               onTap: () {
-                                CartFunctions()
+                                CartHistoryFunctions()
                                     .deleteFromCart(itemsInCart[index]
                                             ["productID"]
                                         .toString())
@@ -72,10 +70,7 @@ class _CartListState extends State<CartList> {
                         }),
                   ),
                   Text("${numProducts} items",
-                      style: const TextStyle(
-                        color: Colors.white,
-                      ),
-                      key: Key("Cart Items")),
+                      style: const TextStyle(color: Colors.white)),
                   Text(" Cart Total : R${cartTotal}",
                       style: const TextStyle(color: Colors.white)),
                   const SizedBox(
@@ -115,7 +110,16 @@ class _CartListState extends State<CartList> {
                               ),
                             )),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        CartHistoryFunctions()
+                            .addToPurchaseHistory(itemsInCart)
+                            .then((value) => ScaffoldMessenger.of(context)
+                                .showSnackBar(SnackBar(content: Text(value))));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomeScreen()));
+                      },
                     ),
                   ),
                 ],
