@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:give_a_little_sdp/Firebase/get_products.dart';
 
@@ -105,6 +106,25 @@ class CartHistoryFunctions {
           .doc(docID)
           .delete();
       return "Deleted";
+    } on FirebaseAuthException catch (e) {
+      return e.message.toString();
+    }
+  }
+
+  Future<String> emptyCart() async {
+    String? uid = FirebaseAuth.instance.currentUser?.uid;
+    var collection = FirebaseFirestore.instance
+        .collection('Carts')
+        .doc(uid)
+        .collection("Products");
+    var snapshots = await collection.get();
+
+    try {
+      for (var doc in snapshots.docs) {
+        await doc.reference.delete();
+      }
+
+      return "Cart Empty";
     } on FirebaseAuthException catch (e) {
       return e.message.toString();
     }

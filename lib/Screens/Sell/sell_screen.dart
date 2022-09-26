@@ -345,7 +345,7 @@ class _SellScreenState extends State<SellScreen> {
             priceController.text,
             productNameController.text,
             descriptionController.text,
-            categoryController.text)
+            categoryController.text.toLowerCase())
         .then((value) => ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(value))));
   }

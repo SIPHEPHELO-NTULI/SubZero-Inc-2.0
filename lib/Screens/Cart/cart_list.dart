@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/cart_functions.dart';
-import 'package:give_a_little_sdp/Firebase/get_products.dart';
-import 'package:give_a_little_sdp/Screens/Login/login_screen.dart';
 
 import '../Home/home_screen.dart';
 import 'cart_total.dart';
@@ -110,7 +108,11 @@ class _CartListState extends State<CartList> {
                               ),
                             )),
                       ),
-                      onTap: () {
+                      onTap: () async {
+                        await CartHistoryFunctions().emptyCart().then((value) =>
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(SnackBar(content: Text(value))));
+
                         CartHistoryFunctions()
                             .addToPurchaseHistory(itemsInCart)
                             .then((value) => ScaffoldMessenger.of(context)
