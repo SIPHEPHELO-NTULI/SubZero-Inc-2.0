@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:give_a_little_sdp/Screens/Sell/Validation/categoryvalidator.dart';
 import 'package:give_a_little_sdp/Screens/Sell/Validation/pricevalidator.dart';
 import 'package:give_a_little_sdp/Screens/Sell/Validation/productNameValidator.dart';
 
@@ -15,20 +14,6 @@ void main() {
   test('non-numerical price returns null', () async {
     var result = PriceValidator.validate('a3');
     expect(result, "Numeric Values Only");
-  });
-
-//UNIT TEST
-//this test will check that category validator correctly validates an empty price
-  test('empty category returns error string', () async {
-    var result = CategoryValidator.validate('');
-    expect(result, "Category Cannot be Empty");
-  });
-
-//UNIT TEST
-//this test will check that price validator correctly validates an invalid category
-  test('invalid category returns null', () async {
-    var result = CategoryValidator.validate('ab');
-    expect(result, "Please Enter A Category (3 Characters Min)");
   });
 
 //UNIT TEST

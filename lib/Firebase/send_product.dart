@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/services.dart';
 
 //This class is used to add a new product to the collections
 
@@ -9,16 +11,36 @@ class SendProduct {
 // is returned and passed to this function
 //the function sends the imageURL,the price, the product name, category
 //and decription as well as a generated productID
-  Future<String> uploadImageToStorage(String image, String price,
-      String productName, String description, String category) async {
+
+  Future uploadImage(Uint8List imagefile, String price, String productName,
+      String description, String category) async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    final postID = DateTime.now().millisecondsSinceEpoch.toString();
     String productID =
         FirebaseFirestore.instance.collection("Products").doc().id;
+
+    Reference ref = FirebaseStorage.instance
+        .ref()
+        .child("${uid}/images")
+        .child("post_$postID");
+    await ref.putData(
+        imagefile,
+        SettableMetadata(
+          cacheControl: "public,max-age=300",
+          contentType: "image/jpeg",
+        ));
+
+    String downloadURL = await ref.getDownloadURL();
+
     if (description == "") {
       description = "N/A";
     }
     try {
-      FirebaseFirestore.instance.collection('Products').doc(productID).set({
-        'imageURL': image,
+      await FirebaseFirestore.instance
+          .collection('Products')
+          .doc(productID)
+          .set({
+        'imageURL': downloadURL,
         'price': price,
         'productName': productName,
         'category': category,

@@ -1,14 +1,9 @@
 import 'dart:io';
-import 'dart:typed_data';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
 import 'package:give_a_little_sdp/Firebase/send_product.dart';
-import 'package:give_a_little_sdp/Screens/Sell/Validation/categoryvalidator.dart';
 import 'package:give_a_little_sdp/Screens/Sell/Validation/pricevalidator.dart';
 import 'package:give_a_little_sdp/Screens/Sell/Validation/productNameValidator.dart';
 
@@ -29,19 +24,23 @@ class _SellScreenState extends State<SellScreen> {
   final _formKey = GlobalKey<FormState>();
   bool imageAvailable = false;
   Uint8List? imagefile;
-  late String downloadURL;
-  late String Price;
   late String filename;
   late File x;
 
-  final uid = FirebaseAuth.instance.currentUser!.uid;
-  String productID = FirebaseFirestore.instance.collection("Products").doc().id;
-
   final productNameController = TextEditingController();
   final priceController = TextEditingController();
-  final categoryController = TextEditingController();
   final descriptionController = TextEditingController();
-  @override
+
+  String category = 'other';
+  var items = [
+    'other',
+    'electronics',
+    'clothing',
+    'shoes',
+    'makeup',
+    'accessories',
+    'home decor',
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -161,27 +160,75 @@ class _SellScreenState extends State<SellScreen> {
                                 Container(
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.1,
-                                  child: TextFormField(
-                                    controller: categoryController,
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    validator: CategoryValidator.validate,
-                                    decoration: InputDecoration(
-                                      hintText: "Category",
-                                      hintStyle: Theme.of(context)
-                                          .textTheme
-                                          .subtitle1!
-                                          .copyWith(
-                                              color: const Color.fromARGB(
-                                                  255, 3, 79, 255)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          borderSide: const BorderSide(
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: [
+                                        RichText(
+                                          text: TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                  text: "Category:\n",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .subtitle1
+                                                      ?.copyWith(
+                                                        color: const Color
+                                                                .fromARGB(
+                                                            255, 3, 79, 255),
+                                                      ))
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.03,
+                                        ),
+                                        DropdownButton(
+                                          // Initial Value
+                                          value: category,
+
+                                          // Down Arrow Icon
+                                          icon: const Icon(
+                                              Icons.keyboard_arrow_down,
                                               color: Color.fromARGB(
-                                                  255, 3, 79, 255))),
+                                                  255, 3, 79, 255)),
+
+                                          // Array list of items
+                                          items: items.map((String items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: RichText(
+                                                  text: TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                      text: items,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .subtitle1
+                                                          ?.copyWith(
+                                                            color: const Color
+                                                                    .fromARGB(
+                                                                255,
+                                                                3,
+                                                                79,
+                                                                255),
+                                                          ))
+                                                ],
+                                              )),
+                                            );
+                                          }).toList(),
+                                          // After selecting the desired option,it will
+                                          // change button value to selected value
+                                          onChanged: (String? newValue) {
+                                            setState(() {
+                                              category = newValue!;
+                                            });
+                                          },
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -250,7 +297,17 @@ class _SellScreenState extends State<SellScreen> {
                                     ),
                                     onTap: () async {
                                       if (_formKey.currentState!.validate()) {
-                                        uploadImage();
+                                        SendProduct()
+                                            .uploadImage(
+                                                imagefile!,
+                                                priceController.text,
+                                                productNameController.text,
+                                                descriptionController.text,
+                                                category)
+                                            .then((value) =>
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: value)));
                                       }
                                     },
                                   ),
@@ -321,32 +378,5 @@ class _SellScreenState extends State<SellScreen> {
                   ),
           ),
         ));
-  }
-
-  Future uploadImage() async {
-    final postID = DateTime.now().millisecondsSinceEpoch.toString();
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    Reference ref = FirebaseStorage.instance
-        .ref()
-        .child("${uid}/images")
-        .child("post_$postID");
-    await ref.putData(
-        imagefile!,
-        SettableMetadata(
-          cacheControl: "public,max-age=300",
-          contentType: "image/jpeg",
-        ));
-
-    downloadURL = await ref.getDownloadURL();
-
-    SendProduct()
-        .uploadImageToStorage(
-            downloadURL,
-            priceController.text,
-            productNameController.text,
-            descriptionController.text,
-            categoryController.text.toLowerCase())
-        .then((value) => ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(value))));
   }
 }
