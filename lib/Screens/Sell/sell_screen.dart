@@ -307,6 +307,13 @@ class _SellScreenState extends State<SellScreen> {
                                             .then((value) =>
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(
+                                                        backgroundColor:
+                                                            const Color
+                                                                    .fromARGB(
+                                                                255,
+                                                                3,
+                                                                79,
+                                                                255),
                                                         content: value)));
                                       }
                                     },
@@ -336,11 +343,13 @@ class _SellScreenState extends State<SellScreen> {
               imageAvailable = true;
             });
 
-            ScaffoldMessenger.of(context)
-                .showSnackBar(const SnackBar(content: Text("Image Selected")));
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                backgroundColor: Color.fromARGB(255, 3, 79, 255),
+                content: Text("Image Selected")));
           } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Image Not Selected")));
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                backgroundColor: Color.fromARGB(255, 3, 79, 255),
+                content: Text("Image Not Selected")));
           }
         },
         child: MouseRegion(

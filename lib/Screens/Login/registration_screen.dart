@@ -326,8 +326,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   surnameEditingController.text,
                   usernameEditingController.text,
                   emailEditingController.text),
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(value)))
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  backgroundColor: const Color.fromARGB(255, 3, 79, 255),
+                  content: Text(value)))
             })
         .then((value) => Navigator.push(context,
             MaterialPageRoute(builder: (context) => const LoginScreen())));

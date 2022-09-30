@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:give_a_little_sdp/Firebase/get_products.dart';
 
@@ -8,7 +7,7 @@ import 'package:give_a_little_sdp/Firebase/get_products.dart';
 //gets the documents as snapshots then adds to the list
 //then returns the list
 class CartHistoryFunctions {
-  static Future getProductsIn_Cart_History(String collectionName) async {
+  static Future getProductsInCartHistory(String collectionName) async {
     String? uid = FirebaseAuth.instance.currentUser?.uid;
     final CollectionReference collectionRef = FirebaseFirestore.instance
         .collection(collectionName)
@@ -128,17 +127,5 @@ class CartHistoryFunctions {
     } on FirebaseAuthException catch (e) {
       return e.message.toString();
     }
-  }
-
-  Future<String> getCartTotal() async {
-    List itemsInCart = await getProductsIn_Cart_History("Cart") as List;
-    int totalInt = 0;
-    String total = "";
-    for (int i = 0; i < itemsInCart.length; i++) {
-      int temp = int.parse(itemsInCart[i]["price"]);
-      totalInt = totalInt + temp;
-    }
-    total = totalInt.toString();
-    return total;
   }
 }

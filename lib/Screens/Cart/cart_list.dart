@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/cart_functions.dart';
+import 'package:give_a_little_sdp/Firebase/credit_functions.dart';
+import 'package:give_a_little_sdp/Screens/Checkout/checkout_functions.dart';
 
 import '../Home/home_screen.dart';
 import 'cart_total.dart';
@@ -15,13 +17,12 @@ class _CartListState extends State<CartList> {
   List itemsInCart = [];
   late int numProducts;
   late var cartTotal;
-
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         FutureBuilder(
-          future: CartHistoryFunctions.getProductsIn_Cart_History("Carts"),
+          future: CartHistoryFunctions.getProductsInCartHistory("Carts"),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const Text("Something went wrong");
@@ -30,6 +31,7 @@ class _CartListState extends State<CartList> {
               itemsInCart = snapshot.data as List;
               numProducts = itemsInCart.length;
               cartTotal = CartTotal().getCartTotal(itemsInCart);
+
               return Column(
                 children: [
                   Center(
@@ -108,19 +110,8 @@ class _CartListState extends State<CartList> {
                               ),
                             )),
                       ),
-                      onTap: () async {
-                        await CartHistoryFunctions().emptyCart().then((value) =>
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(SnackBar(content: Text(value))));
-
-                        CartHistoryFunctions()
-                            .addToPurchaseHistory(itemsInCart)
-                            .then((value) => ScaffoldMessenger.of(context)
-                                .showSnackBar(SnackBar(content: Text(value))));
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomeScreen()));
+                      onTap: () {
+                        showAlertDialog(context);
                       },
                     ),
                   ),
@@ -131,6 +122,62 @@ class _CartListState extends State<CartList> {
           },
         ),
       ],
+    );
+  }
+
+  completeCheckout() async {
+    String credits = await CreditFunctions().getCurrentBalance();
+    if (CheckoutFunctions().enoughCredits(cartTotal, credits)) {
+      await CartHistoryFunctions().emptyCart();
+      await CreditFunctions().updateCredits(cartTotal, "-");
+      CartHistoryFunctions().addToPurchaseHistory(itemsInCart).then((value) =>
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: const Color.fromARGB(255, 3, 79, 255),
+              content: Text(value))));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          backgroundColor: Color.fromARGB(255, 3, 79, 255),
+          content: Text("Insufficient Credits")));
+    }
+  }
+
+  showAlertDialog(BuildContext context) {
+    // Create button
+    Widget confirmButton = ElevatedButton(
+      child: const Text("CONFIRM"),
+      style: ElevatedButton.styleFrom(
+          backgroundColor: const Color.fromARGB(255, 3, 79, 255)),
+      onPressed: () {
+        completeCheckout();
+        Navigator.of(context).pop();
+      },
+    );
+    Widget cancelButton = ElevatedButton(
+      child: const Text("Cancel"),
+      style: ElevatedButton.styleFrom(
+          backgroundColor: const Color.fromARGB(255, 3, 79, 255)),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Confirm Payment"),
+      content: const Text("Are You Sure You Want To Checkout?"),
+      actions: [
+        cancelButton,
+        confirmButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

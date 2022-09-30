@@ -15,7 +15,7 @@ class Cart extends StatelessWidget {
       ),
       elevation: 1,
       child: Container(
-        width: MediaQuery.of(context).size.width / 3,
+        width: MediaQuery.of(context).size.width / 1.5,
         height: MediaQuery.of(context).size.height / 1.5,
         decoration: const BoxDecoration(
           gradient: LinearGradient(

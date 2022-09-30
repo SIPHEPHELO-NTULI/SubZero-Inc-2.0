@@ -28,7 +28,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         children: [
           const CustomAppBar(),
           FutureBuilder(
-            future: CartHistoryFunctions.getProductsIn_Cart_History(
+            future: CartHistoryFunctions.getProductsInCartHistory(
                 "PurchaseHistory"),
             builder: (context, snapshot) {
               if (snapshot.hasError) {

@@ -102,12 +102,14 @@ class DetailsScreen extends StatelessWidget {
 
   isUserSignedIn(context) {
     if (FirebaseAuth.instance.currentUser == null) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("Please Sign In First")));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          backgroundColor: Color.fromARGB(255, 3, 79, 255),
+          content: Text("Please Sign In First")));
     } else {
       CartHistoryFunctions().addToCart(productID).then((value) =>
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(value))));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: const Color.fromARGB(255, 3, 79, 255),
+              content: Text(value))));
     }
   }
 }

@@ -223,16 +223,10 @@ class _LoginScreenState extends State<LoginScreen> {
     await AuthService()
         .signIn(emailController.text.trim(), passwordController.text.trim())
         .then((value) => {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(value))),
-              if (value != "Success")
-                {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginScreen()))
-                }
-              else
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  backgroundColor: const Color.fromARGB(255, 3, 79, 255),
+                  content: Text(value))),
+              if (value == "Success")
                 {
                   Navigator.push(
                       context,

@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/auth_service.dart';
+import 'package:give_a_little_sdp/Firebase/credit_functions.dart';
 import 'package:give_a_little_sdp/Screens/Cart/cart.dart';
 import 'package:give_a_little_sdp/Screens/Home/bar_item.dart';
 import 'package:give_a_little_sdp/Screens/Home/home_screen.dart';
 import 'package:give_a_little_sdp/Screens/Login/login_screen.dart';
+import 'package:give_a_little_sdp/Screens/Redeem/redeem_screen.dart';
 import 'package:give_a_little_sdp/Screens/Sell/history_screen.dart';
 import 'package:give_a_little_sdp/Screens/Sell/sell_screen.dart';
 
@@ -13,8 +15,28 @@ import 'package:give_a_little_sdp/Screens/Sell/sell_screen.dart';
 //consists of an image and several links to other pages
 //Uses the BarItem class to effectively add and edit the items in the app bar
 
-class CustomAppBar extends StatelessWidget {
+class CustomAppBar extends StatefulWidget {
   const CustomAppBar({Key? key}) : super(key: key);
+
+  @override
+  State<CustomAppBar> createState() => _CustomAppBarState();
+}
+
+class _CustomAppBarState extends State<CustomAppBar> {
+  dynamic balance;
+
+  Future<dynamic> getData() async {
+    var temp = await CreditFunctions().getCurrentBalance();
+    setState(() {
+      balance = temp;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +87,18 @@ class CustomAppBar extends StatelessWidget {
           },
         ),
         BarItem(
-          title: "ACCOUNT",
-          click: () {},
+          title: "REDEEM",
+          click: () {
+            if (FirebaseAuth.instance.currentUser == null) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()));
+            } else {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => RedeemScreen()));
+            }
+          },
         ),
+        showBalance(context),
         BarItem(
           title: "SELL",
           click: () {
@@ -100,10 +131,6 @@ class CustomAppBar extends StatelessWidget {
   }
 
 //function that determines if a user is logged in or not
-//if the user is not logged in the bar item widget will
-//return a bar item named LOGIN
-// if they are logged in, the bar item return a bar item named
-//LOGOUT
   BarItem loggedIn(BuildContext context) {
     if (FirebaseAuth.instance.currentUser == null) {
       return BarItem(
@@ -121,6 +148,23 @@ class CustomAppBar extends StatelessWidget {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const HomeScreen()));
         },
+      );
+    }
+  }
+
+  BarItem showBalance(BuildContext context) {
+    if (FirebaseAuth.instance.currentUser == null || balance == null) {
+      return BarItem(
+        title: "CREDITS",
+        click: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const LoginScreen()));
+        },
+      );
+    } else {
+      return BarItem(
+        title: "Credits : R${balance}",
+        click: () {},
       );
     }
   }
