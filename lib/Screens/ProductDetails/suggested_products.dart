@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/get_products.dart';
 import 'package:give_a_little_sdp/Screens/Home/product_card.dart';
@@ -20,7 +21,8 @@ class SuggestedProducts extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.3,
       child: FutureBuilder(
-          future: FireStoreDataBase.getSuggestedProducts(category, productID),
+          future: FireStoreDataBase(fire: FirebaseFirestore.instance)
+              .getSuggestedProducts(category, productID),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const Text("Something went wrong");

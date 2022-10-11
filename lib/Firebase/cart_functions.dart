@@ -24,7 +24,7 @@ class CartHistoryFunctions {
           itemIDs.add(result.data());
         }
       });
-      items = await FireStoreDataBase.getData() as List;
+      items = await FireStoreDataBase(fire: fire).getData() as List;
 
       for (int i = 0; i < itemIDs.length; i++) {
         for (int j = 0; j < items.length; j++) {

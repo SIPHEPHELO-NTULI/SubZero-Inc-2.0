@@ -5,9 +5,11 @@ import 'package:flutter/cupertino.dart';
 //gets the documents as snapshots then adds to the list
 //then returns the list
 class FireStoreDataBase {
-  static Future getData() async {
-    final CollectionReference collectionRef =
-        FirebaseFirestore.instance.collection("Products");
+  final FirebaseFirestore fire;
+
+  FireStoreDataBase({required this.fire});
+  Future getData() async {
+    final CollectionReference collectionRef = fire.collection("Products");
     List products = [];
 
     try {
@@ -27,7 +29,7 @@ class FireStoreDataBase {
 //Function used to get a list of suggested products for the user
 // the function gets all the products in the collection, then finds the products
 //with the same category as the product, the user is viewing
-  static Future getSuggestedProducts(String category, String productID) async {
+  Future getSuggestedProducts(String category, String productID) async {
     List allProducts = await getData() as List;
     List suggestedProducts = [];
     for (int i = 0; i < allProducts.length; i++) {

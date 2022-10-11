@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/get_products.dart';
 import 'package:give_a_little_sdp/Screens/Home/product_card.dart';
@@ -62,7 +63,8 @@ class _ProductsState extends State<Products> {
   }
 
   getProducts() async {
-    products = await FireStoreDataBase.getData() as List;
+    products = await FireStoreDataBase(fire: FirebaseFirestore.instance)
+        .getData() as List;
     searchResults();
   }
 
