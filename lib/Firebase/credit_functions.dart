@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class CreditFunctions {
-  Future<String> updateCredits(String balance, String sign) async {
-    String? uid = FirebaseAuth.instance.currentUser?.uid;
-    var collection = FirebaseFirestore.instance.collection('Credits');
+  final FirebaseFirestore fire;
+
+  CreditFunctions({required this.fire});
+  Future<String> updateCredits(String uid, String balance, String sign) async {
+    var collection = fire.collection('Credits');
     var docSnapshot = await collection.doc(uid).get();
 
     int currentTotal = 0;
@@ -22,19 +24,15 @@ class CreditFunctions {
     }
 
     try {
-      await FirebaseFirestore.instance
-          .collection('Credits')
-          .doc(uid)
-          .set({"balance": currentTotal});
+      await fire.collection('Credits').doc(uid).set({"balance": currentTotal});
       return "Balance Updated!";
     } on FirebaseAuthException catch (e) {
       return e.message.toString();
     }
   }
 
-  Future<String> getCurrentBalance() async {
-    String? uid = FirebaseAuth.instance.currentUser?.uid;
-    var collection = FirebaseFirestore.instance.collection('Credits');
+  Future<String> getCurrentBalance(String uid) async {
+    var collection = fire.collection('Credits');
     var docSnapshot = await collection.doc(uid).get();
     String total = "";
     int currentBalance = 0;

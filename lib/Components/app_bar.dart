@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/auth_service.dart';
@@ -24,9 +25,11 @@ class CustomAppBar extends StatefulWidget {
 
 class _CustomAppBarState extends State<CustomAppBar> {
   dynamic balance;
+  String? uid = FirebaseAuth.instance.currentUser?.uid;
 
   Future<dynamic> getData() async {
-    var temp = await CreditFunctions().getCurrentBalance();
+    var temp = await CreditFunctions(fire: FirebaseFirestore.instance)
+        .getCurrentBalance(uid!);
     setState(() {
       balance = temp;
     });

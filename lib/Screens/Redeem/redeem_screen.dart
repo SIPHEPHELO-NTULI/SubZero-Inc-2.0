@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
@@ -18,7 +20,7 @@ class _RedeemScreenState extends State<RedeemScreen> {
   int clicked = 0;
   String amount = "";
   String buttonText = "Redeem";
-
+  String? uid = FirebaseAuth.instance.currentUser?.uid;
   @override
   void dispose() {
     voucherCodeController.dispose();
@@ -137,8 +139,9 @@ class _RedeemScreenState extends State<RedeemScreen> {
                             buttonText = "Done";
                             clicked++;
                           });
-                          await CreditFunctions()
-                              .updateCredits(amount, "+")
+                          await CreditFunctions(
+                                  fire: FirebaseFirestore.instance)
+                              .updateCredits(uid!, amount, "+")
                               .then((value) => ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
                                       backgroundColor:

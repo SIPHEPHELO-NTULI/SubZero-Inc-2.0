@@ -134,11 +134,13 @@ class _CartListState extends State<CartList> {
   }
 
   completeCheckout() async {
-    String credits = await CreditFunctions().getCurrentBalance();
+    String credits = await CreditFunctions(fire: FirebaseFirestore.instance)
+        .getCurrentBalance(uid!);
     if (CheckoutFunctions().enoughCredits(cartTotal, credits)) {
       await CartHistoryFunctions(fire: FirebaseFirestore.instance)
           .emptyCart(uid!);
-      await CreditFunctions().updateCredits(cartTotal, "-");
+      await CreditFunctions(fire: FirebaseFirestore.instance)
+          .updateCredits(uid!, cartTotal, "-");
       CartHistoryFunctions(fire: FirebaseFirestore.instance)
           .addToPurchaseHistory(itemsInCart, uid!, docID)
           .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
