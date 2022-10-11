@@ -65,6 +65,6 @@ void main() {
         .doc(uid)
         .collection("Products")
         .get());
-    expect(await cf.getProductsInCartHistory("Carts", uid), null);
+    expect(await cf.getProductsInCartHistory("Carts", uid), []);
   });
 }
