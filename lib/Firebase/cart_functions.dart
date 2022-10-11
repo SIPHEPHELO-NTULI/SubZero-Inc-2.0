@@ -10,6 +10,7 @@ class CartHistoryFunctions {
   final FirebaseFirestore fire;
 
   CartHistoryFunctions({required this.fire});
+
   Future getProductsInCartHistory(String collectionName, String uid) async {
     final CollectionReference collectionRef =
         fire.collection(collectionName).doc(uid).collection("Products");
@@ -51,6 +52,7 @@ class CartHistoryFunctions {
             .collection("Products")
             .doc(docID)
             .set({"productID": productID['productID'], "docID": docID});
+        return "Success";
       } on FirebaseAuthException catch (e) {
         return e.message.toString();
       }
