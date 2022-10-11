@@ -1,4 +1,5 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
@@ -220,7 +221,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future signIn() async {
     final isValid = formKey.currentState!.validate();
     if (!isValid) return;
-    await AuthService()
+    await AuthService(auth: FirebaseAuth.instance)
         .signIn(emailController.text.trim(), passwordController.text.trim())
         .then((value) => {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(

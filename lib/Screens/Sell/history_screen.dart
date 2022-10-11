@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
@@ -19,6 +21,7 @@ State<HistoryScreen> createState() => _HistoryScreenState();
 
 class _HistoryScreenState extends State<HistoryScreen> {
   List userPurchaseHistory = [];
+  String? uid = FirebaseAuth.instance.currentUser?.uid;
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +31,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
         children: [
           const CustomAppBar(),
           FutureBuilder(
-            future: CartHistoryFunctions.getProductsInCartHistory(
-                "PurchaseHistory"),
+            future: CartHistoryFunctions(fire: FirebaseFirestore.instance)
+                .getProductsInCartHistory("PurchaseHistory", uid!),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return const Text("Something went wrong");

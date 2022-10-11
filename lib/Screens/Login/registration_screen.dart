@@ -1,4 +1,5 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
 import 'package:flutter/material.dart';
@@ -317,11 +318,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Future signUp() async {
     final isValid = _formKey.currentState!.validate();
     if (!isValid) return;
-    await AuthService()
+    await AuthService(auth: FirebaseAuth.instance)
         .signUp(emailEditingController.text.trim(),
             passwordEditingController.text.trim())
         .then((value) => {
-              AuthService().createUser(
+              AuthService(auth: FirebaseAuth.instance).createUser(
                   nameEditingController.text,
                   surnameEditingController.text,
                   usernameEditingController.text,

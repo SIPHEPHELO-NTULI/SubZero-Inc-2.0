@@ -144,7 +144,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
       return BarItem(
         title: "LOGOUT",
         click: () {
-          AuthService().signOut();
+          AuthService(auth: FirebaseAuth.instance).signOut();
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const HomeScreen()));
         },
@@ -153,13 +153,19 @@ class _CustomAppBarState extends State<CustomAppBar> {
   }
 
   BarItem showBalance(BuildContext context) {
-    if (FirebaseAuth.instance.currentUser == null || balance == null) {
+    if (FirebaseAuth.instance.currentUser == null) {
       return BarItem(
         title: "CREDITS",
         click: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const LoginScreen()));
         },
+      );
+    }
+    if (FirebaseAuth.instance.currentUser != null && balance == null) {
+      return BarItem(
+        title: "Credits : R0",
+        click: () {},
       );
     } else {
       return BarItem(

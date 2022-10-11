@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/cart_functions.dart';
 import 'package:give_a_little_sdp/Firebase/credit_functions.dart';
@@ -17,12 +19,16 @@ class _CartListState extends State<CartList> {
   List itemsInCart = [];
   late int numProducts;
   late var cartTotal;
+  String? uid = FirebaseAuth.instance.currentUser?.uid;
+  String docID =
+      FirebaseFirestore.instance.collection("PurchaseHistory").doc().id;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         FutureBuilder(
-          future: CartHistoryFunctions.getProductsInCartHistory("Carts"),
+          future: CartHistoryFunctions(fire: FirebaseFirestore.instance)
+              .getProductsInCartHistory("Carts", uid!),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const Text("Something went wrong");
@@ -57,10 +63,12 @@ class _CartListState extends State<CartList> {
                                 color: Colors.red,
                               ),
                               onTap: () {
-                                CartHistoryFunctions()
-                                    .deleteFromCart(itemsInCart[index]
-                                            ["productID"]
-                                        .toString())
+                                CartHistoryFunctions(
+                                        fire: FirebaseFirestore.instance)
+                                    .deleteFromCart(
+                                        itemsInCart[index]["productID"]
+                                            .toString(),
+                                        uid!)
                                     .then((value) => setState(() {
                                           itemsInCart.removeAt(index);
                                         }));
@@ -128,10 +136,12 @@ class _CartListState extends State<CartList> {
   completeCheckout() async {
     String credits = await CreditFunctions().getCurrentBalance();
     if (CheckoutFunctions().enoughCredits(cartTotal, credits)) {
-      await CartHistoryFunctions().emptyCart();
+      await CartHistoryFunctions(fire: FirebaseFirestore.instance)
+          .emptyCart(uid!);
       await CreditFunctions().updateCredits(cartTotal, "-");
-      CartHistoryFunctions().addToPurchaseHistory(itemsInCart).then((value) =>
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      CartHistoryFunctions(fire: FirebaseFirestore.instance)
+          .addToPurchaseHistory(itemsInCart, uid!, docID)
+          .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               backgroundColor: const Color.fromARGB(255, 3, 79, 255),
               content: Text(value))));
       Navigator.push(

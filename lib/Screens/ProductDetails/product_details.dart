@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
@@ -10,7 +11,7 @@ import 'package:give_a_little_sdp/Screens/ProductDetails/suggested_products.dart
 //of the page and an add to cart button
 //below this is the suggested product widget
 // it helps to expand the layout in the future
-class DetailsScreen extends StatelessWidget {
+class DetailsScreen extends StatefulWidget {
   String image, productName, description, price, category, productID;
   DetailsScreen(
       {required this.image,
@@ -22,6 +23,13 @@ class DetailsScreen extends StatelessWidget {
       Key? key})
       : super(key: key);
 
+  @override
+  State<DetailsScreen> createState() => _DetailsScreenState();
+}
+
+class _DetailsScreenState extends State<DetailsScreen> {
+  String? uid = FirebaseAuth.instance.currentUser?.uid;
+  String docID = FirebaseFirestore.instance.collection("Carts").doc().id;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,11 +49,11 @@ class DetailsScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Body(
-                    image: image,
-                    productName: productName,
-                    description: description,
-                    price: price,
-                    category: category),
+                    image: widget.image,
+                    productName: widget.productName,
+                    description: widget.description,
+                    price: widget.price,
+                    category: widget.category),
                 const SizedBox(
                   height: 20,
                 ),
@@ -89,8 +97,8 @@ class DetailsScreen extends StatelessWidget {
                   height: 10,
                 ),
                 SuggestedProducts(
-                  category: category,
-                  productID: productID,
+                  category: widget.category,
+                  productID: widget.productID,
                 ),
               ],
             ),
@@ -106,8 +114,9 @@ class DetailsScreen extends StatelessWidget {
           backgroundColor: Color.fromARGB(255, 3, 79, 255),
           content: Text("Please Sign In First")));
     } else {
-      CartHistoryFunctions().addToCart(productID).then((value) =>
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      CartHistoryFunctions(fire: FirebaseFirestore.instance)
+          .addToCart(widget.productID, uid!, docID)
+          .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               backgroundColor: const Color.fromARGB(255, 3, 79, 255),
               content: Text(value))));
     }

@@ -6,13 +6,16 @@ import 'package:give_a_little_sdp/Encryption/encryption.dart';
 //And Sign out a user as well as create a new user
 
 class AuthService {
+  final FirebaseAuth auth;
+
+  AuthService({required this.auth});
   //sign out method using firebase Auth
-  signOut() async {
+  Future<String> signOut() async {
     try {
-      await FirebaseAuth.instance.signOut();
+      await auth.signOut();
       return "Success";
     } on FirebaseAuthException catch (e) {
-      return e.message;
+      return e.message.toString();
     } catch (e) {
       rethrow;
     }
@@ -21,8 +24,7 @@ class AuthService {
   //sign in method using email and password using firebase Auth
   Future<String> signIn(email, password) async {
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      await auth.signInWithEmailAndPassword(email: email, password: password);
       return "Success";
     } on FirebaseAuthException catch (e) {
       return e.message.toString();
@@ -32,8 +34,8 @@ class AuthService {
 //Used to sign up new users using firebase Auth
   Future<String> signUp(email, password) async {
     try {
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
+      await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
       return "Account Created";
     } on FirebaseAuthException catch (e) {
       return e.message.toString();
@@ -42,7 +44,7 @@ class AuthService {
 
 //stores user details in firestore database
 //sends the users name,surname,username and encrypted email
-  Future createUser(name, surname, username, email) async {
+  Future<String> createUser(name, surname, username, email) async {
     String newEmail = Encryption().getEncryptedEmail(email);
 
     await FirebaseFirestore.instance.collection('Users').add({
@@ -51,5 +53,6 @@ class AuthService {
       'username': username,
       'email': newEmail
     });
+    return "";
   }
 }

@@ -7,12 +7,12 @@ import 'package:give_a_little_sdp/Firebase/get_products.dart';
 //gets the documents as snapshots then adds to the list
 //then returns the list
 class CartHistoryFunctions {
-  static Future getProductsInCartHistory(String collectionName) async {
-    String? uid = FirebaseAuth.instance.currentUser?.uid;
-    final CollectionReference collectionRef = FirebaseFirestore.instance
-        .collection(collectionName)
-        .doc(uid)
-        .collection("Products");
+  final FirebaseFirestore fire;
+
+  CartHistoryFunctions({required this.fire});
+  Future getProductsInCartHistory(String collectionName, String uid) async {
+    final CollectionReference collectionRef =
+        fire.collection(collectionName).doc(uid).collection("Products");
     List itemIDs = [];
     List items = [];
     List itemsInHistoryCart = [];
@@ -41,13 +41,11 @@ class CartHistoryFunctions {
     }
   }
 
-  Future<String> addToPurchaseHistory(List itemsInCart) async {
+  Future<String> addToPurchaseHistory(
+      List itemsInCart, String uid, String docID) async {
     for (var productID in itemsInCart) {
-      String? uid = FirebaseAuth.instance.currentUser?.uid;
-      String docID =
-          FirebaseFirestore.instance.collection("PurchaseHistory").doc().id;
       try {
-        await FirebaseFirestore.instance
+        await fire
             .collection('PurchaseHistory')
             .doc(uid)
             .collection("Products")
@@ -61,30 +59,26 @@ class CartHistoryFunctions {
     return "Checkout Successful";
   }
 
-  Future<String> addToCart(String productID) async {
-    String? uid = FirebaseAuth.instance.currentUser?.uid;
-    String docID = FirebaseFirestore.instance.collection("Carts").doc().id;
+  Future<String> addToCart(String productID, String uid, String docID) async {
+    String result = "Added To Cart!";
     try {
-      await FirebaseFirestore.instance
+      await fire
           .collection('Carts')
           .doc(uid)
           .collection("Products")
           .doc(docID)
           .set({"productID": productID, "docID": docID});
-      return "Added To Cart!";
+      return result;
     } on FirebaseAuthException catch (e) {
       return e.message.toString();
     }
   }
 
-  Future<String> deleteFromCart(String productID) async {
-    String? uid = FirebaseAuth.instance.currentUser?.uid;
+  Future<String> deleteFromCart(String productID, String uid) async {
     List itemIDs = [];
     String docID = "";
-    final CollectionReference collectionRef = FirebaseFirestore.instance
-        .collection("Carts")
-        .doc(uid)
-        .collection("Products");
+    final CollectionReference collectionRef =
+        fire.collection("Carts").doc(uid).collection("Products");
 
     await collectionRef.get().then((querySnapshot) {
       for (var result in querySnapshot.docs) {
@@ -98,7 +92,7 @@ class CartHistoryFunctions {
       }
     }
     try {
-      await FirebaseFirestore.instance
+      await fire
           .collection('Carts')
           .doc(uid)
           .collection("Products")
@@ -110,12 +104,8 @@ class CartHistoryFunctions {
     }
   }
 
-  Future<String> emptyCart() async {
-    String? uid = FirebaseAuth.instance.currentUser?.uid;
-    var collection = FirebaseFirestore.instance
-        .collection('Carts')
-        .doc(uid)
-        .collection("Products");
+  Future<String> emptyCart(String uid) async {
+    var collection = fire.collection('Carts').doc(uid).collection("Products");
     var snapshots = await collection.get();
 
     try {
