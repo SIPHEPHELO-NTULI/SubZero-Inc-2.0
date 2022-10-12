@@ -26,19 +26,19 @@ void main() {
     expect(await cf.addToCart(productID, uid, docID), "Added To Cart!");
   });
 
-  test('Add To Purchase History', () async {
-    List itemsInCart = [
-      {"productID": productID, "docID": docID},
-      {"productID": productID, "docID": docID}
-    ];
-    when(mockFirestore
-        .collection('Purchase History')
-        .doc(uid)
-        .collection("Products")
-        .doc(docID)
-        .set({"productID": productID, "docID": docID}));
-    expect(await cf.addToPurchaseHistory(itemsInCart, uid, docID), "Success");
-  });
+  // test('Add To Purchase History', () async {
+  //   List itemsInCart = [
+  //     {"productID": productID, "docID": docID},
+  //     {"productID": productID, "docID": docID}
+  //   ];
+  //   when(mockFirestore
+  //       .collection('Purchase History')
+  //       .doc(uid)
+  //       .collection("Products")
+  //       .doc(docID)
+  //       .set({"productID": productID, "docID": docID}));
+  //   expect(await cf.addToPurchaseHistory(itemsInCart, uid, docID), "Success");
+  // });
 
   test('Delete From Cart', () async {
     when(mockFirestore

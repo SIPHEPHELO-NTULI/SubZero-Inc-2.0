@@ -42,17 +42,25 @@ class CartHistoryFunctions {
     }
   }
 
-  Future<String> addToPurchaseHistory(
-      List itemsInCart, String uid, String docID) async {
+  Future<String> addToPurchaseHistory(List itemsInCart) async {
     for (var productID in itemsInCart) {
+      String? uid = FirebaseAuth.instance.currentUser?.uid;
+      String historyID =
+          FirebaseFirestore.instance.collection("PurchaseHistory2").doc().id;
       try {
-        await fire
-            .collection('PurchaseHistory')
-            .doc(uid)
-            .collection("Products")
-            .doc(docID)
-            .set({"productID": productID['productID'], "docID": docID});
-        return "Success";
+        FirebaseFirestore.instance
+            .collection("PurchaseHistory2")
+            .doc(historyID)
+            .set({
+          'productName': productID["productName"],
+          'imageURL': productID["imageURL"],
+          'price': productID["price"],
+          'category': productID["category"],
+          'historyID':historyID,
+          'productID': productID["productID"],
+          'uid': uid,
+          'isRated': false
+        });
       } on FirebaseAuthException catch (e) {
         return e.message.toString();
       }

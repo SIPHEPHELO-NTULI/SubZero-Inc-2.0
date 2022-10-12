@@ -142,7 +142,7 @@ class _CartListState extends State<CartList> {
       await CreditFunctions(fire: FirebaseFirestore.instance)
           .updateCredits(uid!, cartTotal, "-");
       CartHistoryFunctions(fire: FirebaseFirestore.instance)
-          .addToPurchaseHistory(itemsInCart, uid!, docID)
+          .addToPurchaseHistory(itemsInCart)
           .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               backgroundColor: const Color.fromARGB(255, 3, 79, 255),
               content: Text(value))));

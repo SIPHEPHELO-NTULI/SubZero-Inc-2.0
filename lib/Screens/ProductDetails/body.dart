@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 //This is used for the core of the details screen
 //It displays the details of a selected product
@@ -8,13 +9,14 @@ import 'package:flutter/material.dart';
 // next to image is a column that shows the product name, category
 // and price as well as the description if necessary
 class Body extends StatelessWidget {
-  String image, productName, description, price, category;
+  String image, productName, description, price, category,productRating;
   Body(
       {required this.image,
       required this.productName,
       required this.description,
       required this.price,
       required this.category,
+      required this.productRating,
       Key? key})
       : super(key: key);
 
@@ -112,19 +114,25 @@ class Body extends StatelessWidget {
                   text: TextSpan(
                     children: [
                       const TextSpan(
-                          text: "Rating: \n",
+                          text: "Rating: ",
                           style: TextStyle(color: Colors.black)),
                       TextSpan(
-                        text:
-                            "", //put rating here (you can change the design/widget to how you want)
-                        style: Theme.of(context).textTheme.headline4?.copyWith(
-                            color: Colors.black,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold),
+                        text:double.parse(productRating) !=0 ?
+                           "":"No ratings", //put rating here (you can change the design/widget to how you want)
                       ),
                     ],
                   ),
                 ),
+                RatingBarIndicator(
+                    rating: double.parse(productRating),
+                    itemBuilder: (context, index) => const Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    itemCount: 5,
+                    itemSize: 50.0,
+                    direction: Axis.horizontal,
+                  ),
               ],
             ),
           ],

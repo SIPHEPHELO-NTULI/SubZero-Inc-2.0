@@ -8,6 +8,8 @@ import 'package:give_a_little_sdp/Screens/ProductDetails/suggested_products.dart
 import 'package:give_a_little_sdp/Screens/Reviews/reviews.dart';
 import 'package:give_a_little_sdp/Screens/Reviews/write_review.dart';
 
+import '../../Firebase/rating_functions.dart';
+
 //this class wraps the widgets making up the details page
 // it consistss of a column that holds the appbar, as well as the body
 //of the page and an add to cart button
@@ -34,6 +36,22 @@ class _DetailsScreenState extends State<DetailsScreen> {
   String docID = FirebaseFirestore.instance.collection("Carts").doc().id;
   List products = [];
   bool found = false;
+
+  String producttempRating = "0";
+  late String productRating;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    getProductRating();
+  }
+
+  getProductRating() async {
+    productRating = await RatingFunctions().getAverageRating(widget.productID);
+    setState(() {
+        producttempRating = productRating;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +75,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     productName: widget.productName,
                     description: widget.description,
                     price: widget.price,
-                    category: widget.category),
+                    category: widget.category,
+                    productRating: producttempRating),
                 const SizedBox(
                   height: 20,
                 ),
