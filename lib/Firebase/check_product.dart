@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 //class used to get list of products from Firebase
 //gets the documents as snapshots then adds to the list
@@ -12,7 +11,7 @@ class CheckProduct {
   Future<bool> check(String productID, String uid) async {
     bool found = false;
     final CollectionReference collectionRef =
-        FirebaseFirestore.instance.collection("PurchaseHistory2");
+        fire.collection("PurchaseHistory2");
     List allpurchases = [];
     try {
       await collectionRef.get().then((querySnapshot) {
