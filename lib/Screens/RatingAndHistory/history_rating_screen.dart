@@ -129,7 +129,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                                         height: 90,
                                                                       ),
                                                                       RatingBar.builder(
-                                                                        initialRating: 1,
+                                                                        initialRating: 0,
                                                                         minRating: 1,
                                                                         direction: Axis.horizontal,
                                                                         allowHalfRating: false,
@@ -167,6 +167,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                                             });
                                                                         });
                                                                           Navigator.pop(context);
+                                                                            setState(() {
+                                                                              userPurchaseHistory = snapshot.data as List;
+                                                                            });
                                                                         },
                                                                       )
                                                                     ],
