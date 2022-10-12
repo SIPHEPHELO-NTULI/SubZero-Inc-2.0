@@ -8,14 +8,16 @@ class SendComment {
   SendComment({required this.fire});
 
   Future<String> uploadComment(String prodID, String text, String uid) async {
-    String name, surname, finalName;
+    String name = "", surname = "", finalName = "";
     var collection = fire.collection('Users');
     var docSnapshot = await collection.doc(uid).get();
 
-    Map<String, dynamic>? data = docSnapshot.data();
-    name = data?['name'];
-    surname = data?['surname'];
-    finalName = name + " " + surname;
+    if (docSnapshot.exists) {
+      Map<String, dynamic>? data = docSnapshot.data();
+      name = data?['name'];
+      surname = data?['surname'];
+      finalName = name + " " + surname;
+    }
     String date = DateFormat("dd-MMM-yyyy").format(DateTime.now());
 
     try {
@@ -34,7 +36,7 @@ class SendComment {
 
       return "Comment Posted";
     } on FirebaseAuthException catch (e) {
-      return e.message.toString();
+      return "";
     }
   }
 }

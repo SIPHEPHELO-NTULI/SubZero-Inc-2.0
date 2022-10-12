@@ -11,7 +11,7 @@ class RatingFunctions {
       String historyID, String uid) async {
     String docID = fire.collection("ProductRating").doc().id;
     try {
-      fire.collection("ProductRating").doc(docID).set({
+      await fire.collection("ProductRating").doc(docID).set({
         'rating': ratingfromuser,
         'productID': productID,
         'uid': uid,
@@ -93,7 +93,10 @@ class RatingFunctions {
 
   Future<String> isRatedSetTotrue(String docID) async {
     try {
-      fire.collection("PurchaseHistory2").doc(docID).update({'isRated': true});
+      await fire
+          .collection("PurchaseHistory2")
+          .doc(docID)
+          .update({'isRated': true});
     } on FirebaseAuthException catch (e) {
       return e.message.toString();
     }
