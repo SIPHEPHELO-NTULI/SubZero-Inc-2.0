@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/auth_service.dart';
+import 'package:give_a_little_sdp/Firebase/create_user.dart';
 import 'package:give_a_little_sdp/Screens/Home/home_screen.dart';
 import 'package:give_a_little_sdp/Screens/Login/Validation/userNameFieldValidator.dart';
 import 'package:give_a_little_sdp/Screens/Login/login_screen.dart';
@@ -323,11 +325,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         .signUp(emailEditingController.text.trim(),
             passwordEditingController.text.trim())
         .then((value) => {
-              AuthService(auth: FirebaseAuth.instance).createUser(
+              CreateUser(fire: FirebaseFirestore.instance).createUser(
                   nameEditingController.text,
                   surnameEditingController.text,
                   usernameEditingController.text,
-                  emailEditingController.text),
+                  emailEditingController.text,
+                  FirebaseAuth.instance.currentUser!.uid),
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   backgroundColor: const Color.fromARGB(255, 3, 79, 255),
                   content: Text(value)))

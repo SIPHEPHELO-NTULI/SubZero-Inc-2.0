@@ -42,21 +42,16 @@ class CartHistoryFunctions {
     }
   }
 
-  Future<String> addToPurchaseHistory(List itemsInCart) async {
+  Future<String> addToPurchaseHistory(List itemsInCart, String uid) async {
     for (var productID in itemsInCart) {
-      String? uid = FirebaseAuth.instance.currentUser?.uid;
-      String historyID =
-          FirebaseFirestore.instance.collection("PurchaseHistory2").doc().id;
+      String historyID = fire.collection("PurchaseHistory2").doc().id;
       try {
-        FirebaseFirestore.instance
-            .collection("PurchaseHistory2")
-            .doc(historyID)
-            .set({
+        fire.collection("PurchaseHistory2").doc(historyID).set({
           'productName': productID["productName"],
           'imageURL': productID["imageURL"],
           'price': productID["price"],
           'category': productID["category"],
-          'historyID':historyID,
+          'historyID': historyID,
           'productID': productID["productID"],
           'uid': uid,
           'isRated': false
