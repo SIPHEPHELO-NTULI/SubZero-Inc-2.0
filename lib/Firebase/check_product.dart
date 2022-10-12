@@ -6,26 +6,26 @@ import 'package:firebase_auth/firebase_auth.dart';
 //then returns the list
 class CheckProduct {
   Future<bool> check(String productID) async {
-    final uid = FirebaseAuth.instance.currentUser?.uid;
     bool found = false;
-    final CollectionReference collectionRef = FirebaseFirestore.instance
-        .collection("PurchaseHistory2")
-        .doc(uid)
-        .collection("Products");
-    List products = [];
-
-    await collectionRef.get().then((querySnapshot) {
-      for (var result in querySnapshot.docs) {
-        products.add(result.data());
+    String? uid = FirebaseAuth.instance.currentUser?.uid;
+    final CollectionReference collectionRef =
+        FirebaseFirestore.instance.collection("PurchaseHistory2");
+    List allpurchases = [];
+    try {
+      await collectionRef.get().then((querySnapshot) {
+        for (var result in querySnapshot.docs) {
+          allpurchases.add(result.data());
+        }
+      });
+      for (int i = 0; i < allpurchases.length; i++) {
+        if (allpurchases[i]["productID"] == productID &&
+            allpurchases[i]["uid"] == uid) {
+          found = true;
+        }
       }
-    });
-
-    for (int i = 0; i < products.length; i++) {
-      if (products[i]["productID"] == productID) {
-        found = true;
-      }
+      return found;
+    } catch (e) {
+      return found;
     }
-
-    return found;
   }
 }
