@@ -45,13 +45,15 @@ class AuthService {
 //stores user details in firestore database
 //sends the users name,surname,username and encrypted email
   Future<String> createUser(name, surname, username, email) async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
     String newEmail = Encryption().getEncryptedEmail(email);
 
-    await FirebaseFirestore.instance.collection('Users').add({
+    await FirebaseFirestore.instance.collection('Users').doc(uid).set({
       'name': name,
       'surname': surname,
       'username': username,
-      'email': newEmail
+      'email': newEmail,
+      'uid': uid
     });
     return "";
   }

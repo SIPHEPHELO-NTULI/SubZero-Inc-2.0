@@ -5,6 +5,7 @@ class CreditFunctions {
   final FirebaseFirestore fire;
 
   CreditFunctions({required this.fire});
+
   Future<String> updateCredits(String uid, String balance, String sign) async {
     var collection = fire.collection('Credits');
     var docSnapshot = await collection.doc(uid).get();

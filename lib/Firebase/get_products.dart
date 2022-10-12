@@ -40,4 +40,22 @@ class FireStoreDataBase {
     }
     return suggestedProducts;
   }
+
+  Future getProductReviews(String productID) async {
+    final CollectionReference collectionRef =
+        fire.collection("Products").doc(productID).collection("Reviews");
+    List reviews = [];
+    try {
+      await collectionRef.get().then((querySnapshot) {
+        for (var result in querySnapshot.docs) {
+          reviews.add(result.data());
+        }
+      });
+
+      return reviews;
+    } catch (e) {
+      debugPrint("Error - $e");
+      return null;
+    }
+  }
 }

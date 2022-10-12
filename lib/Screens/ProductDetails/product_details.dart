@@ -3,10 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
 import 'package:give_a_little_sdp/Firebase/cart_functions.dart';
+import 'package:give_a_little_sdp/Firebase/check_product.dart';
+import 'package:give_a_little_sdp/Firebase/send_comments.dart';
 import 'package:give_a_little_sdp/Screens/ProductDetails/body.dart';
 import 'package:give_a_little_sdp/Screens/ProductDetails/suggested_products.dart';
+import 'package:give_a_little_sdp/Screens/Reviews/review_validator.dart';
 import 'package:give_a_little_sdp/Screens/Reviews/reviews.dart';
-import 'package:give_a_little_sdp/Screens/Reviews/write_review.dart';
 
 import '../../Firebase/rating_functions.dart';
 
@@ -49,9 +51,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
   getProductRating() async {
     productRating = await RatingFunctions().getAverageRating(widget.productID);
     setState(() {
-        producttempRating = productRating;
+      producttempRating = productRating;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,31 +126,30 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   category: widget.category,
                   productID: widget.productID,
                 ),
+                const SizedBox(
+                  height: 20,
+                ),
                 Row(
                   children: [
+                    const Text(
+                      "Product Reviews",
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
                     TextButton(
                         onPressed: () async {
                           check(context);
                         },
-                        child: const Text("Write Reviews",
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 0, 67, 222),
-                            ))),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Reviews(
-                                        prodID: widget.productID,
-                                      )));
-                        },
-                        child: const Text("Reviews",
+                        child: const Text("Write A Review",
                             style: TextStyle(
                               color: Color.fromARGB(255, 0, 67, 222),
                             ))),
                   ],
-                )
+                ),
+                Reviews(
+                  productID: widget.productID,
+                ),
               ],
             ),
           ),
@@ -157,37 +159,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 
   check(context) async {
-    final uid = FirebaseAuth.instance.currentUser?.uid;
-
-    final CollectionReference collectionRef = FirebaseFirestore.instance
-        .collection("PurchaseHistory")
-        .doc(uid)
-        .collection("Products");
-    List products = [];
-
-    await collectionRef.get().then((querySnapshot) {
-      for (var result in querySnapshot.docs) {
-        products.add(result.data());
-      }
-    });
-
-    for (int i = 0; i < products.length; i++) {
-      if (products[i]["productID"] == widget.productID) {
-        found = true;
-      }
-      print(products[i]);
-    }
-
+    bool found = false;
+    await CheckProduct().check(widget.productID).then((value) => found = value);
     if (found == true) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => write_review(
-                    prodID: widget.productID,
-                  )));
+      _displayDialog(context, widget.productID);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("You Haven't Bought This Item")));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          backgroundColor: Color.fromARGB(255, 3, 79, 255),
+          content: Text("You Have Not Purchased This Item")));
     }
   }
 
@@ -204,4 +183,72 @@ class _DetailsScreenState extends State<DetailsScreen> {
               content: Text(value))));
     }
   }
+}
+
+_displayDialog(BuildContext context, String productID) async {
+  final myController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Write Your Review'),
+          content: Form(
+            key: _formKey,
+            child: TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: ReviewFieldValidator.validate,
+              controller: myController,
+              minLines: null,
+              maxLines: null,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Enter review',
+                  focusColor: Color.fromARGB(255, 3, 79, 255)),
+            ),
+          ),
+          actions: <Widget>[
+            MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                child: Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        gradient: const LinearGradient(
+                            begin: Alignment.centerRight,
+                            end: Alignment.centerLeft,
+                            colors: [
+                              Colors.blue,
+                              Color.fromARGB(255, 5, 9, 227),
+                              Color.fromARGB(255, 8, 0, 59),
+                            ])),
+                    child: const Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        'Submit',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  if (_formKey.currentState!.validate()) {
+                    SendComment.uploadComment(productID, myController.text)
+                        .then((value) => ScaffoldMessenger.of(context)
+                            .showSnackBar(SnackBar(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 3, 79, 255),
+                                content: Text(value))));
+                    Navigator.of(context).pop();
+                  }
+                },
+              ),
+            )
+          ],
+        );
+      });
 }

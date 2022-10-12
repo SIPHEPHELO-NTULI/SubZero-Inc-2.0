@@ -1,60 +1,47 @@
-import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:give_a_little_sdp/Firebase/get_products.dart';
 import 'package:give_a_little_sdp/Screens/Reviews/review_card.dart';
 
-class Reviews extends StatefulWidget {
-  final String? prodID;
-  Reviews({Key? key, this.prodID}) : super(key: key);
-
-  @override
-  _ReviewsState createState() => _ReviewsState();
-}
-
-class _ReviewsState extends State<Reviews> {
-  final List comments = [];
-  final List items = ["comments", "basd"];
-  late final db;
-
-  @override
-  void initState() {
-    super.initState();
-
-    db = FirebaseFirestore.instance.collection("Products").doc(widget.prodID);
-  }
-
+//This class displays a horizontal list view
+// it takes in two parameters, the category and productID of the product
+// it then calls the reviews method to find related products based
+//on the category
+//when a product is clicked it will navigate to a new details screen
+class Reviews extends StatelessWidget {
+  String productID;
+  Reviews({required this.productID, Key? key}) : super(key: key);
+  List reviews = [];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Reviews",
-        ),
-        backgroundColor: const Color.fromARGB(255, 0, 67, 222),
-        centerTitle: true,
-      ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: db.collection('reviews').snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else {
-            return ListView(
-              children: snapshot.data!.docs.map((doc) {
-                return Card(
-                  child: ListTile(
-                    title: Text(doc['comments'].toString()),
-                  ),
-                );
-              }).toList(),
-            );
-          }
-        },
-      ),
+    return Container(
+      alignment: Alignment.center,
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height * 0.3,
+      child: FutureBuilder(
+          future: FireStoreDataBase(fire: FirebaseFirestore.instance)
+              .getProductReviews(productID),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return const Text("Something went wrong");
+            }
+            if (snapshot.connectionState == ConnectionState.done) {
+              reviews = snapshot.data as List;
+              return ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: reviews.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ReviewCard(
+                            review: reviews[index]['comment'],
+                            name: reviews[index]['name'],
+                            date: reviews[index]['date']));
+                  });
+            }
+            return const Center(child: CircularProgressIndicator());
+          }),
     );
   }
 }
