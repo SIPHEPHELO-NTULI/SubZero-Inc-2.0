@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 
 class SendComment {
@@ -20,23 +19,19 @@ class SendComment {
     }
     String date = DateFormat("dd-MMM-yyyy").format(DateTime.now());
 
-    try {
-      await fire
-          .collection('Products')
-          .doc(prodID)
-          .collection('Reviews')
-          .doc(uid)
-          .set({
-        'productID': prodID,
-        'name': finalName,
-        'uid': uid,
-        'comment': text,
-        'date': date
-      });
+    await fire
+        .collection('Products')
+        .doc(prodID)
+        .collection('Reviews')
+        .doc(uid)
+        .set({
+      'productID': prodID,
+      'name': finalName,
+      'uid': uid,
+      'comment': text,
+      'date': date
+    });
 
-      return "Comment Posted";
-    } on FirebaseAuthException catch (e) {
-      return "";
-    }
+    return "Comment Posted";
   }
 }

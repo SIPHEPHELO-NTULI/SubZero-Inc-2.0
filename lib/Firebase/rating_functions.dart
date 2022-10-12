@@ -10,21 +10,15 @@ class RatingFunctions {
   Future<String> rateProduct(String productID, double ratingfromuser,
       String historyID, String uid) async {
     String docID = fire.collection("ProductRating").doc().id;
-    try {
-      await fire.collection("ProductRating").doc(docID).set({
-        'rating': ratingfromuser,
-        'productID': productID,
-        'uid': uid,
-        'ratingID': docID
-      }).whenComplete(() {
-        fire
-            .collection("PurchaseHistory2")
-            .doc(historyID)
-            .set({'isRated': true});
-      });
-    } on FirebaseAuthException catch (e) {
-      return e.message.toString();
-    }
+
+    await fire.collection("ProductRating").doc(docID).set({
+      'rating': ratingfromuser,
+      'productID': productID,
+      'uid': uid,
+      'ratingID': docID
+    }).whenComplete(() {
+      fire.collection("PurchaseHistory2").doc(historyID).set({'isRated': true});
+    });
 
     return "Rating Successful";
   }
@@ -92,14 +86,7 @@ class RatingFunctions {
   }
 
   Future<String> isRatedSetTotrue(String docID) async {
-    try {
-      await fire
-          .collection("PurchaseHistory2")
-          .doc(docID)
-          .set({'isRated': true});
-    } on FirebaseAuthException catch (e) {
-      return e.message.toString();
-    }
+    await fire.collection("PurchaseHistory2").doc(docID).set({'isRated': true});
 
     return "Rating Successful";
   }
