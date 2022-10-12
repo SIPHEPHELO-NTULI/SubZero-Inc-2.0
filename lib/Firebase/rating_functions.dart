@@ -20,7 +20,7 @@ class RatingFunctions {
         fire
             .collection("PurchaseHistory2")
             .doc(historyID)
-            .update({'isRated': true});
+            .set({'isRated': true});
       });
     } on FirebaseAuthException catch (e) {
       return e.message.toString();
@@ -96,7 +96,7 @@ class RatingFunctions {
       await fire
           .collection("PurchaseHistory2")
           .doc(docID)
-          .update({'isRated': true});
+          .set({'isRated': true});
     } on FirebaseAuthException catch (e) {
       return e.message.toString();
     }
