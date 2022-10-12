@@ -3,10 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 
 class SendComment {
-  static Future<String> uploadComment(String prodID, String text) async {
-    final uid = FirebaseAuth.instance.currentUser!.uid;
+  final FirebaseFirestore fire;
+
+  SendComment({required this.fire});
+
+  Future<String> uploadComment(String prodID, String text, String uid) async {
     String name, surname, finalName;
-    var collection = FirebaseFirestore.instance.collection('Users');
+    var collection = fire.collection('Users');
     var docSnapshot = await collection.doc(uid).get();
 
     Map<String, dynamic>? data = docSnapshot.data();
@@ -16,7 +19,7 @@ class SendComment {
     String date = DateFormat("dd-MMM-yyyy").format(DateTime.now());
 
     try {
-      await FirebaseFirestore.instance
+      await fire
           .collection('Products')
           .doc(prodID)
           .collection('Reviews')

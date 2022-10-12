@@ -3,19 +3,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 class RatingFunctions {
-  static Future<String> rateProduct(
-      String productID, double ratingfromuser, String historyID) async {
-    String? uid = FirebaseAuth.instance.currentUser?.uid;
-    String docID =
-        FirebaseFirestore.instance.collection("ProductRating").doc().id;
+  final FirebaseFirestore fire;
+
+  RatingFunctions({required this.fire});
+
+  Future<String> rateProduct(String productID, double ratingfromuser,
+      String historyID, String uid) async {
+    String docID = fire.collection("ProductRating").doc().id;
     try {
-      FirebaseFirestore.instance.collection("ProductRating").doc(docID).set({
+      fire.collection("ProductRating").doc(docID).set({
         'rating': ratingfromuser,
         'productID': productID,
         'uid': uid,
         'ratingID': docID
       }).whenComplete(() {
-        FirebaseFirestore.instance
+        fire
             .collection("PurchaseHistory2")
             .doc(historyID)
             .update({'isRated': true});
@@ -29,9 +31,8 @@ class RatingFunctions {
 
   //this funtion takes productID
   //and returns the ratings of that product.
-  static Future getProductRating(String productID) async {
-    final CollectionReference collectionRef =
-        FirebaseFirestore.instance.collection("ProductRating");
+  Future getProductRating(String productID) async {
+    final CollectionReference collectionRef = fire.collection("ProductRating");
     List allproductsRatings = [];
     List productRatings = [];
     try {
@@ -68,10 +69,8 @@ class RatingFunctions {
   }
 
   // ignore: non_constant_identifier_names
-  static Future getProductsIn_History(String collectionName) async {
-    String? uid = FirebaseAuth.instance.currentUser?.uid;
-    final CollectionReference collectionRef =
-        FirebaseFirestore.instance.collection(collectionName);
+  Future getProductsIn_History(String collectionName, String uid) async {
+    final CollectionReference collectionRef = fire.collection(collectionName);
     List products = [];
     List itemsInHistoryCart = [];
     try {
@@ -85,7 +84,6 @@ class RatingFunctions {
           itemsInHistoryCart.add(products[i]);
         }
       }
-      print(itemsInHistoryCart.length);
       return itemsInHistoryCart;
     } catch (e) {
       debugPrint("Error - $e");
@@ -93,12 +91,9 @@ class RatingFunctions {
     }
   }
 
-  static Future<String> isRatedSetTotrue(String docID) async {
+  Future<String> isRatedSetTotrue(String docID) async {
     try {
-      FirebaseFirestore.instance
-          .collection("PurchaseHistory2")
-          .doc(docID)
-          .update({'isRated': true});
+      fire.collection("PurchaseHistory2").doc(docID).update({'isRated': true});
     } on FirebaseAuthException catch (e) {
       return e.message.toString();
     }

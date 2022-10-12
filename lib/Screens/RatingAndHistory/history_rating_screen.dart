@@ -1,5 +1,7 @@
 // ignore_for_file: sized_box_for_whitespace
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
@@ -21,6 +23,7 @@ State<HistoryScreen> createState() => _HistoryScreenState();
 
 class _HistoryScreenState extends State<HistoryScreen> {
   List userPurchaseHistory = [];
+  String? uid = FirebaseAuth.instance.currentUser?.uid;
   late double productRating;
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
         children: [
           const CustomAppBar(),
           FutureBuilder(
-            future: RatingFunctions.getProductsIn_History("PurchaseHistory2"),
+            future: RatingFunctions(fire: FirebaseFirestore.instance)
+                .getProductsIn_History("PurchaseHistory2", uid!),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return const Text("Something went wrong");
@@ -217,7 +221,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                                           ),
                                                                           onPressed:
                                                                               () async {
-                                                                            await RatingFunctions.rateProduct(userPurchaseHistory[index]["productID"], productRating, userPurchaseHistory[index]["historyID"]).then((value) {
+                                                                            await RatingFunctions(fire: FirebaseFirestore.instance).rateProduct(userPurchaseHistory[index]["productID"], productRating, userPurchaseHistory[index]["historyID"], uid!).then((value) {
                                                                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value)));
                                                                               setState(() {
                                                                                 userPurchaseHistory = snapshot.data as List;
@@ -244,12 +248,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                         data: Theme.of(context)
                                                             .copyWith(
                                                                 dialogBackgroundColor:
-                                                                    Color.fromARGB(
+                                                                    const Color
+                                                                            .fromARGB(
                                                                         255,
                                                                         33,
                                                                         110,
                                                                         255)),
-                                                        child: AlertDialog(
+                                                        child:
+                                                            const AlertDialog(
                                                           title: Text(
                                                               "You have already rated this item"),
                                                         ),

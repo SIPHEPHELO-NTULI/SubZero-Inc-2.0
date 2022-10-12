@@ -49,7 +49,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 
   getProductRating() async {
-    productRating = await RatingFunctions().getAverageRating(widget.productID);
+    productRating = await RatingFunctions(fire: FirebaseFirestore.instance)
+        .getAverageRating(widget.productID);
     setState(() {
       producttempRating = productRating;
     });
@@ -160,9 +161,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   check(context) async {
     bool found = false;
-    await CheckProduct().check(widget.productID).then((value) => found = value);
+    await CheckProduct(fire: FirebaseFirestore.instance)
+        .check(widget.productID, uid!)
+        .then((value) => found = value);
     if (found == true) {
-      _displayDialog(context, widget.productID);
+      _displayDialog(context, widget.productID, uid!);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           backgroundColor: Color.fromARGB(255, 3, 79, 255),
@@ -185,7 +188,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 }
 
-_displayDialog(BuildContext context, String productID) async {
+_displayDialog(BuildContext context, String productID, String uid) async {
   final myController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   return showDialog(
@@ -237,7 +240,8 @@ _displayDialog(BuildContext context, String productID) async {
                 ),
                 onTap: () {
                   if (_formKey.currentState!.validate()) {
-                    SendComment.uploadComment(productID, myController.text)
+                    SendComment(fire: FirebaseFirestore.instance)
+                        .uploadComment(productID, myController.text, uid)
                         .then((value) => ScaffoldMessenger.of(context)
                             .showSnackBar(SnackBar(
                                 backgroundColor:

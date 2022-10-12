@@ -5,9 +5,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 //gets the documents as snapshots then adds to the list
 //then returns the list
 class CheckProduct {
-  Future<bool> check(String productID) async {
+  final FirebaseFirestore fire;
+
+  CheckProduct({required this.fire});
+
+  Future<bool> check(String productID, String uid) async {
     bool found = false;
-    String? uid = FirebaseAuth.instance.currentUser?.uid;
     final CollectionReference collectionRef =
         FirebaseFirestore.instance.collection("PurchaseHistory2");
     List allpurchases = [];
