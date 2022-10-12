@@ -160,7 +160,7 @@ class _CartListState extends State<CartList> {
     Widget confirmButton = ElevatedButton(
       child: const Text("CONFIRM"),
       style: ElevatedButton.styleFrom(
-          backgroundColor: const Color.fromARGB(255, 3, 79, 255)),
+          primary: const Color.fromARGB(255, 3, 79, 255)),
       onPressed: () {
         completeCheckout();
         Navigator.of(context).pop();
@@ -169,7 +169,7 @@ class _CartListState extends State<CartList> {
     Widget cancelButton = ElevatedButton(
       child: const Text("Cancel"),
       style: ElevatedButton.styleFrom(
-          backgroundColor: const Color.fromARGB(255, 3, 79, 255)),
+          primary: const Color.fromARGB(255, 3, 79, 255)),
       onPressed: () {
         Navigator.of(context).pop();
       },

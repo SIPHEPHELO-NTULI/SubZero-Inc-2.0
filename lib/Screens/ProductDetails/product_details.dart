@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
 import 'package:give_a_little_sdp/Firebase/cart_functions.dart';
-
 import 'package:give_a_little_sdp/Screens/ProductDetails/body.dart';
-import 'package:give_a_little_sdp/Screens/Reviews/reviews.dart';
 import 'package:give_a_little_sdp/Screens/ProductDetails/suggested_products.dart';
+import 'package:give_a_little_sdp/Screens/Reviews/reviews.dart';
 import 'package:give_a_little_sdp/Screens/Reviews/write_review.dart';
 
 //this class wraps the widgets making up the details page
@@ -15,10 +13,8 @@ import 'package:give_a_little_sdp/Screens/Reviews/write_review.dart';
 //of the page and an add to cart button
 //below this is the suggested product widget
 // it helps to expand the layout in the future
-class DetailsScreen extends StatelessWidget {
+class DetailsScreen extends StatefulWidget {
   String image, productName, description, price, category, productID;
-  List products = [];
-  bool found = false;
   DetailsScreen(
       {required this.image,
       required this.productName,
@@ -29,6 +25,15 @@ class DetailsScreen extends StatelessWidget {
       Key? key})
       : super(key: key);
 
+  @override
+  State<DetailsScreen> createState() => _DetailsScreenState();
+}
+
+class _DetailsScreenState extends State<DetailsScreen> {
+  String? uid = FirebaseAuth.instance.currentUser?.uid;
+  String docID = FirebaseFirestore.instance.collection("Carts").doc().id;
+  List products = [];
+  bool found = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,11 +53,11 @@ class DetailsScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Body(
-                    image: image,
-                    productName: productName,
-                    description: description,
-                    price: price,
-                    category: category),
+                    image: widget.image,
+                    productName: widget.productName,
+                    description: widget.description,
+                    price: widget.price,
+                    category: widget.category),
                 const SizedBox(
                   height: 20,
                 ),
@@ -96,8 +101,8 @@ class DetailsScreen extends StatelessWidget {
                   height: 10,
                 ),
                 SuggestedProducts(
-                  category: category,
-                  productID: productID,
+                  category: widget.category,
+                  productID: widget.productID,
                 ),
                 Row(
                   children: [
@@ -115,7 +120,7 @@ class DetailsScreen extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => Reviews(
-                                        prodID: productID,
+                                        prodID: widget.productID,
                                       )));
                         },
                         child: const Text("Reviews",
@@ -148,7 +153,7 @@ class DetailsScreen extends StatelessWidget {
     });
 
     for (int i = 0; i < products.length; i++) {
-      if (products[i]["productID"] == productID) {
+      if (products[i]["productID"] == widget.productID) {
         found = true;
       }
       print(products[i]);
@@ -159,7 +164,7 @@ class DetailsScreen extends StatelessWidget {
           context,
           MaterialPageRoute(
               builder: (context) => write_review(
-                    prodID: productID,
+                    prodID: widget.productID,
                   )));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -173,8 +178,9 @@ class DetailsScreen extends StatelessWidget {
           backgroundColor: Color.fromARGB(255, 3, 79, 255),
           content: Text("Please Sign In First")));
     } else {
-      CartHistoryFunctions().addToCart(productID).then((value) =>
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      CartHistoryFunctions(fire: FirebaseFirestore.instance)
+          .addToCart(widget.productID, uid!, docID)
+          .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               backgroundColor: const Color.fromARGB(255, 3, 79, 255),
               content: Text(value))));
     }
