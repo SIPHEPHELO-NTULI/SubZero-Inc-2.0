@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 class RatingFunctions {
@@ -17,7 +16,10 @@ class RatingFunctions {
       'uid': uid,
       'ratingID': docID
     }).whenComplete(() {
-      fire.collection("PurchaseHistory2").doc(historyID).set({'isRated': true});
+      fire
+          .collection("PurchaseHistory2")
+          .doc(historyID)
+          .update({'isRated': true});
     });
 
     return "Rating Successful";
@@ -86,7 +88,10 @@ class RatingFunctions {
   }
 
   Future<String> isRatedSetTotrue(String docID) async {
-    await fire.collection("PurchaseHistory2").doc(docID).set({'isRated': true});
+    await fire
+        .collection("PurchaseHistory2")
+        .doc(docID)
+        .update({'isRated': true});
     return "Rating Successful";
   }
 }
