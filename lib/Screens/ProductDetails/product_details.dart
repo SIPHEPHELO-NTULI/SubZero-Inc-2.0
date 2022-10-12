@@ -38,6 +38,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   String docID = FirebaseFirestore.instance.collection("Carts").doc().id;
   List products = [];
   bool found = false;
+  bool reviewed = false;
 
   String producttempRating = "0";
   late String productRating;
@@ -186,73 +187,76 @@ class _DetailsScreenState extends State<DetailsScreen> {
               content: Text(value))));
     }
   }
-}
 
-_displayDialog(BuildContext context, String productID, String uid) async {
-  final myController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-  return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Write Your Review'),
-          content: Form(
-            key: _formKey,
-            child: TextFormField(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator: ReviewFieldValidator.validate,
-              controller: myController,
-              minLines: null,
-              maxLines: null,
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter review',
-                  focusColor: Color.fromARGB(255, 3, 79, 255)),
+  _displayDialog(BuildContext context, String productID, String uid) async {
+    final myController = TextEditingController();
+    final _formKey = GlobalKey<FormState>();
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Write Your Review'),
+            content: Form(
+              key: _formKey,
+              child: TextFormField(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: ReviewFieldValidator.validate,
+                controller: myController,
+                minLines: null,
+                maxLines: null,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter review',
+                    focusColor: Color.fromARGB(255, 3, 79, 255)),
+              ),
             ),
-          ),
-          actions: <Widget>[
-            MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: GestureDetector(
-                child: Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        gradient: const LinearGradient(
-                            begin: Alignment.centerRight,
-                            end: Alignment.centerLeft,
-                            colors: [
-                              Colors.blue,
-                              Color.fromARGB(255, 5, 9, 227),
-                              Color.fromARGB(255, 8, 0, 59),
-                            ])),
-                    child: const Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Text(
-                        'Submit',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
+            actions: <Widget>[
+              MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: GestureDetector(
+                  child: Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          gradient: const LinearGradient(
+                              begin: Alignment.centerRight,
+                              end: Alignment.centerLeft,
+                              colors: [
+                                Colors.blue,
+                                Color.fromARGB(255, 5, 9, 227),
+                                Color.fromARGB(255, 8, 0, 59),
+                              ])),
+                      child: const Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Text(
+                          'Submit',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                   ),
+                  onTap: () {
+                    if (_formKey.currentState!.validate()) {
+                      SendComment(fire: FirebaseFirestore.instance)
+                          .uploadComment(productID, myController.text, uid)
+                          .then((value) => ScaffoldMessenger.of(context)
+                              .showSnackBar(SnackBar(
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 3, 79, 255),
+                                  content: Text(value))));
+                      setState(() {
+                        reviewed = true;
+                      });
+                      Navigator.of(context).pop();
+                    }
+                  },
                 ),
-                onTap: () {
-                  if (_formKey.currentState!.validate()) {
-                    SendComment(fire: FirebaseFirestore.instance)
-                        .uploadComment(productID, myController.text, uid)
-                        .then((value) => ScaffoldMessenger.of(context)
-                            .showSnackBar(SnackBar(
-                                backgroundColor:
-                                    const Color.fromARGB(255, 3, 79, 255),
-                                content: Text(value))));
-                    Navigator.of(context).pop();
-                  }
-                },
-              ),
-            )
-          ],
-        );
-      });
+              )
+            ],
+          );
+        });
+  }
 }

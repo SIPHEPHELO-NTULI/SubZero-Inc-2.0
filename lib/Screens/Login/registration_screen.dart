@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/auth_service.dart';
+import 'package:give_a_little_sdp/Screens/Home/home_screen.dart';
 import 'package:give_a_little_sdp/Screens/Login/Validation/userNameFieldValidator.dart';
 import 'package:give_a_little_sdp/Screens/Login/login_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -332,6 +333,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   content: Text(value)))
             })
         .then((value) => Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const LoginScreen())));
+            MaterialPageRoute(builder: (context) => const HomeScreen())));
   }
 }

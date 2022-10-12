@@ -8,10 +8,17 @@ import 'package:give_a_little_sdp/Screens/Reviews/review_card.dart';
 // it then calls the reviews method to find related products based
 //on the category
 //when a product is clicked it will navigate to a new details screen
-class Reviews extends StatelessWidget {
+class Reviews extends StatefulWidget {
   String productID;
   Reviews({required this.productID, Key? key}) : super(key: key);
+
+  @override
+  State<Reviews> createState() => _ReviewsState();
+}
+
+class _ReviewsState extends State<Reviews> {
   List reviews = [];
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,7 +27,7 @@ class Reviews extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.3,
       child: FutureBuilder(
           future: FireStoreDataBase(fire: FirebaseFirestore.instance)
-              .getProductReviews(productID),
+              .getProductReviews(widget.productID),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const Text("Something went wrong");
