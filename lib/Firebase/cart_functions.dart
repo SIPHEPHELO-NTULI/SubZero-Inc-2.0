@@ -45,20 +45,17 @@ class CartHistoryFunctions {
   Future<String> addToPurchaseHistory(List itemsInCart, String uid) async {
     for (var productID in itemsInCart) {
       String historyID = fire.collection("PurchaseHistory2").doc().id;
-      try {
-        fire.collection("PurchaseHistory2").doc(historyID).set({
-          'productName': productID["productName"],
-          'imageURL': productID["imageURL"],
-          'price': productID["price"],
-          'category': productID["category"],
-          'historyID': historyID,
-          'productID': productID["productID"],
-          'uid': uid,
-          'isRated': false
-        });
-      } on FirebaseAuthException catch (e) {
-        return e.message.toString();
-      }
+
+      fire.collection("PurchaseHistory2").doc(historyID).set({
+        'productName': productID["productName"],
+        'imageURL': productID["imageURL"],
+        'price': productID["price"],
+        'category': productID["category"],
+        'historyID': historyID,
+        'productID': productID["productID"],
+        'uid': uid,
+        'isRated': false
+      });
     }
 
     return "Checkout Successful";
@@ -66,17 +63,14 @@ class CartHistoryFunctions {
 
   Future<String> addToCart(String productID, String uid, String docID) async {
     String result = "Added To Cart!";
-    try {
-      await fire
-          .collection('Carts')
-          .doc(uid)
-          .collection("Products")
-          .doc(docID)
-          .set({"productID": productID, "docID": docID});
-      return result;
-    } on FirebaseAuthException catch (e) {
-      return e.message.toString();
-    }
+
+    await fire
+        .collection('Carts')
+        .doc(uid)
+        .collection("Products")
+        .doc(docID)
+        .set({"productID": productID, "docID": docID});
+    return result;
   }
 
   Future<String> deleteFromCart(String productID, String uid) async {
@@ -96,31 +90,23 @@ class CartHistoryFunctions {
         break;
       }
     }
-    try {
-      await fire
-          .collection('Carts')
-          .doc(uid)
-          .collection("Products")
-          .doc(docID)
-          .delete();
-      return "Deleted";
-    } on FirebaseAuthException catch (e) {
-      return e.message.toString();
-    }
+    await fire
+        .collection('Carts')
+        .doc(uid)
+        .collection("Products")
+        .doc(docID)
+        .delete();
+    return "Deleted";
   }
 
   Future<String> emptyCart(String uid) async {
     var collection = fire.collection('Carts').doc(uid).collection("Products");
     var snapshots = await collection.get();
 
-    try {
-      for (var doc in snapshots.docs) {
-        await doc.reference.delete();
-      }
-
-      return "Cart Empty";
-    } on FirebaseAuthException catch (e) {
-      return e.message.toString();
+    for (var doc in snapshots.docs) {
+      await doc.reference.delete();
     }
+
+    return "Cart Empty";
   }
 }

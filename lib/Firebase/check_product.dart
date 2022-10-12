@@ -13,21 +13,18 @@ class CheckProduct {
     final CollectionReference collectionRef =
         fire.collection("PurchaseHistory2");
     List allpurchases = [];
-    try {
-      await collectionRef.get().then((querySnapshot) {
-        for (var result in querySnapshot.docs) {
-          allpurchases.add(result.data());
-        }
-      });
-      for (int i = 0; i < allpurchases.length; i++) {
-        if (allpurchases[i]["productID"] == productID &&
-            allpurchases[i]["uid"] == uid) {
-          found = true;
-        }
+
+    await collectionRef.get().then((querySnapshot) {
+      for (var result in querySnapshot.docs) {
+        allpurchases.add(result.data());
       }
-      return found;
-    } catch (e) {
-      return found;
+    });
+    for (int i = 0; i < allpurchases.length; i++) {
+      if (allpurchases[i]["productID"] == productID &&
+          allpurchases[i]["uid"] == uid) {
+        found = true;
+      }
     }
+    return found;
   }
 }

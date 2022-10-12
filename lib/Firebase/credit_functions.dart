@@ -24,12 +24,8 @@ class CreditFunctions {
       currentTotal = currentTotal - b;
     }
 
-    try {
-      await fire.collection('Credits').doc(uid).set({"balance": currentTotal});
-      return "Balance Updated!";
-    } on FirebaseAuthException catch (e) {
-      return e.message.toString();
-    }
+    await fire.collection('Credits').doc(uid).set({"balance": currentTotal});
+    return "Balance Updated!";
   }
 
   Future<String> getCurrentBalance(String uid) async {

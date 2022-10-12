@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 
 //class used to get list of products from Firebase
 //gets the documents as snapshots then adds to the list
@@ -12,18 +11,13 @@ class FireStoreDataBase {
     final CollectionReference collectionRef = fire.collection("Products");
     List products = [];
 
-    try {
-      await collectionRef.get().then((querySnapshot) {
-        for (var result in querySnapshot.docs) {
-          products.add(result.data());
-        }
-      });
+    await collectionRef.get().then((querySnapshot) {
+      for (var result in querySnapshot.docs) {
+        products.add(result.data());
+      }
+    });
 
-      return products;
-    } catch (e) {
-      debugPrint("Error - $e");
-      return null;
-    }
+    return products;
   }
 
 //Function used to get a list of suggested products for the user
@@ -45,17 +39,13 @@ class FireStoreDataBase {
     final CollectionReference collectionRef =
         fire.collection("Products").doc(productID).collection("Reviews");
     List reviews = [];
-    try {
-      await collectionRef.get().then((querySnapshot) {
-        for (var result in querySnapshot.docs) {
-          reviews.add(result.data());
-        }
-      });
 
-      return reviews;
-    } catch (e) {
-      debugPrint("Error - $e");
-      return null;
-    }
+    await collectionRef.get().then((querySnapshot) {
+      for (var result in querySnapshot.docs) {
+        reviews.add(result.data());
+      }
+    });
+
+    return reviews;
   }
 }

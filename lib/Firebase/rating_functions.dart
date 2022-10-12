@@ -87,7 +87,6 @@ class RatingFunctions {
 
   Future<String> isRatedSetTotrue(String docID) async {
     await fire.collection("PurchaseHistory2").doc(docID).set({'isRated': true});
-
     return "Rating Successful";
   }
 }
