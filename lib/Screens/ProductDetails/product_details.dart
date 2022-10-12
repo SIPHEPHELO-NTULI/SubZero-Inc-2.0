@@ -1,18 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
 import 'package:give_a_little_sdp/Firebase/cart_functions.dart';
+
 import 'package:give_a_little_sdp/Screens/ProductDetails/body.dart';
+import 'package:give_a_little_sdp/Screens/Reviews/reviews.dart';
 import 'package:give_a_little_sdp/Screens/ProductDetails/suggested_products.dart';
+import 'package:give_a_little_sdp/Screens/Reviews/write_review.dart';
 
 //this class wraps the widgets making up the details page
 // it consistss of a column that holds the appbar, as well as the body
 //of the page and an add to cart button
 //below this is the suggested product widget
 // it helps to expand the layout in the future
-class DetailsScreen extends StatefulWidget {
+class DetailsScreen extends StatelessWidget {
   String image, productName, description, price, category, productID;
+  List products = [];
+  bool found = false;
   DetailsScreen(
       {required this.image,
       required this.productName,
@@ -23,13 +29,6 @@ class DetailsScreen extends StatefulWidget {
       Key? key})
       : super(key: key);
 
-  @override
-  State<DetailsScreen> createState() => _DetailsScreenState();
-}
-
-class _DetailsScreenState extends State<DetailsScreen> {
-  String? uid = FirebaseAuth.instance.currentUser?.uid;
-  String docID = FirebaseFirestore.instance.collection("Carts").doc().id;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,11 +48,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Body(
-                    image: widget.image,
-                    productName: widget.productName,
-                    description: widget.description,
-                    price: widget.price,
-                    category: widget.category),
+                    image: image,
+                    productName: productName,
+                    description: description,
+                    price: price,
+                    category: category),
                 const SizedBox(
                   height: 20,
                 ),
@@ -97,9 +96,34 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   height: 10,
                 ),
                 SuggestedProducts(
-                  category: widget.category,
-                  productID: widget.productID,
+                  category: category,
+                  productID: productID,
                 ),
+                Row(
+                  children: [
+                    TextButton(
+                        onPressed: () async {
+                          check(context);
+                        },
+                        child: const Text("Write Reviews",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 0, 67, 222),
+                            ))),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Reviews(
+                                        prodID: productID,
+                                      )));
+                        },
+                        child: const Text("Reviews",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 0, 67, 222),
+                            ))),
+                  ],
+                )
               ],
             ),
           ),
@@ -108,15 +132,49 @@ class _DetailsScreenState extends State<DetailsScreen> {
     ));
   }
 
+  check(context) async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+
+    final CollectionReference collectionRef = FirebaseFirestore.instance
+        .collection("PurchaseHistory")
+        .doc(uid)
+        .collection("Products");
+    List products = [];
+
+    await collectionRef.get().then((querySnapshot) {
+      for (var result in querySnapshot.docs) {
+        products.add(result.data());
+      }
+    });
+
+    for (int i = 0; i < products.length; i++) {
+      if (products[i]["productID"] == productID) {
+        found = true;
+      }
+      print(products[i]);
+    }
+
+    if (found == true) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => write_review(
+                    prodID: productID,
+                  )));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("You Haven't Bought This Item")));
+    }
+  }
+
   isUserSignedIn(context) {
     if (FirebaseAuth.instance.currentUser == null) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           backgroundColor: Color.fromARGB(255, 3, 79, 255),
           content: Text("Please Sign In First")));
     } else {
-      CartHistoryFunctions(fire: FirebaseFirestore.instance)
-          .addToCart(widget.productID, uid!, docID)
-          .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      CartHistoryFunctions().addToCart(productID).then((value) =>
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               backgroundColor: const Color.fromARGB(255, 3, 79, 255),
               content: Text(value))));
     }
