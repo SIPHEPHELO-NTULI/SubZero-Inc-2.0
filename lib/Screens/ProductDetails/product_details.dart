@@ -238,9 +238,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       ),
                     ),
                   ),
-                  onTap: () {
+                  onTap: () async {
                     if (_formKey.currentState!.validate()) {
-                      SendComment(fire: FirebaseFirestore.instance)
+                      await SendComment(fire: FirebaseFirestore.instance)
                           .uploadComment(productID, myController.text, uid)
                           .then((value) => ScaffoldMessenger.of(context)
                               .showSnackBar(SnackBar(
