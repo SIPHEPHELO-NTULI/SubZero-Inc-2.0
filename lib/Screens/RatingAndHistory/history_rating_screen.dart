@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
+import 'package:give_a_little_sdp/Firebase/rate_product.dart';
 import 'package:give_a_little_sdp/Firebase/rating_functions.dart';
 
 //This Screen displays all the products previously purchased by the user
@@ -221,7 +222,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                                           ),
                                                                           onPressed:
                                                                               () async {
-                                                                            await RatingFunctions(fire: FirebaseFirestore.instance).rateProduct(userPurchaseHistory[index]["productID"], productRating, userPurchaseHistory[index]["historyID"], uid!).then((value) {
+                                                                            await RateProduct(fire: FirebaseFirestore.instance).rateProduct(userPurchaseHistory[index]["productID"], productRating, userPurchaseHistory[index]["historyID"], uid!).then((value) {
                                                                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value)));
                                                                               setState(() {
                                                                                 userPurchaseHistory = snapshot.data as List;

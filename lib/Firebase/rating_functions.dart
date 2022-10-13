@@ -6,25 +6,6 @@ class RatingFunctions {
 
   RatingFunctions({required this.fire});
 
-  Future<String> rateProduct(String productID, double ratingfromuser,
-      String historyID, String uid) async {
-    String docID = fire.collection("ProductRating").doc().id;
-
-    await fire.collection("ProductRating").doc(docID).set({
-      'rating': ratingfromuser,
-      'productID': productID,
-      'uid': uid,
-      'ratingID': docID
-    }).whenComplete(() {
-      fire
-          .collection("PurchaseHistory2")
-          .doc(historyID)
-          .update({'isRated': true});
-    });
-
-    return "Rating Successful";
-  }
-
   //this funtion takes productID
   //and returns the ratings of that product.
   Future getProductRating(String productID) async {
@@ -85,13 +66,5 @@ class RatingFunctions {
       debugPrint("Error - $e");
       return null;
     }
-  }
-
-  Future<String> isRatedSetTotrue(String docID) async {
-    await fire
-        .collection("PurchaseHistory2")
-        .doc(docID)
-        .update({'isRated': true});
-    return "Rating Successful";
   }
 }
