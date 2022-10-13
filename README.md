@@ -4,7 +4,7 @@ A new Flutter project.
 
 ## Project Description
 
-In this project you will be designing and implementing an online marketplace, similar to Takealot. Among other features, users should be able to:
+In this project we will be designing and implementing an online marketplace, similar to Takealot. Among other features, users should be able to:
 
 -Browse items for sale
 
