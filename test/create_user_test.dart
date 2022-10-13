@@ -17,7 +17,10 @@ void main() {
 
     cf = CreateUser(fire: mockFirestore);
   });
-  test('Add To Cart', () async {
+
+//UNIT TEST
+//this test will check that the database acts when a new user creates an account
+  test('Add New User', () async {
     when(mockFirestore.collection('Users').doc(uid).set({
       'name': name,
       'surname': surname,

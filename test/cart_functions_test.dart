@@ -16,6 +16,9 @@ void main() {
     docID = "123abc";
     cf = CartHistoryFunctions(fire: mockFirestore);
   });
+
+//UNIT TEST
+//this test will check that the database acts accordingly to an existing user adding items to their cart
   test('Add To Cart', () async {
     when(mockFirestore
         .collection('Carts')
@@ -26,6 +29,8 @@ void main() {
     expect(await cf.addToCart(productID, uid, docID), "Added To Cart!");
   });
 
+//UNIT TEST
+//this test will check that the database acts accordingly when an existing user purchases an item
   test('Add To Purchase History', () async {
     List itemsInCart = [
       {"productID": productID, "docID": docID},
@@ -41,6 +46,8 @@ void main() {
         await cf.addToPurchaseHistory(itemsInCart, uid), "Checkout Successful");
   });
 
+//UNIT TEST
+//this test will check that the database acts accordingly to an existing user removing items from their cart
   test('Delete From Cart', () async {
     when(mockFirestore
         .collection('Carts')
@@ -51,6 +58,8 @@ void main() {
     expect(await cf.deleteFromCart(productID, uid), "Deleted");
   });
 
+//UNIT TEST
+//this test will check that the database acts accordingly when a cart is being emptied after a purchase
   test('Empty Cart', () async {
     when(mockFirestore
         .collection('Carts')
@@ -60,6 +69,8 @@ void main() {
     expect(await cf.emptyCart(uid), "Cart Empty");
   });
 
+//UNIT TEST
+//this test will check that the database acts accordingly in retrieving an existing users products in cart
   test('Get Products In Cart', () async {
     when(mockFirestore
         .collection('Carts')

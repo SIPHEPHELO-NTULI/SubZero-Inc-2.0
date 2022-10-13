@@ -45,6 +45,8 @@ void main() {
     when(mockCredential.user).thenReturn(mockUser); // IMPORTANT
   });
 
+//UNIT TEST
+//this test will check that the database acts accordingly to an existing user signing in
   test("Testing User Login Function", () async {
     when(mockAuth.signInWithEmailAndPassword(email: any, password: any))
         .thenAnswer((_) async => mockCredential);
@@ -54,6 +56,8 @@ void main() {
         email: "123@gmail.com", password: "123456"));
   });
 
+//UNIT TEST
+//this test will check that the database acts accordingly to a new user signing up
   test("Testing User Creation Function", () async {
     when(mockAuth.createUserWithEmailAndPassword(
             email: "jack@gmail.com", password: "12345678"))
@@ -64,6 +68,8 @@ void main() {
         email: "jack@gmail.com", password: "12345678"));
   });
 
+//UNIT TEST
+//this test will check that the database acts accordingly to an existing user signing out
   test("Testing Sign Out", () async {
     when(mockAuth.signOut()).thenAnswer((_) async => Future.value("Success"));
     final result = await auth.signOut();

@@ -21,16 +21,22 @@ void main() {
     cf = RatingFunctions(fire: mockFirestore);
   });
 
-  test('get Product Rating', () async {
+//UNIT TEST
+//this test will check that the database acts accordingly when retrieving all the ratings for a product
+  test('get Product Ratings', () async {
     when(mockFirestore.collection("ProductRating").get());
     expect(await cf.getProductRating(productID), []);
   });
 
+//UNIT TEST
+//this test will check that the database acts accordingly when calculating the average rating for a product
   test('get Average Rating', () async {
     when(mockFirestore.collection("ProductRating").get());
     expect(await cf.getAverageRating(productID), "0");
   });
 
+//UNIT TEST
+//this test will check that the database acts accordingly when retrieving the purchase history for a user
   test('get Products In Hisory', () async {
     when(mockFirestore.collection("PurchaseHistory").get());
     expect(await cf.getProductsIn_History("PurchaseHistory", uid), []);

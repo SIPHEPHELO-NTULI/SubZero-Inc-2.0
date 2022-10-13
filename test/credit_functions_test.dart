@@ -16,11 +16,15 @@ void main() {
     sign = "+";
     cf = CreditFunctions(fire: mockFirestore);
   });
+  //UNIT TEST
+//this test will check that the database acts accordingly when an existing user's credit balance changes
   test('Update Credit Balance', () async {
     when(mockFirestore.collection('Credits').doc(uid).set({"balance": 200}));
     expect(await cf.updateCredits(uid, balance, sign), "Balance Updated!");
   });
 
+  //UNIT TEST
+//this test will check that the database acts accordingly in retrieving an existing user's credit balance
   test('Get Current Balance', () async {
     when(mockFirestore.collection("Credits").doc(uid).get());
     expect(await cf.getCurrentBalance(uid), "0");

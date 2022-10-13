@@ -16,6 +16,9 @@ void main() {
     text = "Good Buy";
     cf = SendComment(fire: mockFirestore);
   });
+
+//UNIT TEST
+//this test will check that the database acts accordingly when a user reviews a product
   test('Upload Comment', () async {
     when(mockFirestore
         .collection('Products')
