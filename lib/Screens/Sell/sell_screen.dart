@@ -25,7 +25,6 @@ class _SellScreenState extends State<SellScreen> {
   bool imageAvailable = false;
   Uint8List? imagefile;
   late String filename;
-  late File x;
 
   final productNameController = TextEditingController();
   final priceController = TextEditingController();

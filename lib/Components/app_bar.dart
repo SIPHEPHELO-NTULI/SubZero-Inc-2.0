@@ -1,16 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:give_a_little_sdp/Components/drop_down_account.dart';
 import 'package:give_a_little_sdp/Firebase/auth_service.dart';
 import 'package:give_a_little_sdp/Firebase/credit_functions.dart';
 import 'package:give_a_little_sdp/Screens/Cart/cart.dart';
 import 'package:give_a_little_sdp/Screens/Home/bar_item.dart';
 import 'package:give_a_little_sdp/Screens/Home/home_screen.dart';
 import 'package:give_a_little_sdp/Screens/Login/login_screen.dart';
-import 'package:give_a_little_sdp/Screens/Redeem/redeem_screen.dart';
 import 'package:give_a_little_sdp/Screens/Sell/sell_screen.dart';
-
-import '../Screens/RatingAndHistory/history_rating_screen.dart';
 
 //appbar for website
 //in the form of a container at the top of the screen
@@ -90,18 +88,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             }
           },
         ),
-        BarItem(
-          title: "REDEEM",
-          click: () {
-            if (FirebaseAuth.instance.currentUser == null) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const LoginScreen()));
-            } else {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => RedeemScreen()));
-            }
-          },
-        ),
+        showAccount(),
         showBalance(context),
         BarItem(
           title: "SELL",
@@ -115,23 +102,20 @@ class _CustomAppBarState extends State<CustomAppBar> {
             }
           },
         ),
-        BarItem(
-            title: "HISTORY",
-            click: () {
-              if (FirebaseAuth.instance.currentUser == null) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const LoginScreen()));
-              } else {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const HistoryScreen()));
-              }
-            })
       ]),
     );
+  }
+
+  Container showAccount() {
+    if (FirebaseAuth.instance.currentUser == null) {
+      return Container();
+    } else {
+      return Container(
+          color: Colors.transparent,
+          width: 80,
+          height: 80,
+          child: const DropDownAccount());
+    }
   }
 
 //function that determines if a user is logged in or not

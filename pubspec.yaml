@@ -51,6 +51,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   fake_cloud_firestore:
   firebase_auth_mocks:
+  dropdown_button2: 
 
 dev_dependencies:
   flutter_test:
