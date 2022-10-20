@@ -59,7 +59,7 @@ class AccountDetails {
       'uid': user.uid,
       'profilePicture': downloadURL
     });
-    await FirebaseAuth.instance.currentUser!.updateEmail(newEmail);
+    await FirebaseAuth.instance.currentUser!.updateEmail(email);
     return "Details Updated";
   }
 }
