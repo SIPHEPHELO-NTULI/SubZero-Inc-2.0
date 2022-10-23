@@ -3,6 +3,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:give_a_little_sdp/Screens/Profile/view_profile_screen.dart';
 import 'package:give_a_little_sdp/Screens/RatingAndHistory/history_rating_screen.dart';
 import 'package:give_a_little_sdp/Screens/Redeem/redeem_screen.dart';
+import 'package:give_a_little_sdp/Screens/Sell/sell_screen.dart';
 
 class DropDownAccount extends StatelessWidget {
   const DropDownAccount({Key? key}) : super(key: key);
@@ -77,10 +78,11 @@ class MenuItem {
 }
 
 class MenuItems {
-  static const List<MenuItem> firstItems = [profile, addressBook];
+  static const List<MenuItem> firstItems = [profile, addressBook, sell];
   static const List<MenuItem> secondItems = [history, redeem];
 
   static const profile = MenuItem(text: 'Profile');
+  static const sell = MenuItem(text: 'Sell');
   static const addressBook = MenuItem(text: 'Delivery Addresses');
   static const redeem = MenuItem(
     text: 'Redeem',
@@ -109,6 +111,10 @@ class MenuItems {
       case MenuItems.profile:
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const ViewProfile()));
+        break;
+      case MenuItems.sell:
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const SellScreen()));
         break;
       case MenuItems.addressBook:
         //Do something

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Components/drop_down_account.dart';
+import 'package:give_a_little_sdp/Firebase/account_details_functions.dart';
 import 'package:give_a_little_sdp/Firebase/auth_service.dart';
 import 'package:give_a_little_sdp/Firebase/credit_functions.dart';
 import 'package:give_a_little_sdp/Screens/Cart/cart.dart';
@@ -25,12 +26,17 @@ class CustomAppBar extends StatefulWidget {
 class _CustomAppBarState extends State<CustomAppBar> {
   dynamic balance;
   String? uid = FirebaseAuth.instance.currentUser?.uid;
-
+  dynamic name = "";
   Future<dynamic> getData() async {
     var temp = await CreditFunctions(fire: FirebaseFirestore.instance)
         .getCurrentBalance(uid!);
     setState(() {
       balance = temp;
+    });
+    var n = await AccountDetails(fire: FirebaseFirestore.instance)
+        .getUserName(uid!);
+    setState(() {
+      name = n;
     });
   }
 
@@ -71,6 +77,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
             },
           ),
         ),
+        const SizedBox(
+          width: 20,
+        ),
+        showUserName(context),
         const Spacer(),
         loggedIn(context),
         //BarItem class used to structure app bar items
@@ -90,18 +100,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
         ),
         showAccount(),
         showBalance(context),
-        BarItem(
-          title: "SELL",
-          click: () {
-            if (FirebaseAuth.instance.currentUser == null) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const LoginScreen()));
-            } else {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const SellScreen()));
-            }
-          },
-        ),
       ]),
     );
   }
@@ -136,6 +134,20 @@ class _CustomAppBarState extends State<CustomAppBar> {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const HomeScreen()));
         },
+      );
+    }
+  }
+
+  BarItem showUserName(BuildContext context) {
+    if (FirebaseAuth.instance.currentUser == null) {
+      return BarItem(
+        title: "",
+        click: () {},
+      );
+    } else {
+      return BarItem(
+        title: "Hi, " + name,
+        click: () {},
       );
     }
   }

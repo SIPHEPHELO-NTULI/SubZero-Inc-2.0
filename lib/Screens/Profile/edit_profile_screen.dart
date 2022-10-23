@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -279,26 +278,7 @@ class _EditProfile extends State<EditProfile> {
                                     ),
                                     onTap: () async {
                                       if (_formKey.currentState!.validate()) {
-                                        await AccountDetails(
-                                                fire: FirebaseFirestore
-                                                    .instance)
-                                            .sendUpdatedDetails(
-                                                imagefile!,
-                                                nameController.text,
-                                                surnameController.text,
-                                                usernameController.text,
-                                                emailController.text)
-                                            .then((value) =>
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(SnackBar(
-                                                        backgroundColor:
-                                                            const Color
-                                                                    .fromARGB(
-                                                                255,
-                                                                3,
-                                                                79,
-                                                                255),
-                                                        content: Text(value))));
+                                        await updateDetails();
                                       }
                                     },
                                   ),
@@ -360,5 +340,29 @@ class _EditProfile extends State<EditProfile> {
                   ),
                 ),
         ));
+  }
+
+  Future updateDetails() async {
+    late String downloadURL;
+    if (imageAvailable) {
+      AccountDetails(fire: FirebaseFirestore.instance)
+          .updateProfilePicture(imagefile!)
+          .then((value) => downloadURL = value);
+    } else {
+      await AccountDetails(fire: FirebaseFirestore.instance)
+          .getUserAccountImage(FirebaseAuth.instance.currentUser!.uid)
+          .then((value) => downloadURL = value);
+    }
+    await AccountDetails(fire: FirebaseFirestore.instance)
+        .sendUpdatedDetails(
+            downloadURL,
+            nameController.text,
+            surnameController.text,
+            usernameController.text,
+            email,
+            emailController.text)
+        .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: const Color.fromARGB(255, 3, 79, 255),
+            content: Text(value))));
   }
 }

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:give_a_little_sdp/Encryption/encryption.dart';
+import 'package:give_a_little_sdp/Models/user_model.dart';
 
 class AccountDetails {
   final FirebaseFirestore fire;
@@ -12,6 +13,16 @@ class AccountDetails {
   Future getUserAccountDetails(String uid) async {
     DocumentSnapshot doc = await fire.collection("Users").doc(uid).get();
     return doc;
+  }
+
+  Future<String> getUserName(String uid) async {
+    String name = "";
+    UserModel userModel;
+    await getUserAccountDetails(uid).then((value) => {
+          userModel = UserModel.fromMap(value.data()),
+          name = userModel.name.toString()
+        });
+    return name;
   }
 
   Future<String> getUserAccountImage(String uid) async {
@@ -29,27 +40,29 @@ class AccountDetails {
     return imageURL;
   }
 
-  Future<String> sendUpdatedDetails(Uint8List? imagefile, String name,
-      String surname, String username, String email) async {
+  Future<String> updateProfilePicture(Uint8List imagefile) async {
     late String downloadURL;
     User? user = FirebaseAuth.instance.currentUser!;
-    if (imagefile != null) {
-      final postID = DateTime.now().millisecondsSinceEpoch.toString();
+    final postID = DateTime.now().millisecondsSinceEpoch.toString();
 
-      Reference ref = FirebaseStorage.instance
-          .ref()
-          .child("${user.uid}/images/profilePicture")
-          .child("post_$postID");
-      await ref.putData(
-          imagefile,
-          SettableMetadata(
-            cacheControl: "public,max-age=300",
-            contentType: "image/jpeg",
-          ));
-      downloadURL = await ref.getDownloadURL();
-    } else {
-      await getUserAccountImage(user.uid).then((value) => downloadURL = value);
-    }
+    Reference ref = FirebaseStorage.instance
+        .ref()
+        .child("${user.uid}/images/profilePicture")
+        .child("post_$postID");
+    await ref.putData(
+        imagefile,
+        SettableMetadata(
+          cacheControl: "public,max-age=300",
+          contentType: "image/jpeg",
+        ));
+    downloadURL = await ref.getDownloadURL();
+
+    return downloadURL;
+  }
+
+  Future<String> sendUpdatedDetails(String downloadURL, String name,
+      String surname, String username, String oldemail, String email) async {
+    User? user = FirebaseAuth.instance.currentUser!;
     String newEmail = Encryption().getEncryptedEmail(email);
     await fire.collection('Users').doc(user.uid).set({
       'name': name,
@@ -59,7 +72,15 @@ class AccountDetails {
       'uid': user.uid,
       'profilePicture': downloadURL
     });
-    await FirebaseAuth.instance.currentUser!.updateEmail(email);
-    return "Details Updated";
+    if (oldemail != newEmail) {
+      try {
+        await FirebaseAuth.instance.currentUser!.updateEmail(email);
+        return "Details Updated";
+      } on FirebaseAuthException catch (e) {
+        return e.message.toString();
+      }
+    } else {
+      return "Details Updated";
+    }
   }
 }

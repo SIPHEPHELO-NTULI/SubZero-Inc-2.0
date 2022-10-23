@@ -1,5 +1,3 @@
-// ignore_for_file: sized_box_for_whitespace
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +40,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
               }
               if (snapshot.connectionState == ConnectionState.done) {
                 userPurchaseHistory = snapshot.data as List;
-                return Container(
+                return SizedBox(
                   width: MediaQuery.of(context).size.width / 2,
                   child: Center(
                     child: Column(
@@ -54,7 +52,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               itemBuilder: (context, index) {
                                 return Card(
                                     elevation: 2,
-                                    child: Container(
+                                    child: SizedBox(
                                       height:
                                           MediaQuery.of(context).size.width /
                                               16,
