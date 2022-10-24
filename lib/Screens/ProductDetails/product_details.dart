@@ -5,6 +5,7 @@ import 'package:give_a_little_sdp/Components/app_bar.dart';
 import 'package:give_a_little_sdp/Firebase/cart_functions.dart';
 import 'package:give_a_little_sdp/Firebase/check_product.dart';
 import 'package:give_a_little_sdp/Firebase/send_comments.dart';
+import 'package:give_a_little_sdp/Firebase/wishlist_functions.dart';
 import 'package:give_a_little_sdp/Screens/ProductDetails/body.dart';
 import 'package:give_a_little_sdp/Screens/ProductDetails/suggested_products.dart';
 import 'package:give_a_little_sdp/Screens/Reviews/review_validator.dart';
@@ -85,36 +86,75 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          gradient: const LinearGradient(
-                              begin: Alignment.centerRight,
-                              end: Alignment.centerLeft,
-                              colors: [
-                                Colors.blue,
-                                Color.fromARGB(255, 5, 9, 227),
-                                Color.fromARGB(255, 8, 0, 59),
-                              ])),
-                      child: const Padding(
-                          padding: EdgeInsets.all(12.0),
-                          child: Icon(
-                            Icons.add_shopping_cart,
-                            color: Colors.white,
-                          )),
+                Row(children: [
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            gradient: const LinearGradient(
+                                begin: Alignment.centerRight,
+                                end: Alignment.centerLeft,
+                                colors: [
+                                  Colors.blue,
+                                  Color.fromARGB(255, 5, 9, 227),
+                                  Color.fromARGB(255, 8, 0, 59),
+                                ])),
+                        child: const Padding(
+                            padding: EdgeInsets.all(12.0),
+                            child: Icon(
+                              Icons.add_shopping_cart,
+                              color: Colors.white,
+                            )),
+                      ),
+                      onTap: () {
+                        String test = "cart";
+                        isUserSignedIn(context, test);
+                      },
                     ),
-                    onTap: () {
-                      isUserSignedIn(context);
-                    },
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            gradient: const LinearGradient(
+                                begin: Alignment.centerRight,
+                                end: Alignment.centerLeft,
+                                colors: [
+                                  Colors.blue,
+                                  Color.fromARGB(255, 5, 9, 227),
+                                  Color.fromARGB(255, 8, 0, 59),
+                                ])),
+                        child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Row(
+                              children: const [
+                                Icon(
+                                  Icons.favorite,
+                                  color: Colors.pink,
+                                ),
+                                Text(
+                                  "Add to Wishlist",
+                                  style: TextStyle(color: Colors.white),
+                                )
+                              ],
+                            )),
+                      ),
+                      onTap: () {
+                        String test = "wlists";
+                        isUserSignedIn(context, test);
+                      },
+                    ),
+                  ),
+                ]),
                 const Text(
                   "Products You Might Like.. ",
                   style: TextStyle(
@@ -174,17 +214,27 @@ class _DetailsScreenState extends State<DetailsScreen> {
     }
   }
 
-  isUserSignedIn(context) {
+  isUserSignedIn(context, String test) {
     if (FirebaseAuth.instance.currentUser == null) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           backgroundColor: Color.fromARGB(255, 3, 79, 255),
           content: Text("Please Sign In First")));
     } else {
-      CartHistoryFunctions(fire: FirebaseFirestore.instance)
-          .addToCart(widget.productID, uid!, docID)
-          .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              backgroundColor: const Color.fromARGB(255, 3, 79, 255),
-              content: Text(value))));
+      if (test == "cart") {
+        CartHistoryFunctions(fire: FirebaseFirestore.instance)
+            .addToCart(widget.productID, uid!, docID)
+            .then((value) => ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    backgroundColor: const Color.fromARGB(255, 3, 79, 255),
+                    content: Text(value))));
+      } else if (test == "wlists") {
+        WishlistFunctions(fire: FirebaseFirestore.instance)
+            .addToWishlist(widget.productID, uid!, docID)
+            .then((value) => ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    backgroundColor: const Color.fromARGB(255, 3, 79, 255),
+                    content: Text(value))));
+      }
     }
   }
 
