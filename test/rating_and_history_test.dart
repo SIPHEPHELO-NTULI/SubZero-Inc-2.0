@@ -29,6 +29,13 @@ void main() {
   });
 
 //UNIT TEST
+//this test will check that the database returns the correct number of raters for a product
+  test('get Number Of Ratings', () async {
+    when(mockFirestore.collection("ProductRating").get());
+    expect(await cf.getNumberOfRaters(productID), "0");
+  });
+
+//UNIT TEST
 //this test will check that the database acts accordingly when calculating the average rating for a product
   test('get Average Rating', () async {
     when(mockFirestore.collection("ProductRating").get());

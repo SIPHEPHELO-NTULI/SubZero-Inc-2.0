@@ -44,14 +44,26 @@ class WishlistFunctions {
   Future<String> addToWishlist(
       String productID, String uid, String docID) async {
     String result = "Added To WishList!";
+    List items = [];
+    bool sameProduct = false;
+    await getProductsInList("Wishlists", uid).then((value) => items = value);
 
-    await fire
-        .collection('Wishlists')
-        .doc(uid)
-        .collection("Products")
-        .doc(docID)
-        .set({"productID": productID, "docID": docID});
-    return result;
+    for (int i = 0; i < items.length; i++) {
+      if (items[i]["productID"] == productID) {
+        sameProduct = true;
+        break;
+      }
+    }
+    if (sameProduct == false) {
+      await fire
+          .collection('Wishlists')
+          .doc(uid)
+          .collection("Products")
+          .doc(docID)
+          .set({"productID": productID, "docID": docID});
+      return result;
+    }
+    return "Item Already In Wishlist";
   }
 
   Future<String> removeFromWishlist(String productID, String uid) async {

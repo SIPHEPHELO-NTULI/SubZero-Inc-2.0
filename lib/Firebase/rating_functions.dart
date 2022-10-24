@@ -29,12 +29,14 @@ class RatingFunctions {
       return null;
     }
   }
+
+  //write test
   Future<String> getNumberOfRaters(String productID) async {
     List productRatings = await getProductRating(productID) as List;
     int numberOfRaters = productRatings.length;
     return numberOfRaters.toString();
   }
-  
+
   Future<String> getAverageRating(String productID) async {
     List productRatings = await getProductRating(productID) as List;
     double total = 0;

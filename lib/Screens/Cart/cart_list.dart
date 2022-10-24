@@ -57,22 +57,25 @@ class _CartListState extends State<CartList> {
                             subtitle: Text(itemsInCart[index]['price'],
                                 style: const TextStyle(color: Colors.white)),
                             onTap: () {},
-                            trailing: GestureDetector(
-                              child: const Icon(
-                                Icons.delete,
-                                color: Colors.red,
+                            trailing: MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: GestureDetector(
+                                child: const Icon(
+                                  Icons.delete,
+                                  color: Colors.red,
+                                ),
+                                onTap: () {
+                                  CartHistoryFunctions(
+                                          fire: FirebaseFirestore.instance)
+                                      .deleteFromCart(
+                                          itemsInCart[index]["productID"]
+                                              .toString(),
+                                          uid!)
+                                      .then((value) => setState(() {
+                                            itemsInCart.removeAt(index);
+                                          }));
+                                },
                               ),
-                              onTap: () {
-                                CartHistoryFunctions(
-                                        fire: FirebaseFirestore.instance)
-                                    .deleteFromCart(
-                                        itemsInCart[index]["productID"]
-                                            .toString(),
-                                        uid!)
-                                    .then((value) => setState(() {
-                                          itemsInCart.removeAt(index);
-                                        }));
-                              },
                             ),
                           );
                         }),

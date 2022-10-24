@@ -1,16 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
 import 'package:give_a_little_sdp/Firebase/delivery_address_functions.dart';
 import 'package:give_a_little_sdp/Screens/DeliveryAddress/delivery_address.dart';
-import 'package:give_a_little_sdp/Screens/Login/Validation/nameFieldValidator.dart';
-
-import '../Login/Validation/surnameFieldValidator.dart';
 
 class AddaddressScreen extends StatefulWidget {
   const AddaddressScreen({Key? key}) : super(key: key);
@@ -107,7 +100,7 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                                 )),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 30,
                         ),
                         Container(
@@ -158,7 +151,7 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                             decoration: const InputDecoration(
                                 labelText: 'Complex Name',
                                 suffixIcon: Icon(
-                                  FontAwesomeIcons.circleUser,
+                                  FontAwesomeIcons.houseFlag,
                                   size: 17,
                                 )),
                           ),
@@ -184,7 +177,7 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                             decoration: const InputDecoration(
                                 labelText: 'Street address',
                                 suffixIcon: Icon(
-                                  FontAwesomeIcons.circleUser,
+                                  FontAwesomeIcons.treeCity,
                                   size: 17,
                                 )),
                           ),
@@ -212,7 +205,7 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                             decoration: const InputDecoration(
                                 labelText: 'Suburb',
                                 suffixIcon: Icon(
-                                  FontAwesomeIcons.circleUser,
+                                  FontAwesomeIcons.mountainCity,
                                   size: 17,
                                 )),
                           ),
@@ -238,7 +231,7 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                             decoration: const InputDecoration(
                                 labelText: 'Province',
                                 suffixIcon: Icon(
-                                  FontAwesomeIcons.circleUser,
+                                  FontAwesomeIcons.buildingFlag,
                                   size: 17,
                                 )),
                           ),
@@ -266,7 +259,7 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                             decoration: const InputDecoration(
                                 labelText: 'City',
                                 suffixIcon: Icon(
-                                  FontAwesomeIcons.circleUser,
+                                  FontAwesomeIcons.city,
                                   size: 17,
                                 )),
                           ),
@@ -303,7 +296,7 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                               ),
                             ),
                           ),
-                          onTap: () async{
+                          onTap: () async {
                             //add delivery address to the database.
                             if (_formKey.currentState!.validate()) {
                               await DeliveryAdressFunctions(
@@ -317,8 +310,11 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                                       provinceEditingController.text,
                                       cityEditingController.text)
                                   .then((value) {
-                                Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => const DeliveryAdressScreen()));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const DeliveryAdressScreen()));
                               });
                             }
                           }),

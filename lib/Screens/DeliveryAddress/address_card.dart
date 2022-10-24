@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:give_a_little_sdp/Firebase/delivery_address_functions.dart';
 
 // returns a delivery address card view design
@@ -76,26 +73,15 @@ class _AddressCardState extends State<AddressCard> {
                             Icons.delete,
                             color: Colors.red,
                           ),
-                          onTap: () async{
+                          onTap: () async {
                             DeliveryAdressFunctions(
                                     fire: FirebaseFirestore.instance)
-                                .deleteAddress(widget.docID).then((value) {
-                                  setState(() {
-                                     
-                                  });
-                                });
+                                .deleteAddress(widget.docID)
+                                .then((value) {
+                              setState(() {});
+                            });
                           },
                         ),
-                        // Text("mu"),
-                        // GestureDetector(
-                        //   child: const Icon(
-                        //     Icons.edit_outlined,
-                        //     color: Color.fromARGB(255, 4, 24, 242),
-                        //   ),
-                        //   onTap: () {
-
-                        //   },
-                        // ),
                       ],
                     ),
                   ),

@@ -9,7 +9,6 @@ import 'package:give_a_little_sdp/Screens/Cart/cart.dart';
 import 'package:give_a_little_sdp/Screens/Home/bar_item.dart';
 import 'package:give_a_little_sdp/Screens/Home/home_screen.dart';
 import 'package:give_a_little_sdp/Screens/Login/login_screen.dart';
-import 'package:give_a_little_sdp/Screens/Sell/sell_screen.dart';
 
 //appbar for website
 //in the form of a container at the top of the screen

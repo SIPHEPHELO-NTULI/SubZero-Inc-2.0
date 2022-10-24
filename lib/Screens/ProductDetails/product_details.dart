@@ -36,7 +36,6 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   String? uid = FirebaseAuth.instance.currentUser?.uid;
-  String docID = FirebaseFirestore.instance.collection("Carts").doc().id;
   List products = [];
   bool found = false;
   bool reviewed = false;
@@ -143,13 +142,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         child: Padding(
                             padding: const EdgeInsets.all(12.0),
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: const [
                                 Icon(
                                   Icons.favorite,
                                   color: Colors.pink,
                                 ),
                                 Text(
-                                  "Add to Wishlist",
+                                  " Add to Wishlist",
                                   style: TextStyle(color: Colors.white),
                                 )
                               ],
@@ -162,6 +162,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     ),
                   ),
                 ]),
+                const SizedBox(
+                  height: 20,
+                ),
                 const Text(
                   "Products You Might Like.. ",
                   style: TextStyle(
@@ -228,6 +231,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
           content: Text("Please Sign In First")));
     } else {
       if (test == "cart") {
+        String docID = FirebaseFirestore.instance.collection("Carts").doc().id;
         CartHistoryFunctions(fire: FirebaseFirestore.instance)
             .addToCart(widget.productID, uid!, docID)
             .then((value) => ScaffoldMessenger.of(context).showSnackBar(
@@ -235,6 +239,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     backgroundColor: const Color.fromARGB(255, 3, 79, 255),
                     content: Text(value))));
       } else if (test == "wlists") {
+        String docID = FirebaseFirestore.instance.collection("Carts").doc().id;
         WishlistFunctions(fire: FirebaseFirestore.instance)
             .addToWishlist(widget.productID, uid!, docID)
             .then((value) => ScaffoldMessenger.of(context).showSnackBar(
