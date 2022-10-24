@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:give_a_little_sdp/Screens/DeliveryAddress/delivery_address.dart';
 import 'package:give_a_little_sdp/Screens/Profile/view_profile_screen.dart';
 import 'package:give_a_little_sdp/Screens/RatingAndHistory/history_rating_screen.dart';
 import 'package:give_a_little_sdp/Screens/Redeem/redeem_screen.dart';
@@ -127,6 +128,8 @@ class MenuItems {
         break;
       case MenuItems.addressBook:
         //Do something
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const DeliveryAdressScreen()));
         break;
       case MenuItems.redeem:
         Navigator.push(

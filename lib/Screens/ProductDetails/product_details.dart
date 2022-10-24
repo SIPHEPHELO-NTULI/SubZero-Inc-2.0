@@ -42,6 +42,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
   bool reviewed = false;
 
   String producttempRating = "0";
+  String numberOfRaters = "0";
+  late String tempNoRaters;
   late String productRating;
 
   @override
@@ -53,8 +55,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
   getProductRating() async {
     productRating = await RatingFunctions(fire: FirebaseFirestore.instance)
         .getAverageRating(widget.productID);
+    tempNoRaters = await RatingFunctions(fire: FirebaseFirestore.instance)
+        .getNumberOfRaters(widget.productID);
+
     setState(() {
       producttempRating = productRating;
+      numberOfRaters = tempNoRaters;
     });
   }
 
@@ -82,6 +88,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     description: widget.description,
                     price: widget.price,
                     category: widget.category,
+                    numberOfRaters: numberOfRaters,
                     productRating: producttempRating),
                 const SizedBox(
                   height: 20,

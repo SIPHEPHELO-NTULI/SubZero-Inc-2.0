@@ -9,13 +9,14 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 // next to image is a column that shows the product name, category
 // and price as well as the description if necessary
 class Body extends StatelessWidget {
-  String image, productName, description, price, category, productRating;
+  String image, productName, description, price, category, productRating, numberOfRaters;
   Body(
       {required this.image,
       required this.productName,
       required this.description,
       required this.price,
       required this.category,
+      required this.numberOfRaters,
       required this.productRating,
       Key? key})
       : super(key: key);
@@ -117,7 +118,7 @@ class Body extends StatelessWidget {
                           style: TextStyle(color: Colors.black)),
                       TextSpan(
                         text: double.parse(productRating) != 0
-                            ? ""
+                            ? "Number of people who rated (" + numberOfRaters +")"
                             : "No ratings",
                       ),
                     ],
