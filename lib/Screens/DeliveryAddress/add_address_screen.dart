@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
@@ -15,6 +16,7 @@ class AddaddressScreen extends StatefulWidget {
 class _AddaddressScreen extends State<AddaddressScreen> {
   final _formKey = GlobalKey<FormState>();
 
+  final uid = FirebaseAuth.instance.currentUser!.uid;
   final TextEditingController recipientnameEditingController =
       TextEditingController();
   final TextEditingController mobilenumberEditingController =
@@ -76,7 +78,7 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width * 0.2,
                           child: TextFormField(
                             controller: recipientnameEditingController,
@@ -103,7 +105,7 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                         const SizedBox(
                           width: 30,
                         ),
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width * 0.2,
                           child: TextFormField(
                             controller: mobilenumberEditingController,
@@ -133,7 +135,7 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width * 0.2,
                           child: TextFormField(
                             controller: complexnameEditingController,
@@ -156,10 +158,10 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                                 )),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 30,
                         ),
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width * 0.2,
                           child: TextFormField(
                             controller: streetaddressEditingController,
@@ -187,7 +189,7 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width * 0.2,
                           child: TextFormField(
                             controller: suburbnameEditingController,
@@ -210,10 +212,10 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                                 )),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 30,
                         ),
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width * 0.2,
                           child: TextFormField(
                             controller: provinceEditingController,
@@ -241,7 +243,7 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width * 0.2,
                           child: TextFormField(
                             controller: cityEditingController,
@@ -308,7 +310,8 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                                       streetaddressEditingController.text,
                                       suburbnameEditingController.text,
                                       provinceEditingController.text,
-                                      cityEditingController.text)
+                                      cityEditingController.text,
+                                      uid)
                                   .then((value) {
                                 Navigator.push(
                                     context,

@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: SingleChildScrollView(
           child: Column(
-            children: <Widget>[const CustomAppBar(), Products()],
+            children: const <Widget>[CustomAppBar(), Products()],
           ),
         ),
       ),

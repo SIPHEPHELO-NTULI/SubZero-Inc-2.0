@@ -12,18 +12,20 @@ const kDefaultPaddin = 20.0;
 // with a linear gradientthe product name and price are displayed
 //Below the image
 
+// ignore: must_be_immutable
 class ProductCard extends StatelessWidget {
   String image, productName, description, price, category;
   final VoidCallback press;
 
   ProductCard(
-      {required this.image,
+      {Key? key,
+      required this.image,
       required this.productName,
       required this.description,
       required this.price,
       required this.press,
       required this.category})
-      : super();
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

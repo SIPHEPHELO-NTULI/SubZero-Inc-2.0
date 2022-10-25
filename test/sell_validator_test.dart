@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:give_a_little_sdp/Screens/Sell/Validation/pricevalidator.dart';
-import 'package:give_a_little_sdp/Screens/Sell/Validation/productNameValidator.dart';
+import 'package:give_a_little_sdp/Screens/Sell/Validation/price_validator.dart';
+import 'package:give_a_little_sdp/Screens/Sell/Validation/product_name_validator.dart';
 
 //UNIT TEST
 //this test will check that price validator correctly validates an empty price

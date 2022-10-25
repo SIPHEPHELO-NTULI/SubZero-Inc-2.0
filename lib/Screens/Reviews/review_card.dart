@@ -4,7 +4,9 @@ class ReviewCard extends StatelessWidget {
   final String review;
   final String name;
   final String date;
-  ReviewCard({required this.review, required this.name, required this.date});
+  const ReviewCard(
+      {Key? key, required this.review, required this.name, required this.date})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(

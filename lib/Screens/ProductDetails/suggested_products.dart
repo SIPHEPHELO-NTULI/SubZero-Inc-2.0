@@ -17,7 +17,7 @@ class SuggestedProducts extends StatelessWidget {
   List suggestedProducts = [];
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.3,
       child: FutureBuilder(

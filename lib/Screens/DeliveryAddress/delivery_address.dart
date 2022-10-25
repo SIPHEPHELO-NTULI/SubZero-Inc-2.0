@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/delivery_address_functions.dart';
 import 'package:give_a_little_sdp/Screens/DeliveryAddress/add_address_screen.dart';
@@ -14,6 +15,7 @@ class DeliveryAdressScreen extends StatefulWidget {
 
 class _DeliveryAdress extends State<DeliveryAdressScreen> {
   List userdeliveryAdress = [];
+  final uid = FirebaseAuth.instance.currentUser!.uid;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +25,7 @@ class _DeliveryAdress extends State<DeliveryAdressScreen> {
           const CustomAppBar(),
           FutureBuilder(
             future: DeliveryAdressFunctions(fire: FirebaseFirestore.instance)
-                .getDeliveryAddress(),
+                .getDeliveryAddress(uid),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return const Text("Something went wrong");
@@ -77,7 +79,7 @@ class _DeliveryAdress extends State<DeliveryAdressScreen> {
                                     itemBuilder: (context, index) {
                                       return Card(
                                           elevation: 2,
-                                          child: Container(
+                                          child: SizedBox(
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height /

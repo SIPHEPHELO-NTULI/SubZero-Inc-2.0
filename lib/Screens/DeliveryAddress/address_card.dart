@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/delivery_address_functions.dart';
 
 // returns a delivery address card view design
+// ignore: must_be_immutable
 class AddressCard extends StatefulWidget {
   String recipientname,
       mobilenumber,
@@ -33,7 +34,7 @@ class _AddressCardState extends State<AddressCard> {
   Widget build(BuildContext context) {
     return Card(
         elevation: 2,
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height / 6,
           child: Center(
             child: ListTile(

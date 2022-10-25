@@ -93,7 +93,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
               showDialog(
                   useSafeArea: true,
                   context: context,
-                  builder: (context) => Cart());
+                  builder: (context) => const Cart());
             }
           },
         ),
@@ -168,7 +168,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
       );
     } else {
       return BarItem(
-        title: "Credits : R${balance}",
+        title: "Credits : R$balance",
         click: () {},
       );
     }

@@ -86,7 +86,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                   userPurchaseHistory[index]
                                                           ["isRated"]
                                                       ? MaterialStateProperty
-                                                          .all(Color.fromARGB(
+                                                          .all(const Color
+                                                                  .fromARGB(
                                                               255, 10, 226, 61))
                                                       : MaterialStateProperty
                                                           .all(const Color

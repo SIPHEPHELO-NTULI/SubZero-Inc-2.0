@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
 import 'package:give_a_little_sdp/Firebase/account_details_functions.dart';
-import 'package:give_a_little_sdp/Screens/Login/Validation/emailFieldValidator.dart';
-import 'package:give_a_little_sdp/Screens/Login/Validation/nameFieldValidator.dart';
-import 'package:give_a_little_sdp/Screens/Login/Validation/surnameFieldValidator.dart';
-import 'package:give_a_little_sdp/Screens/Login/Validation/userNameFieldValidator.dart';
+import 'package:give_a_little_sdp/Screens/Login/Validation/email_field_validator.dart';
+import 'package:give_a_little_sdp/Screens/Login/Validation/name_field_validator.dart';
+import 'package:give_a_little_sdp/Screens/Login/Validation/surname_field_validator.dart';
+import 'package:give_a_little_sdp/Screens/Login/Validation/username_field_validator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:give_a_little_sdp/Models/user_model.dart';
@@ -67,7 +67,7 @@ class _EditProfile extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
+        body: SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: SingleChildScrollView(
@@ -116,7 +116,7 @@ class _EditProfile extends State<EditProfile> {
                                   height:
                                       MediaQuery.of(context).size.height * 0.01,
                                 ),
-                                Container(
+                                SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   height:
@@ -148,7 +148,7 @@ class _EditProfile extends State<EditProfile> {
                                   height:
                                       MediaQuery.of(context).size.height * 0.01,
                                 ),
-                                Container(
+                                SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   height:
@@ -180,7 +180,7 @@ class _EditProfile extends State<EditProfile> {
                                   height:
                                       MediaQuery.of(context).size.height * 0.01,
                                 ),
-                                Container(
+                                SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   height:
@@ -212,7 +212,7 @@ class _EditProfile extends State<EditProfile> {
                                   height:
                                       MediaQuery.of(context).size.height * 0.01,
                                 ),
-                                Container(
+                                SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   height:

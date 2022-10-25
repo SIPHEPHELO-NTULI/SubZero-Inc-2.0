@@ -1,11 +1,10 @@
-import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
 import 'package:give_a_little_sdp/Firebase/send_product.dart';
-import 'package:give_a_little_sdp/Screens/Sell/Validation/pricevalidator.dart';
-import 'package:give_a_little_sdp/Screens/Sell/Validation/productNameValidator.dart';
+import 'package:give_a_little_sdp/Screens/Sell/Validation/price_validator.dart';
+import 'package:give_a_little_sdp/Screens/Sell/Validation/product_name_validator.dart';
 
 //this screen allows users to upload their own items to sell
 //The users will upload an image, the image upload consists of a file picker, that
@@ -82,8 +81,7 @@ class _SellScreenState extends State<SellScreen> {
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.normal,
-                                      color: const Color.fromARGB(
-                                          255, 3, 79, 255)),
+                                      color: Color.fromARGB(255, 3, 79, 255)),
                                 ),
                                 SizedBox(
                                   height:
@@ -94,7 +92,7 @@ class _SellScreenState extends State<SellScreen> {
                                   height:
                                       MediaQuery.of(context).size.height * 0.01,
                                 ),
-                                Container(
+                                SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   height:
@@ -125,7 +123,7 @@ class _SellScreenState extends State<SellScreen> {
                                   height:
                                       MediaQuery.of(context).size.height * 0.01,
                                 ),
-                                Container(
+                                SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   height:
@@ -156,7 +154,7 @@ class _SellScreenState extends State<SellScreen> {
                                   height:
                                       MediaQuery.of(context).size.height * 0.01,
                                 ),
-                                Container(
+                                SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   child: SingleChildScrollView(
@@ -235,7 +233,7 @@ class _SellScreenState extends State<SellScreen> {
                                   height:
                                       MediaQuery.of(context).size.height * 0.01,
                                 ),
-                                Container(
+                                SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   child: TextFormField(

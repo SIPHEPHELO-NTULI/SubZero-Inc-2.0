@@ -50,7 +50,7 @@ class _ViewProfileState extends State<ViewProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
+        body: SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: SingleChildScrollView(
@@ -105,7 +105,7 @@ class _ViewProfileState extends State<ViewProfile> {
                                       image: NetworkImage(imageURL)),
                                 ),
                               ),
-                              Container(
+                              SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.4,
                                 height:
                                     MediaQuery.of(context).size.height * 0.1,
@@ -131,7 +131,7 @@ class _ViewProfileState extends State<ViewProfile> {
                                   ),
                                 ),
                               ),
-                              Container(
+                              SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.4,
                                 height:
                                     MediaQuery.of(context).size.height * 0.1,
@@ -157,7 +157,7 @@ class _ViewProfileState extends State<ViewProfile> {
                                   ),
                                 ),
                               ),
-                              Container(
+                              SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.4,
                                 height:
                                     MediaQuery.of(context).size.height * 0.1,
@@ -183,7 +183,7 @@ class _ViewProfileState extends State<ViewProfile> {
                                   ),
                                 ),
                               ),
-                              Container(
+                              SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.4,
                                 height:
                                     MediaQuery.of(context).size.height * 0.1,

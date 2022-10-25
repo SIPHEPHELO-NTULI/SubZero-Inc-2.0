@@ -6,18 +6,12 @@ import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 void main() {
   late FakeFirebaseFirestore mockFirestore;
   late String productID;
-  late String historyID;
   late String uid;
-  late double ratingFromUser;
-  late String docID;
   late RatingFunctions cf;
   setUp(() {
     mockFirestore = FakeFirebaseFirestore();
     uid = "abc";
     productID = "1232jk3h";
-    historyID = "sdsfdsfdf";
-    ratingFromUser = 2;
-    docID = "0qmvcQsLd3TmwB08RqvF";
     cf = RatingFunctions(fire: mockFirestore);
   });
 

@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/auth_service.dart';
 import 'package:give_a_little_sdp/Firebase/create_user.dart';
 import 'package:give_a_little_sdp/Screens/Home/home_screen.dart';
-import 'package:give_a_little_sdp/Screens/Login/Validation/userNameFieldValidator.dart';
+import 'package:give_a_little_sdp/Screens/Login/Validation/username_field_validator.dart';
 import 'package:give_a_little_sdp/Screens/Login/login_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'Validation/nameFieldValidator.dart';
-import 'Validation/surnameFieldValidator.dart';
+import 'Validation/name_field_validator.dart';
+import 'Validation/surname_field_validator.dart';
 
 class RegistrationScreen extends StatefulWidget {
   //final Function() onClickedSignIn;
@@ -52,6 +52,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -99,7 +100,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width * 0.2,
                           child: TextFormField(
                             controller: nameEditingController,
@@ -118,10 +119,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 )),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 30,
                         ),
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width * 0.2,
                           child: TextFormField(
                             controller: surnameEditingController,
@@ -146,7 +147,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width * 0.2,
                           child: TextFormField(
                             controller: usernameEditingController,
@@ -159,10 +160,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 )),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 30,
                         ),
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width * 0.2,
                           child: TextFormField(
                             controller: emailEditingController,
@@ -189,7 +190,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width * 0.2,
                           child: TextFormField(
                             controller: passwordEditingController,
@@ -217,10 +218,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     : null,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 30,
                         ),
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width * 0.2,
                           child: TextFormField(
                             controller: confirmPasswordEditingController,
@@ -232,6 +233,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   passwordEditingController.text) {
                                 return "Password don't match";
                               }
+                              return null;
                             },
                             decoration: const InputDecoration(
                                 labelText: 'Confirm Password',

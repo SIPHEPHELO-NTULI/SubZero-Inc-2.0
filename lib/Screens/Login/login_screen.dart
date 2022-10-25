@@ -40,6 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -83,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.45,
                     child: TextFormField(
                       controller: emailController,
@@ -100,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               : null,
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.45,
                     child: TextFormField(
                       obscureText: _obscureText,
@@ -138,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               onTap: () => Navigator.of(context).push(
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          ForgotPasswordPage())),
+                                          const ForgotPasswordPage())),
                             ),
                           )
                         ]),
@@ -203,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   decoration: TextDecoration.underline))
                         ])),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Image.asset("assets/Logo2.png",

@@ -9,7 +9,7 @@ import '../Home/home_screen.dart';
 import 'cart_total.dart';
 
 class CartList extends StatefulWidget {
-  CartList({Key? key}) : super(key: key);
+  const CartList({Key? key}) : super(key: key);
 
   @override
   State<CartList> createState() => _CartListState();
@@ -18,7 +18,7 @@ class CartList extends StatefulWidget {
 class _CartListState extends State<CartList> {
   List itemsInCart = [];
   late int numProducts;
-  late var cartTotal;
+  late String cartTotal;
   String? uid = FirebaseAuth.instance.currentUser?.uid;
   String docID =
       FirebaseFirestore.instance.collection("PurchaseHistory").doc().id;
@@ -80,9 +80,9 @@ class _CartListState extends State<CartList> {
                           );
                         }),
                   ),
-                  Text("${numProducts} items",
+                  Text("$numProducts items",
                       style: const TextStyle(color: Colors.white)),
-                  Text(" Cart Total : R${cartTotal}",
+                  Text(" Cart Total : R$cartTotal",
                       style: const TextStyle(color: Colors.white)),
                   const SizedBox(
                     height: 20,
@@ -163,7 +163,7 @@ class _CartListState extends State<CartList> {
     Widget confirmButton = ElevatedButton(
       child: const Text("CONFIRM"),
       style: ElevatedButton.styleFrom(
-          primary: const Color.fromARGB(255, 3, 79, 255)),
+          backgroundColor: const Color.fromARGB(255, 3, 79, 255)),
       onPressed: () {
         completeCheckout();
         Navigator.of(context).pop();
@@ -172,7 +172,7 @@ class _CartListState extends State<CartList> {
     Widget cancelButton = ElevatedButton(
       child: const Text("Cancel"),
       style: ElevatedButton.styleFrom(
-          primary: const Color.fromARGB(255, 3, 79, 255)),
+          backgroundColor: const Color.fromARGB(255, 3, 79, 255)),
       onPressed: () {
         Navigator.of(context).pop();
       },

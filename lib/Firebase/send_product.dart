@@ -23,7 +23,7 @@ class SendProduct {
 
     Reference ref = FirebaseStorage.instance
         .ref()
-        .child("${uid}/images")
+        .child("$uid/images")
         .child("post_$postID");
     await ref.putData(
         imagefile,

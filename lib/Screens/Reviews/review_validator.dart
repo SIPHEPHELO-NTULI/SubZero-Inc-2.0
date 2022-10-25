@@ -3,12 +3,13 @@
 
 class ReviewFieldValidator {
   static String? validate(String? value) {
-    RegExp regex = new RegExp(r'^.{3,}$');
+    RegExp regex = RegExp(r'^.{3,}$');
     if (value!.isEmpty) {
       return ("Review Cannot be Empty");
     }
     if (!regex.hasMatch(value)) {
       return ("(3 Characters Min)");
     }
+    return null;
   }
 }

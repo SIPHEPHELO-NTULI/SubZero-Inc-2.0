@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:give_a_little_sdp/Screens/Login/Validation/nameFieldValidator.dart';
-import 'package:give_a_little_sdp/Screens/Login/Validation/surnameFieldValidator.dart';
-import 'package:give_a_little_sdp/Screens/Login/Validation/userNameFieldValidator.dart';
+import 'package:give_a_little_sdp/Screens/Login/Validation/name_field_validator.dart';
+import 'package:give_a_little_sdp/Screens/Login/Validation/surname_field_validator.dart';
+import 'package:give_a_little_sdp/Screens/Login/Validation/username_field_validator.dart';
 
 void main() {
 //UNIT TEST

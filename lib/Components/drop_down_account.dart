@@ -5,12 +5,7 @@ import 'package:give_a_little_sdp/Screens/Profile/view_profile_screen.dart';
 import 'package:give_a_little_sdp/Screens/RatingAndHistory/history_rating_screen.dart';
 import 'package:give_a_little_sdp/Screens/Redeem/redeem_screen.dart';
 import 'package:give_a_little_sdp/Screens/Sell/sell_screen.dart';
-import 'package:give_a_little_sdp/Screens/Wishlist/Wishlist_screen.dart';
-import 'package:give_a_little_sdp/Screens/Wishlist/Wishlist_screen.dart';
-import 'package:give_a_little_sdp/Screens/Wishlist/Wishlist_screen.dart';
-import 'package:give_a_little_sdp/Screens/Wishlist/Wishlist_screen.dart';
-
-import '../Screens/Wishlist/Wishlist_screen.dart';
+import 'package:give_a_little_sdp/Screens/Wishlist/wishlist_screen.dart';
 
 class DropDownAccount extends StatelessWidget {
   const DropDownAccount({Key? key}) : super(key: key);
@@ -97,6 +92,7 @@ class MenuItems {
   static const history = MenuItem(
     text: 'History',
   );
+  // ignore: constant_identifier_names
   static const Wishlist = MenuItem(
     text: 'Wishlist',
   );
@@ -128,12 +124,14 @@ class MenuItems {
         break;
       case MenuItems.addressBook:
         //Do something
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const DeliveryAdressScreen()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const DeliveryAdressScreen()));
         break;
       case MenuItems.redeem:
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => RedeemScreen()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const RedeemScreen()));
         break;
       case MenuItems.history:
         Navigator.push(context,

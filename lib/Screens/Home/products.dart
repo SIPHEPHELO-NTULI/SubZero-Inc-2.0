@@ -11,6 +11,8 @@ import 'package:give_a_little_sdp/Screens/ProductDetails/product_details.dart';
 // this card is created using the productCard class
 //In future : clicking on a product will take it to the details page
 class Products extends StatefulWidget {
+  const Products({Key? key}) : super(key: key);
+
   @override
   _ProductsState createState() => _ProductsState();
 }

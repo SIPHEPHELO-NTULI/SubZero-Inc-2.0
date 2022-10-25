@@ -8,6 +8,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 //within the row is positioned widget used to displaying the image
 // next to image is a column that shows the product name, category
 // and price as well as the description if necessary
+// ignore: must_be_immutable
 class Body extends StatelessWidget {
   String image,
       productName,

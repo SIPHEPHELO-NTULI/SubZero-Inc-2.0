@@ -10,5 +10,6 @@ class VoucherCodeValidator {
     if (!regex.hasMatch(value)) {
       return ("Please Enter Valid Voucher Code (12 Character Code Only)");
     }
+    return null;
   }
 }

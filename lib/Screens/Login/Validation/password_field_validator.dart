@@ -3,7 +3,7 @@
 
 class PasswordFieldValidator {
   static String? validate(String? value) {
-    RegExp regex = new RegExp(r'^.{6,}$');
+    RegExp regex = RegExp(r'^.{6,}$');
     if (value!.isEmpty) {
       return "Password Required";
     }

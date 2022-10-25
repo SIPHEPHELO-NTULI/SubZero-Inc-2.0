@@ -56,7 +56,7 @@ class Wishlist_Screen extends StatelessWidget {
                             color: Colors.pink,
                           )
                         ]),
-                    Wishlists()
+                    const Wishlists()
                   ],
                 ),
               ),

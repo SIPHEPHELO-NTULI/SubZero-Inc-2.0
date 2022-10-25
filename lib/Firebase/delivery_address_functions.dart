@@ -14,8 +14,8 @@ class DeliveryAdressFunctions {
       String streetaddress,
       String suburbname,
       String province,
-      String city) async {
-    final uid = FirebaseAuth.instance.currentUser!.uid;
+      String city,
+      String uid) async {
     String docID = fire.collection("DeliveryAddress").doc().id;
     try {
       fire.collection("DeliveryAddress").doc(docID).set({
@@ -36,8 +36,7 @@ class DeliveryAdressFunctions {
   }
 
   // this function retuns all the delivery address saved by the user.
-  Future getDeliveryAddress() async {
-    final uid = FirebaseAuth.instance.currentUser!.uid;
+  Future getDeliveryAddress(String uid) async {
     final CollectionReference collectionRef =
         fire.collection('DeliveryAddress');
     List deliveryAddresses = [];
@@ -62,12 +61,9 @@ class DeliveryAdressFunctions {
       return null;
     }
   }
-  Future<String> deleteAddress(String docID) async {
 
-    await fire
-        .collection("DeliveryAddress")
-        .doc(docID)
-        .delete();
+  Future<String> deleteAddress(String docID) async {
+    await fire.collection("DeliveryAddress").doc(docID).delete();
     return "Addresss Deleted";
   }
 }

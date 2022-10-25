@@ -5,7 +5,7 @@ import 'package:give_a_little_sdp/Firebase/cart_functions.dart';
 import 'package:give_a_little_sdp/Firebase/wishlist_functions.dart';
 
 class Wishlists extends StatefulWidget {
-  Wishlists({Key? key}) : super(key: key);
+  const Wishlists({Key? key}) : super(key: key);
   @override
   State<Wishlists> createState() => _Wishlists_State();
 }
@@ -46,7 +46,7 @@ class _Wishlists_State extends State<Wishlists> {
                             ),
                             subtitle: Text(itemsInList[index]['price'],
                                 style: const TextStyle(color: Colors.black)),
-                            trailing: Container(
+                            trailing: SizedBox(
                               width: MediaQuery.of(context).size.width * 0.5,
                               child: Row(
                                 mainAxisAlignment:

@@ -9,6 +9,8 @@ import 'package:give_a_little_sdp/Screens/Redeem/redeem_functions.dart';
 import 'package:give_a_little_sdp/Screens/Redeem/voucher_code_validator.dart';
 
 class RedeemScreen extends StatefulWidget {
+  const RedeemScreen({Key? key}) : super(key: key);
+
   @override
   _RedeemScreenState createState() => _RedeemScreenState();
 }

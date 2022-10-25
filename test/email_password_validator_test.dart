@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:give_a_little_sdp/Screens/Login/Validation/emailFieldValidator.dart';
-import 'package:give_a_little_sdp/Screens/Login/Validation/passwordFieldValidator.dart';
+import 'package:give_a_little_sdp/Screens/Login/Validation/email_field_validator.dart';
+import 'package:give_a_little_sdp/Screens/Login/Validation/password_field_validator.dart';
 //import 'package:test';
 
 //UNIT TEST

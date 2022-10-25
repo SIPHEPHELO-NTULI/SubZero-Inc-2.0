@@ -6,6 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
+  const ForgotPasswordPage({Key? key}) : super(key: key);
+
   @override
   _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
 }
@@ -64,7 +66,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.45,
                     child: TextFormField(
                       controller: emailController,
@@ -137,7 +139,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           .sendPasswordResetEmail(email: emailController.text.trim());
       Navigator.of(context).popUntil(((route) => route.isFirst));
     } on FirebaseAuthException catch (e) {
-      print(e);
+      return (e);
     }
   }
 }

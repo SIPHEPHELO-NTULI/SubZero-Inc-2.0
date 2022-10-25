@@ -5,7 +5,7 @@ import 'package:give_a_little_sdp/Screens/Cart/cart_list.dart';
 //the cart consists of a single child scroll view
 //with the list of items from the CartList class
 class Cart extends StatelessWidget {
-  Cart({Key? key}) : super(key: key);
+  const Cart({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class Cart extends StatelessWidget {
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.bold),
                 ),
-                CartList()
+                const CartList()
               ],
             ),
           ),
