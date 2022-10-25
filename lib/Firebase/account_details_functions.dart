@@ -63,7 +63,7 @@ class AccountDetails {
 
   Future<String> sendUpdatedDetails(String downloadURL, String name,
       String surname, String username, String oldemail, String email) async {
-    User? user = FirebaseAuth.instance.currentUser!;
+    User? user = auth.currentUser!;
     String newEmail = Encryption().getEncryptedEmail(email);
     await fire.collection('Users').doc(user.uid).set({
       'name': name,
@@ -75,7 +75,7 @@ class AccountDetails {
     });
     if (oldemail != newEmail) {
       try {
-        await FirebaseAuth.instance.currentUser!.updateEmail(email);
+        await auth.currentUser!.updateEmail(email);
         return "Details Updated";
       } on FirebaseAuthException catch (e) {
         return e.message.toString();
