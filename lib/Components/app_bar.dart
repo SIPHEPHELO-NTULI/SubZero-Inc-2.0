@@ -26,16 +26,26 @@ class _CustomAppBarState extends State<CustomAppBar> {
   dynamic balance;
   String? uid = FirebaseAuth.instance.currentUser?.uid;
   dynamic name = "";
+  dynamic imageURL =
+      "https://firebasestorage.googleapis.com/v0/b/flutterwebdemo-75af3.appspot.com/o/GiveALittle%2FaccountLogo.png?alt=media&token=b6b50463-becf-4c88-9463-7bf021c106b1";
+
   Future<dynamic> getData() async {
     var temp = await CreditFunctions(fire: FirebaseFirestore.instance)
         .getCurrentBalance(uid!);
     setState(() {
       balance = temp;
     });
-    var n = await AccountDetails(fire: FirebaseFirestore.instance)
+    var n = await AccountDetails(
+            fire: FirebaseFirestore.instance, auth: FirebaseAuth.instance)
         .getUserName(uid!);
     setState(() {
       name = n;
+    });
+    var i = await AccountDetails(
+            fire: FirebaseFirestore.instance, auth: FirebaseAuth.instance)
+        .getUserAccountImage(uid!);
+    setState(() {
+      imageURL = i;
     });
   }
 
@@ -48,7 +58,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
+      height: 70,
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
@@ -68,7 +78,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
           child: GestureDetector(
             child: Image.asset(
               'assets/Logo.png',
-              fit: BoxFit.fitWidth,
+              fit: BoxFit.contain,
             ),
             onTap: () {
               Navigator.push(context,
@@ -81,6 +91,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
         ),
         showUserName(context),
         const Spacer(),
+        showAccount(),
         loggedIn(context),
         //BarItem class used to structure app bar items
         BarItem(
@@ -97,7 +108,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
             }
           },
         ),
-        showAccount(),
         showBalance(context),
       ]),
     );
@@ -111,7 +121,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
           color: Colors.transparent,
           width: 80,
           height: 80,
-          child: const DropDownAccount());
+          child: DropDownAccount(
+            imageURL: imageURL,
+          ));
     }
   }
 

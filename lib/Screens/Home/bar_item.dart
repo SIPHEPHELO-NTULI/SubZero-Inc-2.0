@@ -22,7 +22,7 @@ class BarItem extends StatelessWidget {
           style: const TextStyle(
               color: Color.fromARGB(255, 3, 79, 255),
               fontWeight: FontWeight.bold,
-              fontSize: 12),
+              fontSize: 15),
         ),
       ),
     );

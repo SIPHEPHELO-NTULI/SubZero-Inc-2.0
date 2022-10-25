@@ -10,6 +10,7 @@ import 'package:give_a_little_sdp/Screens/Login/Validation/username_field_valida
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:give_a_little_sdp/Models/user_model.dart';
+import 'package:give_a_little_sdp/Screens/Profile/view_profile_screen.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
@@ -23,6 +24,7 @@ class _EditProfile extends State<EditProfile> {
   bool imageAvailable = false;
   Uint8List? imagefile;
   late String filename;
+  bool detailsUpdated = false;
 
   final nameController = TextEditingController();
   final surnameController = TextEditingController();
@@ -44,7 +46,8 @@ class _EditProfile extends State<EditProfile> {
   }
 
   getUserDetails() async {
-    await AccountDetails(fire: FirebaseFirestore.instance)
+    await AccountDetails(
+            fire: FirebaseFirestore.instance, auth: FirebaseAuth.instance)
         .getUserAccountDetails(user!.uid)
         .then((value) => setState(() {
               userModel = UserModel.fromMap(value.data());
@@ -57,7 +60,8 @@ class _EditProfile extends State<EditProfile> {
               usernameController.text = username;
               emailController.text = email;
             }));
-    await AccountDetails(fire: FirebaseFirestore.instance)
+    await AccountDetails(
+            fire: FirebaseFirestore.instance, auth: FirebaseAuth.instance)
         .getUserAccountImage(user!.uid)
         .then((value) => setState(() {
               imageURL = value;
@@ -345,15 +349,18 @@ class _EditProfile extends State<EditProfile> {
   Future updateDetails() async {
     late String downloadURL;
     if (imageAvailable) {
-      AccountDetails(fire: FirebaseFirestore.instance)
+      await AccountDetails(
+              fire: FirebaseFirestore.instance, auth: FirebaseAuth.instance)
           .updateProfilePicture(imagefile!)
           .then((value) => downloadURL = value);
     } else {
-      await AccountDetails(fire: FirebaseFirestore.instance)
+      await AccountDetails(
+              fire: FirebaseFirestore.instance, auth: FirebaseAuth.instance)
           .getUserAccountImage(FirebaseAuth.instance.currentUser!.uid)
           .then((value) => downloadURL = value);
     }
-    await AccountDetails(fire: FirebaseFirestore.instance)
+    await AccountDetails(
+            fire: FirebaseFirestore.instance, auth: FirebaseAuth.instance)
         .sendUpdatedDetails(
             downloadURL,
             nameController.text,
@@ -363,6 +370,8 @@ class _EditProfile extends State<EditProfile> {
             emailController.text)
         .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: const Color.fromARGB(255, 3, 79, 255),
-            content: Text(value))));
+            content: Text(value))))
+        .then((value) => Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const ViewProfile())));
   }
 }

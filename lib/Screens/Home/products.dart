@@ -74,27 +74,24 @@ class _ProductsState extends State<Products> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SizedBox(
-            height: MediaQuery.of(context).size.width * 0.1,
-            width: MediaQuery.of(context).size.width * 0.7,
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  filled: true,
-                  hintStyle: TextStyle(color: Colors.grey[800]),
-                  hintText: "Search...",
-                  fillColor: Colors.white),
-            ),
+        SizedBox(
+          height: MediaQuery.of(context).size.width * 0.05,
+          width: MediaQuery.of(context).size.width * 0.7,
+          child: TextField(
+            controller: _searchController,
+            decoration: InputDecoration(
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                filled: true,
+                hintStyle: TextStyle(color: Colors.grey[800]),
+                hintText: "Search...",
+                fillColor: Colors.white),
           ),
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.8,
+          height: MediaQuery.of(context).size.height * 0.9,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: GridView.builder(

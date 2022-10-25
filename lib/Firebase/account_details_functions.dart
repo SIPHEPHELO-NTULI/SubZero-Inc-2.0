@@ -7,8 +7,9 @@ import 'package:give_a_little_sdp/Models/user_model.dart';
 
 class AccountDetails {
   final FirebaseFirestore fire;
+  final FirebaseAuth auth;
 
-  AccountDetails({required this.fire});
+  AccountDetails({required this.fire, required this.auth});
 
   Future getUserAccountDetails(String uid) async {
     DocumentSnapshot doc = await fire.collection("Users").doc(uid).get();
@@ -26,7 +27,7 @@ class AccountDetails {
   }
 
   Future<String> getUserAccountImage(String uid) async {
-    var collection = FirebaseFirestore.instance.collection("Users");
+    var collection = fire.collection("Users");
     String imageURL;
     var docSnapshot = await collection.doc(uid).get();
     Map<String, dynamic>? data = docSnapshot.data();

@@ -31,7 +31,8 @@ class _ViewProfileState extends State<ViewProfile> {
   }
 
   getUserDetails() async {
-    await AccountDetails(fire: FirebaseFirestore.instance)
+    await AccountDetails(
+            fire: FirebaseFirestore.instance, auth: FirebaseAuth.instance)
         .getUserAccountDetails(user!.uid)
         .then((value) => setState(() {
               userModel = UserModel.fromMap(value.data());
@@ -40,7 +41,8 @@ class _ViewProfileState extends State<ViewProfile> {
               username = userModel.username.toString();
               email = user!.email.toString();
             }));
-    await AccountDetails(fire: FirebaseFirestore.instance)
+    await AccountDetails(
+            fire: FirebaseFirestore.instance, auth: FirebaseAuth.instance)
         .getUserAccountImage(user!.uid)
         .then((value) => setState(() {
               imageURL = value;

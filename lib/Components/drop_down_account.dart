@@ -8,7 +8,8 @@ import 'package:give_a_little_sdp/Screens/Sell/sell_screen.dart';
 import 'package:give_a_little_sdp/Screens/Wishlist/wishlist_screen.dart';
 
 class DropDownAccount extends StatelessWidget {
-  const DropDownAccount({Key? key}) : super(key: key);
+  String imageURL;
+  DropDownAccount({Key? key, required this.imageURL}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +17,14 @@ class DropDownAccount extends StatelessWidget {
       body: Center(
         child: DropdownButtonHideUnderline(
           child: DropdownButton2(
-            customButton: const Text(
-              'ACCOUNT',
-              style: TextStyle(
-                  backgroundColor: Colors.white,
-                  color: Color.fromARGB(255, 3, 79, 255),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12),
+            customButton: Container(
+              decoration: BoxDecoration(
+                border:
+                    Border.all(color: const Color.fromARGB(255, 3, 79, 255)),
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                    fit: BoxFit.cover, image: NetworkImage(imageURL)),
+              ),
             ),
             customItemsHeights: [
               ...List<double>.filled(MenuItems.firstItems.length, 30),
