@@ -119,8 +119,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
     } else {
       return Container(
           color: Colors.transparent,
-          width: 65,
-          height: 65,
+          width: 50,
+          height: 50,
           child: DropDownAccount(
             imageURL: imageURL,
           ));

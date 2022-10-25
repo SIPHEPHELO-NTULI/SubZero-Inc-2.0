@@ -13,9 +13,16 @@ void main() {
 
 //UNIT TEST
 //this test will check that name field validator correctly validates an invalid name
-  test('invalid name returns null', () async {
+  test('invalid name returns error string', () async {
     var result = NameFieldValidator.validate('ab');
     expect(result, "Please Enter Valid Name (3 Characters Min)");
+  });
+
+//UNIT TEST
+//this test will check that name field validator correctly validates a valid name
+  test('valid name returns null', () async {
+    var result = NameFieldValidator.validate('Kevin');
+    expect(result, null);
   });
 
 //UNIT TEST
@@ -27,9 +34,16 @@ void main() {
 
 //UNIT TEST
 //this test will check that surname field validator correctly validates an invalid surname
-  test('invalid surname returns null', () async {
+  test('invalid surname returns error string', () async {
     var result = SurnameFieldValidator.validate('ab');
     expect(result, "Please Enter Valid Surname (3 Characters Min)");
+  });
+
+//UNIT TEST
+//this test will check that surname field validator correctly validates a valid surname
+  test('valid surname returns null', () async {
+    var result = SurnameFieldValidator.validate('Smith');
+    expect(result, null);
   });
 
 //UNIT TEST
@@ -41,8 +55,15 @@ void main() {
 
 //UNIT TEST
 //this test will check that username field validator correctly validates an invalid username
-  test('invalid username returns null', () async {
+  test('invalid username returns error string', () async {
     var result = UserNameFieldValidator.validate('ab');
     expect(result, "Please Enter Valid Username (3 Characters Min)");
+  });
+
+  //UNIT TEST
+//this test will check that username field validator correctly validates a valid username
+  test('valid username returns null', () async {
+    var result = UserNameFieldValidator.validate('kevin');
+    expect(result, null);
   });
 }

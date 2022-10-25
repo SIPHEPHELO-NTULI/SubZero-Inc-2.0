@@ -4,6 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
 import 'package:give_a_little_sdp/Firebase/delivery_address_functions.dart';
+import 'package:give_a_little_sdp/Screens/DeliveryAddress/Validation/city_validator.dart';
+import 'package:give_a_little_sdp/Screens/DeliveryAddress/Validation/complex_name_validator.dart';
+import 'package:give_a_little_sdp/Screens/DeliveryAddress/Validation/phone_number_validator.dart';
+import 'package:give_a_little_sdp/Screens/DeliveryAddress/Validation/province_validator.dart';
+import 'package:give_a_little_sdp/Screens/DeliveryAddress/Validation/recipient_name_validator.dart';
+import 'package:give_a_little_sdp/Screens/DeliveryAddress/Validation/street_address_validator.dart';
+import 'package:give_a_little_sdp/Screens/DeliveryAddress/Validation/suburb_validator.dart';
 import 'package:give_a_little_sdp/Screens/DeliveryAddress/delivery_address.dart';
 
 class AddaddressScreen extends StatefulWidget {
@@ -84,12 +91,7 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                             controller: recipientnameEditingController,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return ("Recipient Name Missing");
-                              }
-                              return null;
-                            },
+                            validator: RecipientNameValidator.validate,
                             onSaved: (value) {
                               recipientnameEditingController.text = value!;
                             },
@@ -111,12 +113,7 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                             controller: mobilenumberEditingController,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
-                            validator: (value) {
-                              if (value!.length != 10) {
-                                return ("Phone number must be 10 digits");
-                              }
-                              return null;
-                            },
+                            validator: PhoneNumberValidator.validate,
                             onSaved: (value) {
                               mobilenumberEditingController.text = value!;
                             },
@@ -141,12 +138,7 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                             controller: complexnameEditingController,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return ("Complex Name Missing");
-                              }
-                              return null;
-                            },
+                            validator: ComplexNameValidator.validate,
                             onSaved: (value) {
                               complexnameEditingController.text = value!;
                             },
@@ -167,12 +159,7 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                             controller: streetaddressEditingController,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return ("Street Address Missing");
-                              }
-                              return null;
-                            },
+                            validator: StreetAddressValidator.validate,
                             onSaved: (value) {
                               streetaddressEditingController.text = value!;
                             },
@@ -195,12 +182,7 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                             controller: suburbnameEditingController,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return ("Suburb Missing");
-                              }
-                              return null;
-                            },
+                            validator: SuburbValidator.validate,
                             onSaved: (value) {
                               suburbnameEditingController.text = value!;
                             },
@@ -221,12 +203,7 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                             controller: provinceEditingController,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return ("Provice Missing");
-                              }
-                              return null;
-                            },
+                            validator: ProvinceValidator.validate,
                             onSaved: (value) {
                               provinceEditingController.text = value!;
                             },
@@ -249,12 +226,7 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                             controller: cityEditingController,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return ("City Missing");
-                              }
-                              return null;
-                            },
+                            validator: CityValidator.validate,
                             onSaved: (value) {
                               cityEditingController.text = value!;
                             },
