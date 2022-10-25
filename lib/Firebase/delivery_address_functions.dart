@@ -17,22 +17,18 @@ class DeliveryAdressFunctions {
       String city,
       String uid) async {
     String docID = fire.collection("DeliveryAddress").doc().id;
-    try {
-      fire.collection("DeliveryAddress").doc(docID).set({
-        'recipientname': recipientname,
-        'mobilenumber': mobilenumber,
-        'complexname': complexname,
-        'streetaddress': streetaddress,
-        'suburb': suburbname,
-        'province': province,
-        'city': city,
-        'uid': uid,
-        'docID': docID
-      });
-      return "Address added";
-    } on FirebaseAuthException catch (e) {
-      return e.message.toString();
-    }
+    await fire.collection("DeliveryAddress").doc(docID).set({
+      'recipientname': recipientname,
+      'mobilenumber': mobilenumber,
+      'complexname': complexname,
+      'streetaddress': streetaddress,
+      'suburb': suburbname,
+      'province': province,
+      'city': city,
+      'uid': uid,
+      'docID': docID
+    });
+    return "Address added";
   }
 
   // this function retuns all the delivery address saved by the user.
