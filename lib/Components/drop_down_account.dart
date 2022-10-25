@@ -21,7 +21,7 @@ class DropDownAccount extends StatelessWidget {
               decoration: BoxDecoration(
                 border:
                     Border.all(color: const Color.fromARGB(255, 3, 79, 255)),
-                shape: BoxShape.circle,
+                borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
                     fit: BoxFit.cover, image: NetworkImage(imageURL)),
               ),
