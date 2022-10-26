@@ -11,24 +11,24 @@ class Wishlist_Screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          const CustomAppBar(),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height * 0.9,
-            decoration: BoxDecoration(
-                border:
-                    Border.all(color: const Color.fromARGB(255, 3, 79, 255)),
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                      offset: const Offset(0, -2),
-                      blurRadius: 30,
-                      color: Colors.black.withOpacity(0.16))
-                ]),
-            child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const CustomAppBar(),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: MediaQuery.of(context).size.height * 0.8,
+              decoration: BoxDecoration(
+                  border:
+                      Border.all(color: const Color.fromARGB(255, 3, 79, 255)),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                        offset: const Offset(0, -2),
+                        blurRadius: 30,
+                        color: Colors.black.withOpacity(0.16))
+                  ]),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
@@ -61,8 +61,8 @@ class Wishlist_Screen extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -129,7 +129,7 @@ class MenuItems {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const DeliveryAdressScreen()));
+                builder: (context) => const DeliveryAddressScreen()));
         break;
       case MenuItems.redeem:
         Navigator.push(context,

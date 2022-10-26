@@ -289,7 +289,7 @@ class _AddaddressScreen extends State<AddaddressScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const DeliveryAdressScreen()));
+                                            const DeliveryAddressScreen()));
                               });
                             }
                           }),

@@ -3,9 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/cart_functions.dart';
 import 'package:give_a_little_sdp/Firebase/credit_functions.dart';
+import 'package:give_a_little_sdp/Firebase/delivery_address_functions.dart';
 import 'package:give_a_little_sdp/Screens/Checkout/checkout_functions.dart';
-
-import '../Home/home_screen.dart';
+import 'package:give_a_little_sdp/Screens/Checkout/checkout_screen.dart';
+import 'package:give_a_little_sdp/Screens/DeliveryAddress/delivery_address.dart';
 import 'cart_total.dart';
 
 class CartList extends StatefulWidget {
@@ -20,8 +21,6 @@ class _CartListState extends State<CartList> {
   late int numProducts;
   late String cartTotal;
   String? uid = FirebaseAuth.instance.currentUser?.uid;
-  String docID =
-      FirebaseFirestore.instance.collection("PurchaseHistory").doc().id;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -109,7 +108,7 @@ class _CartListState extends State<CartList> {
                               text: const TextSpan(
                                 children: [
                                   TextSpan(
-                                      text: "Checkout ",
+                                      text: " Proceed To Checkout ",
                                       style: TextStyle(color: Colors.white)),
                                   WidgetSpan(
                                     child: Icon(
@@ -121,8 +120,17 @@ class _CartListState extends State<CartList> {
                               ),
                             )),
                       ),
-                      onTap: () {
-                        showAlertDialog(context);
+                      onTap: () async {
+                        if (itemsInCart.isEmpty) {
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  backgroundColor:
+                                      Color.fromARGB(255, 3, 79, 255),
+                                  content: Text("No Items In Cart")));
+                        } else {
+                          await completeCheckout();
+                        }
                       },
                     ),
                   ),
@@ -139,60 +147,28 @@ class _CartListState extends State<CartList> {
   completeCheckout() async {
     String credits = await CreditFunctions(fire: FirebaseFirestore.instance)
         .getCurrentBalance(uid!);
-    if (CheckoutFunctions().enoughCredits(cartTotal, credits)) {
-      await CartHistoryFunctions(fire: FirebaseFirestore.instance)
-          .emptyCart(uid!);
-      await CreditFunctions(fire: FirebaseFirestore.instance)
-          .updateCredits(uid!, cartTotal, "-");
-      CartHistoryFunctions(fire: FirebaseFirestore.instance)
-          .addToPurchaseHistory(itemsInCart, uid!)
-          .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              backgroundColor: const Color.fromARGB(255, 3, 79, 255),
-              content: Text(value))));
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
-    } else {
+    List deliveryAddresses = [];
+    await DeliveryAdressFunctions(fire: FirebaseFirestore.instance)
+        .getDeliveryAddress(uid!)
+        .then((value) => deliveryAddresses = value as List);
+    if (!CheckoutFunctions().enoughCredits(cartTotal, credits)) {
+      Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           backgroundColor: Color.fromARGB(255, 3, 79, 255),
           content: Text("Insufficient Credits")));
+    } else if (deliveryAddresses.isEmpty) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const DeliveryAddressScreen()));
+    } else {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => CheckoutScreen(
+                    itemsInCart: itemsInCart,
+                    total: cartTotal,
+                  )));
     }
-  }
-
-  showAlertDialog(BuildContext context) {
-    // Create button
-    Widget confirmButton = ElevatedButton(
-      child: const Text("CONFIRM"),
-      style: ElevatedButton.styleFrom(
-          backgroundColor: const Color.fromARGB(255, 3, 79, 255)),
-      onPressed: () {
-        completeCheckout();
-        Navigator.of(context).pop();
-      },
-    );
-    Widget cancelButton = ElevatedButton(
-      child: const Text("Cancel"),
-      style: ElevatedButton.styleFrom(
-          backgroundColor: const Color.fromARGB(255, 3, 79, 255)),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-    // Create AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: const Text("Confirm Payment"),
-      content: const Text("Are You Sure You Want To Checkout?"),
-      actions: [
-        cancelButton,
-        confirmButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
   }
 }

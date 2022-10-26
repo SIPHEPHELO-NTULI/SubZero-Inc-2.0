@@ -6,14 +6,14 @@ import 'package:give_a_little_sdp/Screens/DeliveryAddress/add_address_screen.dar
 
 import '../../Components/app_bar.dart';
 
-class DeliveryAdressScreen extends StatefulWidget {
-  const DeliveryAdressScreen({Key? key}) : super(key: key);
+class DeliveryAddressScreen extends StatefulWidget {
+  const DeliveryAddressScreen({Key? key}) : super(key: key);
 
   @override
-  State<DeliveryAdressScreen> createState() => _DeliveryAdress();
+  State<DeliveryAddressScreen> createState() => _DeliveryAddress();
 }
 
-class _DeliveryAdress extends State<DeliveryAdressScreen> {
+class _DeliveryAddress extends State<DeliveryAddressScreen> {
   List userdeliveryAdress = [];
   final uid = FirebaseAuth.instance.currentUser!.uid;
   @override
