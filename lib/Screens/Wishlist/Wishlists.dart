@@ -35,84 +35,89 @@ class _WishlistsState extends State<Wishlists> {
                         shrinkWrap: true,
                         itemCount: itemsInList.length,
                         itemBuilder: (context, index) {
-                          return ListTile(
-                            leading: CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(itemsInList[index]['imageURL']),
-                            ),
-                            title: Text(
-                              itemsInList[index]['productName'],
-                              style: const TextStyle(color: Colors.black),
-                            ),
-                            subtitle: Text(itemsInList[index]['price'],
-                                style: const TextStyle(color: Colors.black)),
-                            trailing: SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.5,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  MouseRegion(
-                                    cursor: SystemMouseCursors.click,
-                                    child: GestureDetector(
-                                      child: Row(
-                                        children: const [
-                                          Icon(
-                                            Icons.add,
-                                            color: Colors.green,
-                                          ),
-                                          Text("Add To Cart")
-                                        ],
+                          return Card(
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                    itemsInList[index]['imageURL']),
+                              ),
+                              title: Text(
+                                itemsInList[index]['productName'],
+                                style: const TextStyle(color: Colors.black),
+                              ),
+                              subtitle: Text(itemsInList[index]['price'],
+                                  style: const TextStyle(color: Colors.black)),
+                              trailing: SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.5,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: GestureDetector(
+                                        child: Row(
+                                          children: const [
+                                            Icon(
+                                              Icons.add,
+                                              color: Colors.green,
+                                            ),
+                                            Text("Add To Cart")
+                                          ],
+                                        ),
+                                        onTap: () {
+                                          String docID = FirebaseFirestore
+                                              .instance
+                                              .collection("Carts")
+                                              .doc()
+                                              .id;
+                                          CartHistoryFunctions(
+                                                  fire: FirebaseFirestore
+                                                      .instance)
+                                              .addToCart(
+                                                  itemsInList[index]
+                                                      ['productID'],
+                                                  uid!,
+                                                  docID)
+                                              .then((value) =>
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(SnackBar(
+                                                          backgroundColor:
+                                                              const Color
+                                                                      .fromARGB(
+                                                                  255,
+                                                                  3,
+                                                                  79,
+                                                                  255),
+                                                          content:
+                                                              Text(value))));
+                                        },
                                       ),
-                                      onTap: () {
-                                        String docID = FirebaseFirestore
-                                            .instance
-                                            .collection("Carts")
-                                            .doc()
-                                            .id;
-                                        CartHistoryFunctions(
-                                                fire: FirebaseFirestore
-                                                    .instance)
-                                            .addToCart(
-                                                itemsInList[index]['productID'],
-                                                uid!,
-                                                docID)
-                                            .then((value) =>
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(SnackBar(
-                                                        backgroundColor:
-                                                            const Color
-                                                                    .fromARGB(
-                                                                255,
-                                                                3,
-                                                                79,
-                                                                255),
-                                                        content: Text(value))));
-                                      },
                                     ),
-                                  ),
-                                  MouseRegion(
-                                    cursor: SystemMouseCursors.click,
-                                    child: GestureDetector(
-                                      child: const Icon(
-                                        Icons.delete,
-                                        color: Colors.red,
+                                    MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: GestureDetector(
+                                        child: const Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                        onTap: () {
+                                          WishlistFunctions(
+                                                  fire: FirebaseFirestore
+                                                      .instance)
+                                              .removeFromWishlist(
+                                                  itemsInList[index]
+                                                          ["productID"]
+                                                      .toString(),
+                                                  uid!)
+                                              .then((value) => setState(() {
+                                                    itemsInList.removeAt(index);
+                                                  }));
+                                        },
                                       ),
-                                      onTap: () {
-                                        WishlistFunctions(
-                                                fire:
-                                                    FirebaseFirestore.instance)
-                                            .removeFromWishlist(
-                                                itemsInList[index]["productID"]
-                                                    .toString(),
-                                                uid!)
-                                            .then((value) => setState(() {
-                                                  itemsInList.removeAt(index);
-                                                }));
-                                      },
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           );
