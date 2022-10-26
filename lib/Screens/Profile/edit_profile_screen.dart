@@ -350,6 +350,11 @@ class _EditProfile extends State<EditProfile> {
 
   Future updateDetails() async {
     late String downloadURL;
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      backgroundColor: Color.fromARGB(255, 3, 79, 255),
+      content: Text("Updating Details..."),
+      duration: Duration(seconds: 4),
+    ));
     if (imageAvailable) {
       await Uploadmage(storage: FirebaseStorage.instance)
           .uploadImage(

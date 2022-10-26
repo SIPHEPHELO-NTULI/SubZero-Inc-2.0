@@ -47,7 +47,7 @@ void main() {
   });
 
 //UNIT TEST
-//this test will check that the database acts accordingly to an existing user removing items from their cart
+//this test will check that the database acts accordingly to an existing user removing items from their cart when no items are in the cart
   test('Delete From Cart', () async {
     when(mockFirestore
         .collection('Carts')
@@ -70,7 +70,7 @@ void main() {
   });
 
 //UNIT TEST
-//this test will check that the database acts accordingly in retrieving an existing users products in cart
+//this test will check that the database acts accordingly in retrieving an existing users products in cart when the user has no items in cart
   test('Get Products In Cart', () async {
     when(mockFirestore
         .collection('Carts')
