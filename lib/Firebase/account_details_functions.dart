@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/services.dart';
 import 'package:give_a_little_sdp/Encryption/encryption.dart';
 import 'package:give_a_little_sdp/Models/user_model.dart';
 
@@ -39,26 +37,6 @@ class AccountDetails {
       imageURL = data?['profilePicture'];
     }
     return imageURL;
-  }
-
-  Future<String> updateProfilePicture(Uint8List imagefile) async {
-    late String downloadURL;
-    User? user = FirebaseAuth.instance.currentUser!;
-    final postID = DateTime.now().millisecondsSinceEpoch.toString();
-
-    Reference ref = FirebaseStorage.instance
-        .ref()
-        .child("${user.uid}/images/profilePicture")
-        .child("post_$postID");
-    await ref.putData(
-        imagefile,
-        SettableMetadata(
-          cacheControl: "public,max-age=300",
-          contentType: "image/jpeg",
-        ));
-    downloadURL = await ref.getDownloadURL();
-
-    return downloadURL;
   }
 
   Future<String> sendUpdatedDetails(String downloadURL, String name,

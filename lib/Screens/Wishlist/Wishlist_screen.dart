@@ -5,8 +5,8 @@ import 'package:give_a_little_sdp/Screens/Wishlist/Wishlists.dart';
 //This class is the frame for the structure of the cart
 //the cart consists of a single child scroll view
 //with the list of items from the CartList class
-class Wishlist_Screen extends StatelessWidget {
-  const Wishlist_Screen({Key? key}) : super(key: key);
+class WishlistScreen extends StatelessWidget {
+  const WishlistScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

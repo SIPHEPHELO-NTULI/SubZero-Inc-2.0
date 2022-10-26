@@ -12,7 +12,6 @@ class ItemsInCart extends StatefulWidget {
 }
 
 class _ItemsInCartState extends State<ItemsInCart> {
-  @override
   String? uid = FirebaseAuth.instance.currentUser?.uid;
   @override
   Widget build(BuildContext context) {

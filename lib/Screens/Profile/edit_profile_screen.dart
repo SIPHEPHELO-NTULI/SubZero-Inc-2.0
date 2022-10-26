@@ -1,8 +1,10 @@
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
 import 'package:give_a_little_sdp/Firebase/account_details_functions.dart';
+import 'package:give_a_little_sdp/Firebase/image_upload_function.dart';
 import 'package:give_a_little_sdp/Screens/Login/Validation/email_field_validator.dart';
 import 'package:give_a_little_sdp/Screens/Login/Validation/name_field_validator.dart';
 import 'package:give_a_little_sdp/Screens/Login/Validation/surname_field_validator.dart';
@@ -349,9 +351,9 @@ class _EditProfile extends State<EditProfile> {
   Future updateDetails() async {
     late String downloadURL;
     if (imageAvailable) {
-      await AccountDetails(
-              fire: FirebaseFirestore.instance, auth: FirebaseAuth.instance)
-          .updateProfilePicture(imagefile!)
+      await Uploadmage(storage: FirebaseStorage.instance)
+          .uploadImage(
+              imagefile!, user!.uid, "${user!.uid}/images/profilePicture")
           .then((value) => downloadURL = value);
     } else {
       await AccountDetails(

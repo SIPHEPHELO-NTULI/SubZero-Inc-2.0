@@ -7,10 +7,10 @@ import 'package:give_a_little_sdp/Firebase/wishlist_functions.dart';
 class Wishlists extends StatefulWidget {
   const Wishlists({Key? key}) : super(key: key);
   @override
-  State<Wishlists> createState() => _Wishlists_State();
+  State<Wishlists> createState() => _WishlistsState();
 }
 
-class _Wishlists_State extends State<Wishlists> {
+class _WishlistsState extends State<Wishlists> {
   List itemsInList = [];
   late int numProducts;
   String? uid = FirebaseAuth.instance.currentUser?.uid;

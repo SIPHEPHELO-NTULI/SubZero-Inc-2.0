@@ -141,7 +141,7 @@ class MenuItems {
         break;
       case MenuItems.Wishlist:
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const Wishlist_Screen()));
+            MaterialPageRoute(builder: (context) => const WishlistScreen()));
         break;
     }
   }

@@ -1,8 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
+import 'package:give_a_little_sdp/Firebase/image_upload_function.dart';
 import 'package:give_a_little_sdp/Firebase/send_product.dart';
+import 'package:give_a_little_sdp/Screens/Home/home_screen.dart';
 import 'package:give_a_little_sdp/Screens/Sell/Validation/price_validator.dart';
 import 'package:give_a_little_sdp/Screens/Sell/Validation/product_name_validator.dart';
 
@@ -24,7 +29,7 @@ class _SellScreenState extends State<SellScreen> {
   bool imageAvailable = false;
   Uint8List? imagefile;
   late String filename;
-
+  final uid = FirebaseAuth.instance.currentUser!.uid;
   final productNameController = TextEditingController();
   final priceController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -294,24 +299,41 @@ class _SellScreenState extends State<SellScreen> {
                                     ),
                                     onTap: () async {
                                       if (_formKey.currentState!.validate()) {
-                                        SendProduct()
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                          backgroundColor:
+                                              Color.fromARGB(255, 3, 79, 255),
+                                          content: Text("Sending Product...."),
+                                          duration: Duration(seconds: 5),
+                                        ));
+                                        String downloadURL = "";
+                                        String productID = FirebaseFirestore
+                                            .instance
+                                            .collection("Products")
+                                            .doc()
+                                            .id;
+                                        await Uploadmage(
+                                                storage:
+                                                    FirebaseStorage.instance)
                                             .uploadImage(
-                                                imagefile!,
+                                                imagefile!, uid, "$uid/images")
+                                            .then(
+                                                (value) => downloadURL = value);
+                                        await SendProduct(
+                                                fire:
+                                                    FirebaseFirestore.instance)
+                                            .uploadProduct(
                                                 priceController.text,
                                                 productNameController.text,
                                                 descriptionController.text,
-                                                category)
-                                            .then((value) =>
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(SnackBar(
-                                                        backgroundColor:
-                                                            const Color
-                                                                    .fromARGB(
-                                                                255,
-                                                                3,
-                                                                79,
-                                                                255),
-                                                        content: value)));
+                                                category,
+                                                productID,
+                                                downloadURL)
+                                            .then((value) => Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const HomeScreen())));
                                       }
                                     },
                                   ),
