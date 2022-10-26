@@ -369,7 +369,8 @@ class _EditProfile extends State<EditProfile> {
             surnameController.text,
             usernameController.text,
             email,
-            emailController.text)
+            emailController.text,
+            user!.uid)
         .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: const Color.fromARGB(255, 3, 79, 255),
             content: Text(value))))

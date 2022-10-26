@@ -39,21 +39,26 @@ class AccountDetails {
     return imageURL;
   }
 
-  Future<String> sendUpdatedDetails(String downloadURL, String name,
-      String surname, String username, String oldemail, String email) async {
-    User? user = auth.currentUser!;
+  Future<String> sendUpdatedDetails(
+      String downloadURL,
+      String name,
+      String surname,
+      String username,
+      String oldemail,
+      String email,
+      String uid) async {
     String newEmail = Encryption().getEncryptedEmail(email);
-    await fire.collection('Users').doc(user.uid).set({
+    await fire.collection('Users').doc(uid).set({
       'name': name,
       'surname': surname,
       'username': username,
       'email': newEmail,
-      'uid': user.uid,
+      'uid': uid,
       'profilePicture': downloadURL
     });
     if (oldemail != newEmail) {
       try {
-        await auth.currentUser!.updateEmail(email);
+        await auth.currentUser?.updateEmail(email);
         return "Details Updated";
       } on FirebaseAuthException catch (e) {
         return e.message.toString();
