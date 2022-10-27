@@ -1,12 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
-class SendComment {
+//This class houses the necessary firebase functions related to the review services
+//It takes in a required parameter that is instances of firebas, FirebaseFirestore.instance
+//in the case of testing it will take MockFirebaseFirestore.instance
+
+class SendReview {
   final FirebaseFirestore fire;
 
-  SendComment({required this.fire});
+  SendReview({required this.fire});
 
-  Future<String> uploadComment(String prodID, String text, String uid) async {
+  //This function will upload a users review
+  //It will use the uid to get the users name and surname
+  //then send those details along with the review
+  //to the Reviews subcollection in the Products Collection
+
+  Future<String> uploadReview(String prodID, String text, String uid) async {
     String name = "", surname = "", finalName = "";
     var collection = fire.collection('Users');
     var docSnapshot = await collection.doc(uid).get();

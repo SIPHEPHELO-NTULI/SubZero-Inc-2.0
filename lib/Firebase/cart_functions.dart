@@ -2,15 +2,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:give_a_little_sdp/Firebase/get_products.dart';
 
-//class used to get list of products from Firebase
-//gets the documents as snapshots then adds to the list
-//then returns the list
-class CartHistoryFunctions {
+//This class houses the necessary firebase functions related to the cart and history services
+//It takes in a required parameter that is instances of firebase, FirebaseFirestore.instance
+//in the case of testing it will take MockFirebaseFirestore.instance
+
+class CartFunctions {
   final FirebaseFirestore fire;
 
-  CartHistoryFunctions({required this.fire});
+  CartFunctions({required this.fire});
 
-  Future getProductsInCartHistory(String collectionName, String uid) async {
+  ///This function get a list of all the products in the users carts or purchase history depending on the collection name
+  ///if the collection name is Carts, it will return the current products in the users cart
+  ///if the collection name is PurchaseHistory, it will return the past products the user has purchased
+
+  Future getProductsInCart(String collectionName, String uid) async {
     final CollectionReference collectionRef =
         fire.collection(collectionName).doc(uid).collection("Products");
     List itemIDs = [];
@@ -33,7 +38,6 @@ class CartHistoryFunctions {
           }
         }
       }
-
       return itemsInHistoryCart;
     } catch (e) {
       debugPrint("Error - $e");
@@ -41,11 +45,13 @@ class CartHistoryFunctions {
     }
   }
 
+  //This function is used when a user has checked out, the products they have  purchased will be added to the collection
+
   Future<String> addToPurchaseHistory(List itemsInCart, String uid) async {
     for (var productID in itemsInCart) {
       String historyID = fire.collection("PurchaseHistory2").doc().id;
 
-      fire.collection("PurchaseHistory2").doc(historyID).set({
+      await fire.collection("PurchaseHistory2").doc(historyID).set({
         'productName': productID["productName"],
         'imageURL': productID["imageURL"],
         'price': productID["price"],
@@ -56,9 +62,11 @@ class CartHistoryFunctions {
         'isRated': false
       });
     }
-
     return "Checkout Successful";
   }
+
+  //This function is used when a user has added an item to their cart
+  //this is a subcollection in the Carts collection that is linked to the users uid
 
   Future<String> addToCart(String productID, String uid, String docID) async {
     String result = "Added To Cart!";
@@ -71,6 +79,10 @@ class CartHistoryFunctions {
         .set({"productID": productID, "docID": docID});
     return result;
   }
+
+  //This function is used when a user has removed an item from their cart
+  //this takens in the productID of the product and will loop through
+  //the items in the cart and find the matching product then remove it
 
   Future<String> deleteFromCart(String productID, String uid) async {
     List itemIDs = [];
@@ -97,6 +109,9 @@ class CartHistoryFunctions {
         .delete();
     return "Deleted";
   }
+
+  //This function is used when a user has checkedout
+  //this takens in the uid and will remove all the items in the cart
 
   Future<String> emptyCart(String uid) async {
     var collection = fire.collection('Carts').doc(uid).collection("Products");

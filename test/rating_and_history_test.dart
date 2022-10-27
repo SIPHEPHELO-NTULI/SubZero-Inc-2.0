@@ -40,6 +40,6 @@ void main() {
 //this test will check that the database acts accordingly when retrieving the purchase history for a user
   test('get Products In Hisory', () async {
     when(mockFirestore.collection("PurchaseHistory").get());
-    expect(await cf.getProductsIn_History("PurchaseHistory", uid), []);
+    expect(await cf.getProductsInHistory("PurchaseHistory", uid), []);
   });
 }

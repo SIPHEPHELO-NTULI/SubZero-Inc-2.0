@@ -2,13 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:give_a_little_sdp/Firebase/get_products.dart';
 
-//class used to get list of products from Firebase
-//gets the documents as snapshots then adds to the list
-//then returns the list
+//This class houses the necessary firebase functions related to the wishlist services
+//It takes in a required parameter that is instances of firebas, FirebaseFirestore.instance
+//in the case of testing it will take MockFirebaseFirestore.instance
+
 class WishlistFunctions {
   final FirebaseFirestore fire;
 
   WishlistFunctions({required this.fire});
+
+  //This function will return the products in the users wishlist
 
   Future getProductsInList(String collectionName, String uid) async {
     final CollectionReference collectionRef =
@@ -41,6 +44,9 @@ class WishlistFunctions {
     }
   }
 
+  //This function will add a product to the users wishlist
+  //The function will only add it if it is not currently in the wishlist
+  //Thus the wishlist contains only unique items
   Future<String> addToWishlist(
       String productID, String uid, String docID) async {
     String result = "Added To WishList!";
@@ -66,6 +72,8 @@ class WishlistFunctions {
     return "Item Already In Wishlist";
   }
 
+  //This function will remove a product from the users wishlist
+  //Given the productID of the product
   Future<String> removeFromWishlist(String productID, String uid) async {
     List itemIDs = [];
     String docID = "";
@@ -92,6 +100,8 @@ class WishlistFunctions {
     return "Deleted";
   }
 
+  //This function will remove a product from the users wishlist
+  //Given the productID of the product
   Future<String> emptyWishlist(String uid) async {
     var collection =
         fire.collection('Wishlists').doc(uid).collection("Products");

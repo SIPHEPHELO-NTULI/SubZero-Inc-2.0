@@ -7,6 +7,11 @@ import 'package:give_a_little_sdp/Screens/Redeem/redeem_screen.dart';
 import 'package:give_a_little_sdp/Screens/Sell/sell_screen.dart';
 import 'package:give_a_little_sdp/Screens/Wishlist/wishlist_screen.dart';
 
+//This is the widget for the drop down Account menu
+//It uses flutters drop down class
+//it has been customised to display the profile image of the user(if chosen)
+//as the leading button for the menu
+
 class DropDownAccount extends StatelessWidget {
   String imageURL;
   DropDownAccount({Key? key, required this.imageURL}) : super(key: key);
@@ -73,6 +78,11 @@ class DropDownAccount extends StatelessWidget {
   }
 }
 
+//Each item in the drop down is of MenuItem type
+//this allows us to easily add and remove items as we see fit
+//currently it consists of the profile,addressbook,sell
+//hsitory,redeem and wishlist tabs
+
 class MenuItem {
   final String text;
 
@@ -83,7 +93,7 @@ class MenuItem {
 
 class MenuItems {
   static const List<MenuItem> firstItems = [profile, addressBook, sell];
-  static const List<MenuItem> secondItems = [history, redeem, Wishlist];
+  static const List<MenuItem> secondItems = [history, redeem, wishlist];
 
   static const profile = MenuItem(text: 'Profile');
   static const sell = MenuItem(text: 'Sell');
@@ -94,8 +104,7 @@ class MenuItems {
   static const history = MenuItem(
     text: 'History',
   );
-  // ignore: constant_identifier_names
-  static const Wishlist = MenuItem(
+  static const wishlist = MenuItem(
     text: 'Wishlist',
   );
 
@@ -113,6 +122,9 @@ class MenuItems {
       ],
     );
   }
+
+//When an item has been selected from the drop down
+//the relevant naviigation will take place
 
   static onChanged(BuildContext context, MenuItem item) {
     switch (item) {
@@ -139,7 +151,7 @@ class MenuItems {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const HistoryScreen()));
         break;
-      case MenuItems.Wishlist:
+      case MenuItems.wishlist:
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const WishlistScreen()));
         break;

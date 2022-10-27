@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
 import 'package:give_a_little_sdp/Firebase/cart_functions.dart';
 import 'package:give_a_little_sdp/Firebase/check_product.dart';
-import 'package:give_a_little_sdp/Firebase/send_comments.dart';
+import 'package:give_a_little_sdp/Firebase/send_review.dart';
 import 'package:give_a_little_sdp/Firebase/wishlist_functions.dart';
 import 'package:give_a_little_sdp/Screens/ProductDetails/body.dart';
 import 'package:give_a_little_sdp/Screens/ProductDetails/suggested_products.dart';
@@ -232,7 +232,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     } else {
       if (test == "cart") {
         String docID = FirebaseFirestore.instance.collection("Carts").doc().id;
-        CartHistoryFunctions(fire: FirebaseFirestore.instance)
+        CartFunctions(fire: FirebaseFirestore.instance)
             .addToCart(widget.productID, uid!, docID)
             .then((value) => ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -302,8 +302,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   ),
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
-                      await SendComment(fire: FirebaseFirestore.instance)
-                          .uploadComment(productID, myController.text, uid)
+                      await SendReview(fire: FirebaseFirestore.instance)
+                          .uploadReview(productID, myController.text, uid)
                           .then((value) => ScaffoldMessenger.of(context)
                               .showSnackBar(SnackBar(
                                   backgroundColor:

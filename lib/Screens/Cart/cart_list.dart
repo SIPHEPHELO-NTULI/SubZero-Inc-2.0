@@ -9,6 +9,10 @@ import 'package:give_a_little_sdp/Screens/Checkout/checkout_screen.dart';
 import 'package:give_a_little_sdp/Screens/DeliveryAddress/delivery_address.dart';
 import 'cart_total.dart';
 
+//This Widget is responsible to retrieving all the items in a users cart
+//It uses the getProductsInCart method and will display the items in a list view
+//The user will be able to remove items from this list
+
 class CartList extends StatefulWidget {
   const CartList({Key? key}) : super(key: key);
 
@@ -26,8 +30,8 @@ class _CartListState extends State<CartList> {
     return Column(
       children: [
         FutureBuilder(
-          future: CartHistoryFunctions(fire: FirebaseFirestore.instance)
-              .getProductsInCartHistory("Carts", uid!),
+          future: CartFunctions(fire: FirebaseFirestore.instance)
+              .getProductsInCart("Carts", uid!),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const Text("Something went wrong");
@@ -64,7 +68,7 @@ class _CartListState extends State<CartList> {
                                   color: Colors.red,
                                 ),
                                 onTap: () {
-                                  CartHistoryFunctions(
+                                  CartFunctions(
                                           fire: FirebaseFirestore.instance)
                                       .deleteFromCart(
                                           itemsInCart[index]["productID"]
@@ -143,6 +147,13 @@ class _CartListState extends State<CartList> {
       ],
     );
   }
+
+  //This function is used when the user wants to checkout
+  //It will first check if a user has enough credits to proceed
+  //If not the relevant message will be displayed to the user
+  //it will then check if the user has any delivery addresses added
+  //if not the user will be directed to the page where they can add an address
+  //lastly if the above are all true, the user will be directed to the checkout screen
 
   completeCheckout() async {
     String credits = await CreditFunctions(fire: FirebaseFirestore.instance)

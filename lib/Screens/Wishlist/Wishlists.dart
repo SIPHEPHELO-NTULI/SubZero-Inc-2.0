@@ -71,16 +71,17 @@ class _WishlistsState extends State<Wishlists> {
                                               .collection("Carts")
                                               .doc()
                                               .id;
-                                          CartHistoryFunctions(
+                                          CartFunctions(
                                                   fire: FirebaseFirestore
                                                       .instance)
                                               .addToCart(
-                                                  itemsInList[index]
-                                                      ['productID'],
+                                                  itemsInList[index][
+                                                      'productID'],
                                                   uid!,
                                                   docID)
-                                              .then((value) =>
-                                                  ScaffoldMessenger.of(context)
+                                              .then(
+                                                  (value) => ScaffoldMessenger.of(
+                                                          context)
                                                       .showSnackBar(SnackBar(
                                                           backgroundColor:
                                                               const Color

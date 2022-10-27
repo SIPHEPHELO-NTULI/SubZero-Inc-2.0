@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:give_a_little_sdp/Firebase/send_comments.dart';
+import 'package:give_a_little_sdp/Firebase/send_review.dart';
 import 'package:mockito/mockito.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 
@@ -8,13 +8,13 @@ void main() {
   late String productID;
   late String uid;
   late String text;
-  late SendComment cf;
+  late SendReview cf;
   setUp(() {
     mockFirestore = FakeFirebaseFirestore();
     uid = "abc";
     productID = "1232jk3h";
     text = "Good Buy";
-    cf = SendComment(fire: mockFirestore);
+    cf = SendReview(fire: mockFirestore);
   });
 
 //UNIT TEST
@@ -32,6 +32,6 @@ void main() {
       'comment': text,
       'date': "date"
     }));
-    expect(await cf.uploadComment(productID, text, uid), "Comment Posted");
+    expect(await cf.uploadReview(productID, text, uid), "Comment Posted");
   });
 }

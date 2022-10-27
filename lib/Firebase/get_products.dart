@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-//class used to get list of products from Firebase
-//gets the documents as snapshots then adds to the list
-//then returns the list
+//This class houses the necessary firebase functions related to the getting products
+//It takes in a required parameter that is instances of firebas, FirebaseFirestore.instance
+//in the case of testing it will take MockFirebaseFirestore.instance
+
 class FireStoreDataBase {
   final FirebaseFirestore fire;
 
@@ -21,8 +22,9 @@ class FireStoreDataBase {
   }
 
 //Function used to get a list of suggested products for the user
-// the function gets all the products in the collection, then finds the products
+//the function gets all the products in the collection, then finds the products
 //with the same category as the product, the user is viewing
+
   Future getSuggestedProducts(String category, String productID) async {
     List allProducts = await getData() as List;
     List suggestedProducts = [];
@@ -34,6 +36,8 @@ class FireStoreDataBase {
     }
     return suggestedProducts;
   }
+
+//Function used to get a list of all the reviews for  products
 
   Future getProductReviews(String productID) async {
     final CollectionReference collectionRef =

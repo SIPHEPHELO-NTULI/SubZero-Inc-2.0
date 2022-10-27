@@ -1,12 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-//class used to get list of products from Firebase
-//gets the documents as snapshots then adds to the list
-//then returns the list
+//This class houses the necessary firebase functions related to the cart and history services
+//It takes in a required parameter that is instances of firebase, FirebaseFirestore.instance
+//in the case of testing it will take MockFirebaseFirestore.instance
+
 class CheckProduct {
   final FirebaseFirestore fire;
 
   CheckProduct({required this.fire});
+
+  //The check function will determine if the user has purchased the relevant product
+  //it returns a boolean value
+  //should the value be true, the user will be able to review the item
+  //if they have not purchased it, they wont be able to review it
 
   Future<bool> check(String productID, String uid) async {
     bool found = false;

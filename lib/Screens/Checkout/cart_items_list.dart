@@ -1,6 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+//This is similar to the cart list
+//with the exception that it requires parameters of a list and a string and a user cannot remove items from the cart
+//The list will be all the items in the cart, this is so the user can view their final order
+
 class ItemsInCart extends StatefulWidget {
   List itemsInCart;
   String total;

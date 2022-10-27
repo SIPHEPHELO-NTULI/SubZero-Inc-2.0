@@ -33,7 +33,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           const CustomAppBar(),
           FutureBuilder(
             future: RatingFunctions(fire: FirebaseFirestore.instance)
-                .getProductsIn_History("PurchaseHistory2", uid!),
+                .getProductsInHistory("PurchaseHistory2", uid!),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return const Text("Something went wrong");

@@ -8,13 +8,13 @@ void main() {
   late String productID;
   late String uid;
   late String docID;
-  late CartHistoryFunctions cf;
+  late CartFunctions cf;
   setUp(() {
     mockFirestore = FakeFirebaseFirestore();
     productID = "123";
     uid = "abc";
     docID = "123abc";
-    cf = CartHistoryFunctions(fire: mockFirestore);
+    cf = CartFunctions(fire: mockFirestore);
   });
 
 //UNIT TEST
@@ -77,6 +77,6 @@ void main() {
         .doc(uid)
         .collection("Products")
         .get());
-    expect(await cf.getProductsInCartHistory("Carts", uid), []);
+    expect(await cf.getProductsInCart("Carts", uid), []);
   });
 }

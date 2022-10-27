@@ -13,6 +13,8 @@ import 'package:give_a_little_sdp/Screens/DeliveryAddress/Validation/street_addr
 import 'package:give_a_little_sdp/Screens/DeliveryAddress/Validation/suburb_validator.dart';
 import 'package:give_a_little_sdp/Screens/DeliveryAddress/delivery_address.dart';
 
+//This screen is used when a user wishes to add a new delivery address
+
 class AddaddressScreen extends StatefulWidget {
   const AddaddressScreen({Key? key}) : super(key: key);
 

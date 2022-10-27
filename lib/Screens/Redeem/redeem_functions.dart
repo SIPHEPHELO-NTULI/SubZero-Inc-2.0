@@ -1,8 +1,10 @@
 import 'dart:math';
 
+//This class generates a random amount for a user once a voucher code has been entered
 class RedeemFunctions {
   String getAmount() {
     String amount;
+    //This is a list of all the possible amounts the user can redeem using a code
     List possibleAmount = [
       '100',
       '150',

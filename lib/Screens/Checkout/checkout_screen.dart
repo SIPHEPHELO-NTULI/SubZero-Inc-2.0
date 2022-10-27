@@ -7,6 +7,10 @@ import 'package:give_a_little_sdp/Screens/Checkout/cart_items_list.dart';
 import 'package:give_a_little_sdp/Screens/Checkout/checkout_functions.dart';
 import 'package:give_a_little_sdp/Screens/Home/home_screen.dart';
 
+//This is the main checkout screen
+//it will display the list of items the user wants to purchase
+//as well as display a list of the available delivery addresses
+
 class CheckoutScreen extends StatefulWidget {
   List itemsInCart;
   String total;

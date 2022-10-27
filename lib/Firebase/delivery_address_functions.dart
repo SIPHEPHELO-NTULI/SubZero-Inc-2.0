@@ -1,11 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
+//This class houses the necessary firebase functions related to the delivery address services
+//It takes in a required parameter that is instances of firebase, FirebaseFirestore.instance
+//in the case of testing it will take MockFirebaseFirestore.instance
+
 class DeliveryAdressFunctions {
   final FirebaseFirestore fire;
   DeliveryAdressFunctions({required this.fire});
 
   // this function takes delivery data from user and post it on the database
+
   Future<String> addDeliveryAdress(
       String recipientname,
       String mobilenumber,
@@ -31,6 +36,7 @@ class DeliveryAdressFunctions {
   }
 
   // this function retuns all the delivery address saved by the user.
+
   Future getDeliveryAddress(String uid) async {
     final CollectionReference collectionRef =
         fire.collection('DeliveryAddress');
@@ -56,6 +62,8 @@ class DeliveryAdressFunctions {
       return null;
     }
   }
+
+  //delete a  delivery addresses for the user using its docID.
 
   Future<String> deleteAddress(String docID) async {
     await fire.collection("DeliveryAddress").doc(docID).delete();

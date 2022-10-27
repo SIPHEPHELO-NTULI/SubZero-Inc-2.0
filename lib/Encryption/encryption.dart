@@ -1,6 +1,7 @@
 import 'package:encrypt/encrypt.dart';
 
 //This class is used to encrypt and decrypt a users email address
+
 class Encryption {
   final key = "Give Firebase A Little Key! 2022";
 //function that will return an encrypted email
@@ -12,6 +13,7 @@ class Encryption {
 }
 
 ///Encrypts the given plainText using the key. Returns encrypted data
+
 Encrypted encryptWithAES(String key, String plainText) {
   final cipherKey = Key.fromUtf8(key);
   final encryptService = Encrypter(AES(cipherKey, mode: AESMode.cbc));
