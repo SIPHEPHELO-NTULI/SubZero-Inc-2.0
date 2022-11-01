@@ -14,7 +14,6 @@ import 'Validation/name_field_validator.dart';
 import 'Validation/surname_field_validator.dart';
 
 class RegistrationScreen extends StatefulWidget {
-  //final Function() onClickedSignIn;
   const RegistrationScreen({
     Key? key,
   }) : super(key: key);
@@ -326,18 +325,29 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     await AuthService(auth: FirebaseAuth.instance)
         .signUp(emailEditingController.text.trim(),
             passwordEditingController.text.trim())
-        .then((value) => {
-              CreateUser(fire: FirebaseFirestore.instance).createUser(
-                  nameEditingController.text,
-                  surnameEditingController.text,
-                  usernameEditingController.text,
-                  emailEditingController.text,
-                  FirebaseAuth.instance.currentUser!.uid),
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  backgroundColor: const Color.fromARGB(255, 3, 79, 255),
-                  content: Text(value)))
-            })
-        .then((value) => Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const HomeScreen())));
+        .then((value) async => {
+              if (value == "Account Created")
+                {
+                  await CreateUser(fire: FirebaseFirestore.instance).createUser(
+                      nameEditingController.text,
+                      surnameEditingController.text,
+                      usernameEditingController.text,
+                      emailEditingController.text,
+                      FirebaseAuth.instance.currentUser!.uid),
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      backgroundColor: const Color.fromARGB(255, 3, 79, 255),
+                      content: Text(value))),
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomeScreen()))
+                }
+              else
+                {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      backgroundColor: const Color.fromARGB(255, 3, 79, 255),
+                      content: Text(value))),
+                }
+            });
   }
 }
