@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
-import 'package:give_a_little_sdp/Firebase/rate_product.dart';
 import 'package:give_a_little_sdp/Firebase/rating_functions.dart';
 
 //This Screen displays all the products previously purchased by the user
@@ -33,7 +32,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           const CustomAppBar(),
           FutureBuilder(
             future: RatingFunctions(fire: FirebaseFirestore.instance)
-                .getProductsInHistory("PurchaseHistory2", uid!),
+                .getProductsInHistory(uid!),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return const Text("Something went wrong");
@@ -221,7 +220,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                                           ),
                                                                           onPressed:
                                                                               () async {
-                                                                            await RateProduct(fire: FirebaseFirestore.instance).rateProduct(userPurchaseHistory[index]["productID"], productRating, userPurchaseHistory[index]["historyID"], uid!).then((value) {
+                                                                            await RatingFunctions(fire: FirebaseFirestore.instance).rateProduct(userPurchaseHistory[index]["productID"], productRating, userPurchaseHistory[index]["historyID"], uid!).then((value) {
                                                                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value)));
                                                                               setState(() {
                                                                                 userPurchaseHistory = snapshot.data as List;

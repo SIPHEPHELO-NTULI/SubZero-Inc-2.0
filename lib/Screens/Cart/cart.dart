@@ -11,33 +11,33 @@ class Cart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(50),
       ),
       elevation: 1,
       child: Container(
         width: MediaQuery.of(context).size.width / 1.5,
         height: MediaQuery.of(context).size.height / 1.5,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                Colors.blue,
-                Color.fromARGB(255, 5, 9, 227),
-                Color.fromARGB(255, 8, 0, 59),
-              ]),
-        ),
+        decoration: BoxDecoration(
+            border: Border.all(color: const Color.fromARGB(255, 3, 79, 255)),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                  offset: const Offset(0, -2),
+                  blurRadius: 30,
+                  color: Colors.black.withOpacity(0.16))
+            ]),
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(
               children: <Widget>[
                 Text(
-                  "Your Cart",
+                  " Your Cart ",
                   style: Theme.of(context).textTheme.headline4?.copyWith(
-                      color: Colors.white,
+                      color: const Color.fromARGB(255, 3, 79, 255),
                       fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.normal),
                 ),
                 const CartList()
               ],

@@ -44,7 +44,8 @@ class _ReviewsState extends State<Reviews> {
                         child: ReviewCard(
                             review: reviews[index]['comment'],
                             name: reviews[index]['name'],
-                            date: reviews[index]['date']));
+                            date: reviews[index]['date'],
+                            uid: reviews[index]['uid']));
                   });
             }
             return const Center(child: CircularProgressIndicator());

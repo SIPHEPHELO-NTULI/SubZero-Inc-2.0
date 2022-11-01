@@ -20,7 +20,7 @@ class _WishlistsState extends State<Wishlists> {
       children: [
         FutureBuilder(
           future: WishlistFunctions(fire: FirebaseFirestore.instance)
-              .getProductsInList("Wishlists", uid!),
+              .getProductsInWishist(uid!),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const Text("Something went wrong");

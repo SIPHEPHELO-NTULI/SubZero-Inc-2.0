@@ -33,6 +33,8 @@ class _SellScreenState extends State<SellScreen> {
   final productNameController = TextEditingController();
   final priceController = TextEditingController();
   final descriptionController = TextEditingController();
+  String imageURL =
+      "https://firebasestorage.googleapis.com/v0/b/flutterwebdemo-75af3.appspot.com/o/GiveALittle%2FaccountLogo.png?alt=media&token=b6b50463-becf-4c88-9463-7bf021c106b1";
 
   String category = 'other';
   var items = [
@@ -373,38 +375,28 @@ class _SellScreenState extends State<SellScreen> {
         },
         child: MouseRegion(
           cursor: SystemMouseCursors.click,
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            height: MediaQuery.of(context).size.height * 0.2,
-            width: MediaQuery.of(context).size.width * 0.2,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                gradient: const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Colors.blue,
-                      Color.fromARGB(255, 5, 9, 227),
-                      Color.fromARGB(255, 8, 0, 59)
-                    ])),
-            child: imageAvailable
-                ? Image.memory(
-                    imagefile!,
-                    fit: BoxFit.fill,
-                  )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                      Text(
-                        "Select Image",
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.white),
-                      ),
-                    ],
+          child: imageAvailable
+              ? Container(
+                  height: 180,
+                  width: 180,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          color: const Color.fromARGB(255, 3, 79, 255)),
+                      shape: BoxShape.rectangle,
+                      image: DecorationImage(
+                          fit: BoxFit.contain, image: MemoryImage(imagefile!))))
+              : Container(
+                  height: 180,
+                  width: 180,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        color: const Color.fromARGB(255, 3, 79, 255)),
+                    shape: BoxShape.rectangle,
+                    image: const DecorationImage(
+                        fit: BoxFit.contain,
+                        image: AssetImage("assets/imageTempSell.png")),
                   ),
-          ),
+                ),
         ));
   }
 }

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 
 //This class houses the necessary firebase functions related to the retrieving information about the ratings
 //It takes in a required parameter that is instances of firebas, FirebaseFirestore.instance
@@ -10,6 +9,29 @@ class RatingFunctions {
 
   RatingFunctions({required this.fire});
 
+//This function will send a users rating to the productRating collection
+  //it will also adjust the isRated variable in the PurchaseHistory collection
+  //this is to ensure a user can only rate a purchased product one
+
+  Future<String> rateProduct(String productID, double ratingfromuser,
+      String historyID, String uid) async {
+    String docID = fire.collection("ProductRating").doc().id;
+
+    await fire.collection("ProductRating").doc(docID).set({
+      'rating': ratingfromuser,
+      'productID': productID,
+      'uid': uid,
+      'ratingID': docID
+    }).whenComplete(() {
+      fire
+          .collection("PurchaseHistory2")
+          .doc(historyID)
+          .update({'isRated': true});
+    });
+
+    return "Rating Successful";
+  }
+
   //this function takes productID
   //and returns the ratings of that product.
 
@@ -17,22 +39,18 @@ class RatingFunctions {
     final CollectionReference collectionRef = fire.collection("ProductRating");
     List allproductsRatings = [];
     List productRatings = [];
-    try {
-      await collectionRef.get().then((querySnapshot) {
-        for (var result in querySnapshot.docs) {
-          allproductsRatings.add(result.data());
-        }
-      });
-      for (int i = 0; i < allproductsRatings.length; i++) {
-        if (allproductsRatings[i]["productID"] == productID) {
-          productRatings.add(allproductsRatings[i]);
-        }
+
+    await collectionRef.get().then((querySnapshot) {
+      for (var result in querySnapshot.docs) {
+        allproductsRatings.add(result.data());
       }
-      return productRatings;
-    } catch (e) {
-      debugPrint("Error - $e");
-      return null;
+    });
+    for (int i = 0; i < allproductsRatings.length; i++) {
+      if (allproductsRatings[i]["productID"] == productID) {
+        productRatings.add(allproductsRatings[i]);
+      }
     }
+    return productRatings;
   }
 
   //this function will determine the number of users that rated a product
@@ -68,25 +86,22 @@ class RatingFunctions {
   //this function will get all the previously purchased items for the user
   //and return them as a list or return null if they have not purchased any items
 
-  Future getProductsInHistory(String collectionName, String uid) async {
-    final CollectionReference collectionRef = fire.collection(collectionName);
+  Future getProductsInHistory(String uid) async {
+    final CollectionReference collectionRef =
+        fire.collection("PurchaseHistory2");
     List products = [];
     List itemsInHistoryCart = [];
-    try {
-      await collectionRef.get().then((querySnapshot) {
-        for (var result in querySnapshot.docs) {
-          products.add(result.data());
-        }
-      });
-      for (int i = 0; i < products.length; i++) {
-        if (products[i]["uid"] == uid) {
-          itemsInHistoryCart.add(products[i]);
-        }
+
+    await collectionRef.get().then((querySnapshot) {
+      for (var result in querySnapshot.docs) {
+        products.add(result.data());
       }
-      return itemsInHistoryCart;
-    } catch (e) {
-      debugPrint("Error - $e");
-      return null;
+    });
+    for (int i = 0; i < products.length; i++) {
+      if (products[i]["uid"] == uid) {
+        itemsInHistoryCart.add(products[i]);
+      }
     }
+    return itemsInHistoryCart;
   }
 }

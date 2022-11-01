@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 
 //This class houses the necessary firebase functions related to the delivery address services
 //It takes in a required parameter that is instances of firebase, FirebaseFirestore.instance
@@ -42,25 +41,20 @@ class DeliveryAdressFunctions {
         fire.collection('DeliveryAddress');
     List deliveryAddresses = [];
     List userdeliveryAddress = [];
-    try {
-      await collectionRef.get().then((querySnapshot) {
-        //get all the delivery address in the database.
-        for (var result in querySnapshot.docs) {
-          deliveryAddresses.add(result.data());
-        }
-      });
-
-      //get all the delivery addresses for the user.
-      for (int i = 0; i < deliveryAddresses.length; i++) {
-        if (deliveryAddresses[i]["uid"] == uid) {
-          userdeliveryAddress.add(deliveryAddresses[i]);
-        }
+    await collectionRef.get().then((querySnapshot) {
+      //get all the delivery address in the database.
+      for (var result in querySnapshot.docs) {
+        deliveryAddresses.add(result.data());
       }
-      return userdeliveryAddress;
-    } catch (e) {
-      debugPrint("Error - $e");
-      return null;
+    });
+
+    //get all the delivery addresses for the user.
+    for (int i = 0; i < deliveryAddresses.length; i++) {
+      if (deliveryAddresses[i]["uid"] == uid) {
+        userdeliveryAddress.add(deliveryAddresses[i]);
+      }
     }
+    return userdeliveryAddress;
   }
 
   //delete a  delivery addresses for the user using its docID.

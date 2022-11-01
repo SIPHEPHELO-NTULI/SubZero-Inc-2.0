@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:give_a_little_sdp/Screens/Login/Validation/email_field_validator.dart';
 import 'package:give_a_little_sdp/Screens/Login/Validation/password_field_validator.dart';
-//import 'package:test';
 
 void main() {
   //UNIT TEST
@@ -39,9 +38,9 @@ void main() {
   });
 
 //UNIT TEST
-//this test will check that email validator correctly validates a valid password
-  test('valid email returns null', () async {
-    var result = PasswordFieldValidator.validate('123@gmail.com');
+//this test will check that password validator correctly validates a valid password
+  test('valid password returns null', () async {
+    var result = PasswordFieldValidator.validate('123456pass');
     expect(result, null);
   });
 }

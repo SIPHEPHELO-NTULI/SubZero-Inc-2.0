@@ -49,7 +49,7 @@ class WishlistScreen extends StatelessWidget {
                                     color:
                                         const Color.fromARGB(255, 3, 79, 255),
                                     fontStyle: FontStyle.italic,
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.normal),
                           ),
                           const Icon(
                             Icons.favorite,

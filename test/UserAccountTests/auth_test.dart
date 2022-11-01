@@ -60,12 +60,12 @@ void main() {
 //this test will check that the database acts accordingly to a new user signing up
   test("Testing User Creation Function", () async {
     when(mockAuth.createUserWithEmailAndPassword(
-            email: "jack@gmail.com", password: "12345678"))
+            email: "ryan@gmail.com", password: "12345678"))
         .thenAnswer((_) async => mockCredential);
-    final result = await auth.signUp("jack@gmail.com", "12345678");
+    final result = await auth.signUp("ryan@gmail.com", "12345678");
     expect(result, "Account Created");
     verify(mockAuth.createUserWithEmailAndPassword(
-        email: "jack@gmail.com", password: "12345678"));
+        email: "ryan@gmail.com", password: "12345678"));
   });
 
 //UNIT TEST

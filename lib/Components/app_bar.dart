@@ -83,7 +83,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
           ]),
       child: Row(children: <Widget>[
         //used to change the mouse icon when hovering over the image in the app bar
-
         MouseRegion(
           cursor: SystemMouseCursors.click,
           child: GestureDetector(

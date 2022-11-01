@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:give_a_little_sdp/Firebase/get_products.dart';
 
 //This class houses the necessary firebase functions related to the wishlist services
@@ -13,35 +12,30 @@ class WishlistFunctions {
 
   //This function will return the products in the users wishlist
 
-  Future getProductsInList(String collectionName, String uid) async {
+  Future getProductsInWishist(String uid) async {
     final CollectionReference collectionRef =
-        fire.collection(collectionName).doc(uid).collection("Products");
+        fire.collection("Wishlists").doc(uid).collection("Products");
     List itemIDs = [];
     List items = [];
     List itemsInHistoryCart = [];
 
-    try {
-      await collectionRef.get().then((querySnapshot) {
-        for (var result in querySnapshot.docs) {
-          itemIDs.add(result.data());
-        }
-      });
-      items = await FireStoreDataBase(fire: fire).getData() as List;
+    await collectionRef.get().then((querySnapshot) {
+      for (var result in querySnapshot.docs) {
+        itemIDs.add(result.data());
+      }
+    });
+    items = await FireStoreDataBase(fire: fire).getData() as List;
 
-      for (int i = 0; i < itemIDs.length; i++) {
-        for (int j = 0; j < items.length; j++) {
-          if (itemIDs[i]["productID"].toString() ==
-              items[j]["productID"].toString()) {
-            itemsInHistoryCart.add(items[j]);
-          }
+    for (int i = 0; i < itemIDs.length; i++) {
+      for (int j = 0; j < items.length; j++) {
+        if (itemIDs[i]["productID"].toString() ==
+            items[j]["productID"].toString()) {
+          itemsInHistoryCart.add(items[j]);
         }
       }
-
-      return itemsInHistoryCart;
-    } catch (e) {
-      debugPrint("Error - $e");
-      return null;
     }
+
+    return itemsInHistoryCart;
   }
 
   //This function will add a product to the users wishlist
@@ -52,7 +46,14 @@ class WishlistFunctions {
     String result = "Added To WishList!";
     List items = [];
     bool sameProduct = false;
-    await getProductsInList("Wishlists", uid).then((value) => items = value);
+    final CollectionReference collectionRef =
+        fire.collection("Wishlists").doc(uid).collection("Products");
+
+    await collectionRef.get().then((querySnapshot) {
+      for (var result in querySnapshot.docs) {
+        items.add(result.data());
+      }
+    });
 
     for (int i = 0; i < items.length; i++) {
       if (items[i]["productID"] == productID) {

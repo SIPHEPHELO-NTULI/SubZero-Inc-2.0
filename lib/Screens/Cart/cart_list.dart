@@ -31,7 +31,7 @@ class _CartListState extends State<CartList> {
       children: [
         FutureBuilder(
           future: CartFunctions(fire: FirebaseFirestore.instance)
-              .getProductsInCart("Carts", uid!),
+              .getProductsInCart(uid!),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const Text("Something went wrong");
@@ -48,45 +48,51 @@ class _CartListState extends State<CartList> {
                         shrinkWrap: true,
                         itemCount: itemsInCart.length,
                         itemBuilder: (context, index) {
-                          return ListTile(
-                            leading: CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(itemsInCart[index]['imageURL']),
-                            ),
-                            title: Text(
-                              itemsInCart[index]['productName'],
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                            subtitle: Text(itemsInCart[index]['price'],
-                                style: const TextStyle(color: Colors.white)),
-                            onTap: () {},
-                            trailing: MouseRegion(
-                              cursor: SystemMouseCursors.click,
-                              child: GestureDetector(
-                                child: const Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
+                          return Card(
+                            elevation: 2,
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                    itemsInCart[index]['imageURL']),
+                              ),
+                              title: Text(
+                                itemsInCart[index]['productName'],
+                                style: const TextStyle(color: Colors.black),
+                              ),
+                              subtitle: Text(itemsInCart[index]['price'],
+                                  style: const TextStyle(color: Colors.black)),
+                              onTap: () {},
+                              trailing: MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                child: GestureDetector(
+                                  child: const Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                  onTap: () {
+                                    CartFunctions(
+                                            fire: FirebaseFirestore.instance)
+                                        .deleteFromCart(
+                                            itemsInCart[index]["productID"]
+                                                .toString(),
+                                            uid!)
+                                        .then((value) => setState(() {
+                                              itemsInCart.removeAt(index);
+                                            }));
+                                  },
                                 ),
-                                onTap: () {
-                                  CartFunctions(
-                                          fire: FirebaseFirestore.instance)
-                                      .deleteFromCart(
-                                          itemsInCart[index]["productID"]
-                                              .toString(),
-                                          uid!)
-                                      .then((value) => setState(() {
-                                            itemsInCart.removeAt(index);
-                                          }));
-                                },
                               ),
                             ),
                           );
                         }),
                   ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Text("$numProducts items",
-                      style: const TextStyle(color: Colors.white)),
+                      style: const TextStyle(color: Colors.black)),
                   Text(" Cart Total : R$cartTotal",
-                      style: const TextStyle(color: Colors.white)),
+                      style: const TextStyle(color: Colors.black)),
                   const SizedBox(
                     height: 20,
                   ),

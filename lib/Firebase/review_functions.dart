@@ -5,10 +5,10 @@ import 'package:intl/intl.dart';
 //It takes in a required parameter that is instances of firebas, FirebaseFirestore.instance
 //in the case of testing it will take MockFirebaseFirestore.instance
 
-class SendReview {
+class ReviewFunctions {
   final FirebaseFirestore fire;
 
-  SendReview({required this.fire});
+  ReviewFunctions({required this.fire});
 
   //This function will upload a users review
   //It will use the uid to get the users name and surname
@@ -42,5 +42,30 @@ class SendReview {
     });
 
     return "Comment Posted";
+  }
+
+  //The check function will determine if the user has purchased the relevant product
+  //it returns a boolean value
+  //should the value be true, the user will be able to review the item
+  //if they have not purchased it, they wont be able to review it
+
+  Future<bool> check(String productID, String uid) async {
+    bool found = false;
+    final CollectionReference collectionRef =
+        fire.collection("PurchaseHistory2");
+    List allpurchases = [];
+
+    await collectionRef.get().then((querySnapshot) {
+      for (var result in querySnapshot.docs) {
+        allpurchases.add(result.data());
+      }
+    });
+    for (int i = 0; i < allpurchases.length; i++) {
+      if (allpurchases[i]["productID"] == productID &&
+          allpurchases[i]["uid"] == uid) {
+        found = true;
+      }
+    }
+    return found;
   }
 }

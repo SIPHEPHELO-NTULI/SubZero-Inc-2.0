@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
+import 'package:give_a_little_sdp/Screens/Login/Validation/email_field_validator.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
@@ -69,19 +70,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.45,
                     child: TextFormField(
-                      controller: emailController,
-                      decoration: const InputDecoration(
-                          labelText: 'Email Address',
-                          suffixIcon: Icon(
-                            FontAwesomeIcons.envelope,
-                            size: 17,
-                          )),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (email) =>
-                          email != null && !EmailValidator.validate(email)
-                              ? 'Enter a valid email'
-                              : null,
-                    ),
+                        controller: emailController,
+                        decoration: const InputDecoration(
+                            labelText: 'Email Address',
+                            suffixIcon: Icon(
+                              FontAwesomeIcons.envelope,
+                              size: 17,
+                            )),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: EmailFieldValidator.validate),
                   ),
                   const SizedBox(
                     height: 20,

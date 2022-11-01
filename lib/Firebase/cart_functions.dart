@@ -15,34 +15,29 @@ class CartFunctions {
   ///if the collection name is Carts, it will return the current products in the users cart
   ///if the collection name is PurchaseHistory, it will return the past products the user has purchased
 
-  Future getProductsInCart(String collectionName, String uid) async {
+  Future getProductsInCart(String uid) async {
     final CollectionReference collectionRef =
-        fire.collection(collectionName).doc(uid).collection("Products");
+        fire.collection("Carts").doc(uid).collection("Products");
     List itemIDs = [];
     List items = [];
     List itemsInHistoryCart = [];
 
-    try {
-      await collectionRef.get().then((querySnapshot) {
-        for (var result in querySnapshot.docs) {
-          itemIDs.add(result.data());
-        }
-      });
-      items = await FireStoreDataBase(fire: fire).getData() as List;
+    await collectionRef.get().then((querySnapshot) {
+      for (var result in querySnapshot.docs) {
+        itemIDs.add(result.data());
+      }
+    });
+    items = await FireStoreDataBase(fire: fire).getData() as List;
 
-      for (int i = 0; i < itemIDs.length; i++) {
-        for (int j = 0; j < items.length; j++) {
-          if (itemIDs[i]["productID"].toString() ==
-              items[j]["productID"].toString()) {
-            itemsInHistoryCart.add(items[j]);
-          }
+    for (int i = 0; i < itemIDs.length; i++) {
+      for (int j = 0; j < items.length; j++) {
+        if (itemIDs[i]["productID"].toString() ==
+            items[j]["productID"].toString()) {
+          itemsInHistoryCart.add(items[j]);
         }
       }
-      return itemsInHistoryCart;
-    } catch (e) {
-      debugPrint("Error - $e");
-      return null;
     }
+    return itemsInHistoryCart;
   }
 
   //This function is used when a user has checked out, the products they have  purchased will be added to the collection

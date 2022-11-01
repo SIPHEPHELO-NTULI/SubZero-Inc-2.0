@@ -16,8 +16,12 @@ class AuthService {
   //sign in method using email and password using firebase Auth
 
   Future<String> signIn(email, password) async {
-    await auth.signInWithEmailAndPassword(email: email, password: password);
-    return "Success";
+    try {
+      await auth.signInWithEmailAndPassword(email: email, password: password);
+      return "Success";
+    } on FirebaseAuthException catch (e) {
+      return "email or password is incorrect";
+    }
   }
 
 //Used to sign up new users using firebase Auth

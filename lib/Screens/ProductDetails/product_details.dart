@@ -3,8 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
 import 'package:give_a_little_sdp/Firebase/cart_functions.dart';
-import 'package:give_a_little_sdp/Firebase/check_product.dart';
-import 'package:give_a_little_sdp/Firebase/send_review.dart';
+import 'package:give_a_little_sdp/Firebase/review_functions.dart';
 import 'package:give_a_little_sdp/Firebase/wishlist_functions.dart';
 import 'package:give_a_little_sdp/Screens/ProductDetails/body.dart';
 import 'package:give_a_little_sdp/Screens/ProductDetails/suggested_products.dart';
@@ -212,7 +211,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   check(context) async {
     bool found = false;
-    await CheckProduct(fire: FirebaseFirestore.instance)
+    await ReviewFunctions(fire: FirebaseFirestore.instance)
         .check(widget.productID, uid!)
         .then((value) => found = value);
     if (found == true) {
@@ -302,7 +301,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   ),
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
-                      await SendReview(fire: FirebaseFirestore.instance)
+                      await ReviewFunctions(fire: FirebaseFirestore.instance)
                           .uploadReview(productID, myController.text, uid)
                           .then((value) => ScaffoldMessenger.of(context)
                               .showSnackBar(SnackBar(
