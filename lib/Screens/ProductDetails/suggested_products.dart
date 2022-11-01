@@ -38,10 +38,8 @@ class SuggestedProducts extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ProductCard(
-                        category: suggestedProducts[index]['category'],
                         productName: suggestedProducts[index]['productName'],
                         price: suggestedProducts[index]['price'],
-                        description: "N/A",
                         image: suggestedProducts[index]['imageURL'],
                         press: () => Navigator.push(
                           context,

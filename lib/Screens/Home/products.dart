@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:give_a_little_sdp/Firebase/get_products.dart';
+import 'package:give_a_little_sdp/Screens/Home/browse_categories.dart';
 import 'package:give_a_little_sdp/Screens/Home/product_card.dart';
 import 'package:give_a_little_sdp/Screens/ProductDetails/product_details.dart';
 
@@ -74,21 +75,53 @@ class _ProductsState extends State<Products> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.width * 0.05,
-          width: MediaQuery.of(context).size.width * 0.7,
-          child: TextField(
-            controller: _searchController,
-            decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                filled: true,
-                hintStyle: TextStyle(color: Colors.grey[800]),
-                hintText: "Search...",
-                fillColor: Colors.white),
-          ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.1,
+              width: MediaQuery.of(context).size.width * 0.6,
+              child: TextField(
+                cursorColor: const Color.fromARGB(255, 3, 79, 255),
+                controller: _searchController,
+                decoration: InputDecoration(
+                    prefixIcon: const Icon(
+                      Icons.search,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    filled: true,
+                    hintStyle: TextStyle(color: Colors.grey[800]),
+                    hintText: "Search...",
+                    fillColor: Colors.white),
+              ),
+            ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 30.0),
+          child: ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BrowseCategories(
+                              products: products,
+                            )));
+              },
+              icon: const Icon(
+                Icons.category,
+                color: Color.fromARGB(255, 3, 79, 255),
+              ),
+              label: const Text(
+                "Browse Categories",
+                style: TextStyle(color: Color.fromARGB(255, 3, 79, 255)),
+              )),
         ),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.9,
@@ -107,9 +140,7 @@ class _ProductsState extends State<Products> {
                   cursor: SystemMouseCursors.click,
                   child: ProductCard(
                     productName: searchProducts[index]['productName'],
-                    category: searchProducts[index]['category'],
                     price: searchProducts[index]['price'],
-                    description: "N/A",
                     image: searchProducts[index]['imageURL'],
                     press: () => Navigator.push(
                       context,
@@ -117,7 +148,8 @@ class _ProductsState extends State<Products> {
                         builder: (context) => DetailsScreen(
                             productName: searchProducts[index]['productName'],
                             price: searchProducts[index]['price'],
-                            description: "N/A",
+                            description:
+                                searchProducts[index]['description'] ?? "N/A",
                             image: searchProducts[index]['imageURL'],
                             category: searchProducts[index]['category'],
                             productID: searchProducts[index]['productID']),

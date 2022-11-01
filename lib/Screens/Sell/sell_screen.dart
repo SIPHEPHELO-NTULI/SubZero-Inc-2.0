@@ -41,7 +41,6 @@ class _SellScreenState extends State<SellScreen> {
     'other',
     'electronics',
     'clothing',
-    'shoes',
     'makeup',
     'accessories',
     'home decor',

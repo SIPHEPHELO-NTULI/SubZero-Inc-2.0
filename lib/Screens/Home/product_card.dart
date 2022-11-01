@@ -14,17 +14,15 @@ const kDefaultPaddin = 20.0;
 
 // ignore: must_be_immutable
 class ProductCard extends StatelessWidget {
-  String image, productName, description, price, category;
+  String image, productName, price;
   final VoidCallback press;
 
   ProductCard(
       {Key? key,
       required this.image,
       required this.productName,
-      required this.description,
       required this.price,
-      required this.press,
-      required this.category})
+      required this.press})
       : super(key: key);
 
   @override
@@ -59,7 +57,7 @@ class ProductCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin / 4),
             child: Text(
               // products is out demo list
-              productName + " (" + category + ")",
+              productName,
               style: const TextStyle(color: kTextLightColor),
             ),
           ),

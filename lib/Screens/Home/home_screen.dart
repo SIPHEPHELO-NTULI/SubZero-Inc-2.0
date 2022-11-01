@@ -16,7 +16,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //size shows total height and width of screen
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
