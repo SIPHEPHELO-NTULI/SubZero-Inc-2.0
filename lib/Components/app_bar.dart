@@ -174,7 +174,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
       );
     } else {
       return BarItem(
-        title: "Hi, " + name,
+        title: "Hi " + name,
         click: () {},
       );
     }
