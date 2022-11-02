@@ -22,8 +22,8 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
-  List userdeliveryAdress = [];
-  late int addressindex = 0;
+  List userdeliveryAddress = [];
+  int addressindex = 0;
   final uid = FirebaseAuth.instance.currentUser!.uid;
   @override
   Widget build(BuildContext context) {
@@ -93,7 +93,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             }
                             if (snapshot.connectionState ==
                                 ConnectionState.done) {
-                              userdeliveryAdress = snapshot.data as List;
+                              userdeliveryAddress = snapshot.data as List;
                               return Center(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -103,7 +103,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                         child: ListView.builder(
                                             shrinkWrap: true,
                                             itemCount:
-                                                userdeliveryAdress.length,
+                                                userdeliveryAddress.length,
                                             itemBuilder: (context, index) {
                                               return Card(
                                                   child: RadioListTile(
@@ -118,7 +118,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                       const Color.fromARGB(
                                                           255, 174, 174, 174),
                                                   title: Text(
-                                                    userdeliveryAdress[index]
+                                                    userdeliveryAddress[index]
                                                         ['recipientname'],
                                                     style: const TextStyle(
                                                         fontWeight:
@@ -132,7 +132,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                          userdeliveryAdress[
+                                                          userdeliveryAddress[
                                                                   index]
                                                               ['complexname'],
                                                           style:
@@ -144,7 +144,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                                           0,
                                                                           0))),
                                                       Text(
-                                                          userdeliveryAdress[
+                                                          userdeliveryAddress[
                                                                   index]
                                                               ['streetaddress'],
                                                           style:
@@ -156,11 +156,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                                           0,
                                                                           0))),
                                                       Text(
-                                                          userdeliveryAdress[
+                                                          userdeliveryAddress[
                                                                       index]
                                                                   ['suburb'] +
                                                               ", " +
-                                                              userdeliveryAdress[
+                                                              userdeliveryAddress[
                                                                       index]
                                                                   ['city'],
                                                           style:
@@ -172,7 +172,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                                           0,
                                                                           0))),
                                                       Text(
-                                                          userdeliveryAdress[
+                                                          userdeliveryAddress[
                                                                   index]
                                                               ['mobilenumber'],
                                                           style:
@@ -236,7 +236,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         ),
                         onTap: () async {
                           await CheckoutFunctions()
-                              .checkout(widget.itemsInCart, widget.total, uid)
+                              .checkout(
+                                  widget.itemsInCart,
+                                  widget.total,
+                                  uid,
+                                  widget.itemsInCart.length.toString(),
+                                  userdeliveryAddress[addressindex]
+                                      ['recipientname'],
+                                  userdeliveryAddress[addressindex]
+                                      ['mobilenumber'],
+                                  userdeliveryAddress[addressindex]
+                                      ['complexname'])
                               .then((value) => ScaffoldMessenger.of(context)
                                   .showSnackBar(const SnackBar(
                                       backgroundColor:

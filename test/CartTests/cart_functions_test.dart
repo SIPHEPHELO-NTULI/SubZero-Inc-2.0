@@ -31,23 +31,6 @@ void main() {
   });
 
 //UNIT TEST
-//this test will check that the database acts accordingly when an existing user purchases an item
-  test('Add To Purchase History', () async {
-    List itemsInCart = [
-      {"productID": productID, "docID": docID},
-      {"productID": productID, "docID": docID}
-    ];
-    mockFirestore
-        .collection('PurchaseHistory2')
-        .doc(uid)
-        .collection("Products")
-        .doc(docID)
-        .set({"productID": productID, "docID": docID});
-    expect(
-        await cf.addToPurchaseHistory(itemsInCart, uid), "Checkout Successful");
-  });
-
-//UNIT TEST
 //this test will check that the database acts accordingly to an existing user removing items from their cart when no items are in the cart
   test('Delete From Cart', () async {
     final DocumentReference<Map<String, dynamic>> documentReference =

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
@@ -9,19 +8,19 @@ import 'package:give_a_little_sdp/Firebase/rating_functions.dart';
 //it displays the in a list
 // with a rating scheme next to each product
 // a user can indicate how they choose to rate the product they p
-class HistoryScreen extends StatefulWidget {
-  const HistoryScreen({Key? key}) : super(key: key);
+class RatingScreen extends StatefulWidget {
+  String orderID;
+  RatingScreen({required this.orderID, Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _HistoryScreenState();
+  State<StatefulWidget> createState() => _RatingScreenState();
 }
 
 @override
-State<HistoryScreen> createState() => _HistoryScreenState();
+State<RatingScreen> createState() => _RatingScreenState();
 
-class _HistoryScreenState extends State<HistoryScreen> {
-  List userPurchaseHistory = [];
-  String? uid = FirebaseAuth.instance.currentUser?.uid;
+class _RatingScreenState extends State<RatingScreen> {
+  List products = [];
   late double productRating;
   @override
   Widget build(BuildContext context) {
@@ -32,13 +31,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
           const CustomAppBar(),
           FutureBuilder(
             future: RatingFunctions(fire: FirebaseFirestore.instance)
-                .getProductsInHistory(uid!),
+                .getProductsInOrder(widget.orderID),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return const Text("Something went wrong");
               }
               if (snapshot.connectionState == ConnectionState.done) {
-                userPurchaseHistory = snapshot.data as List;
+                products = snapshot.data as List;
                 return SizedBox(
                   width: MediaQuery.of(context).size.width / 2,
                   child: Center(
@@ -47,7 +46,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         Center(
                           child: ListView.builder(
                               shrinkWrap: true,
-                              itemCount: userPurchaseHistory.length,
+                              itemCount: products.length,
                               itemBuilder: (context, index) {
                                 return Card(
                                     elevation: 2,
@@ -59,39 +58,32 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                         child: ListTile(
                                           leading: CircleAvatar(
                                             backgroundImage: NetworkImage(
-                                                userPurchaseHistory[index]
-                                                    ['imageURL']),
+                                                products[index]['imageURL']),
                                           ),
                                           title: Text(
-                                            userPurchaseHistory[index]
-                                                ['productName'],
+                                            products[index]['productName'],
                                             style: const TextStyle(
                                                 color: Color.fromARGB(
                                                     255, 0, 0, 0)),
                                           ),
                                           subtitle: Text(
-                                              userPurchaseHistory[index]
-                                                  ['price'],
+                                              products[index]['price'],
                                               style: const TextStyle(
                                                   color: Color.fromARGB(
                                                       255, 0, 0, 0))),
                                           trailing: ElevatedButton(
-                                            child: userPurchaseHistory[index]
-                                                    ["isRated"]
+                                            child: products[index]["isRated"]
                                                 ? const Text('Item Rated')
                                                 : const Text('Rate Item '),
                                             style: ButtonStyle(
-                                              backgroundColor:
-                                                  userPurchaseHistory[index]
-                                                          ["isRated"]
-                                                      ? MaterialStateProperty
-                                                          .all(const Color
-                                                                  .fromARGB(
-                                                              255, 10, 226, 61))
-                                                      : MaterialStateProperty
-                                                          .all(const Color
-                                                                  .fromARGB(
-                                                              255, 25, 9, 205)),
+                                              backgroundColor: products[index]
+                                                      ["isRated"]
+                                                  ? MaterialStateProperty.all(
+                                                      const Color.fromARGB(
+                                                          255, 10, 226, 61))
+                                                  : MaterialStateProperty.all(
+                                                      const Color.fromARGB(
+                                                          255, 25, 9, 205)),
                                               shape: MaterialStateProperty.all(
                                                 RoundedRectangleBorder(
                                                   borderRadius:
@@ -100,8 +92,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                               ),
                                             ),
                                             onPressed: () {
-                                              if (userPurchaseHistory[index]
-                                                      ["isRated"] ==
+                                              if (products[index]["isRated"] ==
                                                   false) {
                                                 showDialog(
                                                     useSafeArea: false,
@@ -127,28 +118,28 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                                         .size
                                                                         .height /
                                                                     2,
-                                                                decoration:
-                                                                    const BoxDecoration(
-                                                                  gradient: LinearGradient(
-                                                                      begin: Alignment
-                                                                          .topRight,
-                                                                      end: Alignment
-                                                                          .bottomLeft,
-                                                                      colors: [
-                                                                        Colors
-                                                                            .blue,
-                                                                        Color.fromARGB(
+                                                                decoration: BoxDecoration(
+                                                                    border: Border.all(
+                                                                        color: const Color.fromARGB(
                                                                             255,
-                                                                            5,
-                                                                            9,
-                                                                            227),
-                                                                        Color.fromARGB(
-                                                                            255,
-                                                                            8,
-                                                                            0,
-                                                                            59),
-                                                                      ]),
-                                                                ),
+                                                                            3,
+                                                                            79,
+                                                                            255)),
+                                                                    color: Colors
+                                                                        .white,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            20),
+                                                                    boxShadow: [
+                                                                      BoxShadow(
+                                                                          offset: const Offset(0,
+                                                                              -2),
+                                                                          blurRadius:
+                                                                              30,
+                                                                          color: Colors
+                                                                              .black
+                                                                              .withOpacity(0.16))
+                                                                    ]),
                                                                 child:
                                                                     SingleChildScrollView(
                                                                   child:
@@ -163,7 +154,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                                         Text(
                                                                           "Rate Item",
                                                                           style: Theme.of(context).textTheme.headline4?.copyWith(
-                                                                              color: Colors.white,
+                                                                              color: Colors.black,
                                                                               fontStyle: FontStyle.italic,
                                                                               fontWeight: FontWeight.bold),
                                                                         ),
@@ -220,15 +211,22 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                                           ),
                                                                           onPressed:
                                                                               () async {
-                                                                            await RatingFunctions(fire: FirebaseFirestore.instance).rateProduct(userPurchaseHistory[index]["productID"], productRating, userPurchaseHistory[index]["historyID"], uid!).then((value) {
-                                                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value)));
+                                                                            await RatingFunctions(fire: FirebaseFirestore.instance)
+                                                                                .rateProduct(
+                                                                              products[index]["productID"],
+                                                                              productRating,
+                                                                              products[index]["docID"],
+                                                                              widget.orderID,
+                                                                            )
+                                                                                .then((value) {
+                                                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: const Color.fromARGB(255, 3, 79, 255), content: Text(value)));
                                                                               setState(() {
-                                                                                userPurchaseHistory = snapshot.data as List;
+                                                                                products = snapshot.data as List;
                                                                               });
                                                                             });
                                                                             Navigator.pop(context);
                                                                             setState(() {
-                                                                              userPurchaseHistory = snapshot.data as List;
+                                                                              products = snapshot.data as List;
                                                                             });
                                                                           },
                                                                         )

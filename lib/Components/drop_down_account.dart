@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:give_a_little_sdp/Screens/DeliveryAddress/delivery_address.dart';
+import 'package:give_a_little_sdp/Screens/History/purchase_history_screen.dart';
 import 'package:give_a_little_sdp/Screens/Profile/view_profile_screen.dart';
-import 'package:give_a_little_sdp/Screens/RatingAndHistory/history_rating_screen.dart';
 import 'package:give_a_little_sdp/Screens/Redeem/redeem_screen.dart';
 import 'package:give_a_little_sdp/Screens/Sell/sell_screen.dart';
 import 'package:give_a_little_sdp/Screens/Wishlist/wishlist_screen.dart';
@@ -93,7 +93,7 @@ class MenuItem {
 
 class MenuItems {
   static const List<MenuItem> firstItems = [profile, addressBook, sell];
-  static const List<MenuItem> secondItems = [history, redeem, wishlist];
+  static const List<MenuItem> secondItems = [purchasehistory, redeem, wishlist];
 
   static const profile = MenuItem(text: 'Profile');
   static const sell = MenuItem(text: 'Sell');
@@ -101,7 +101,7 @@ class MenuItems {
   static const redeem = MenuItem(
     text: 'Redeem',
   );
-  static const history = MenuItem(
+  static const purchasehistory = MenuItem(
     text: 'History',
   );
   static const wishlist = MenuItem(
@@ -147,9 +147,11 @@ class MenuItems {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const RedeemScreen()));
         break;
-      case MenuItems.history:
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const HistoryScreen()));
+      case MenuItems.purchasehistory:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const PurchaseHistoryScreen()));
         break;
       case MenuItems.wishlist:
         Navigator.push(context,

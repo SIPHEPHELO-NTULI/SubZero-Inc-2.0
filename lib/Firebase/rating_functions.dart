@@ -14,18 +14,16 @@ class RatingFunctions {
   //this is to ensure a user can only rate a purchased product one
 
   Future<String> rateProduct(String productID, double ratingfromuser,
-      String historyID, String uid) async {
-    String docID = fire.collection("ProductRating").doc().id;
-
-    await fire.collection("ProductRating").doc(docID).set({
+      String docID, String orderID) async {
+    await fire.collection("ProductRatings").add({
       'rating': ratingfromuser,
       'productID': productID,
-      'uid': uid,
-      'ratingID': docID
     }).whenComplete(() {
       fire
-          .collection("PurchaseHistory2")
-          .doc(historyID)
+          .collection("PurchasedProducts")
+          .doc(orderID)
+          .collection("ProductsInOrder")
+          .doc(docID)
           .update({'isRated': true});
     });
 
@@ -36,7 +34,7 @@ class RatingFunctions {
   //and returns the ratings of that product.
 
   Future getProductRating(String productID) async {
-    final CollectionReference collectionRef = fire.collection("ProductRating");
+    final CollectionReference collectionRef = fire.collection("ProductRatings");
     List allproductsRatings = [];
     List productRatings = [];
 
@@ -86,22 +84,18 @@ class RatingFunctions {
   //this function will get all the previously purchased items for the user
   //and return them as a list or return null if they have not purchased any items
 
-  Future getProductsInHistory(String uid) async {
-    final CollectionReference collectionRef =
-        fire.collection("PurchaseHistory2");
+  Future getProductsInOrder(String orderID) async {
+    final CollectionReference collectionRef = fire
+        .collection("PurchasedProducts")
+        .doc(orderID)
+        .collection("ProductsInOrder");
     List products = [];
-    List itemsInHistoryCart = [];
 
     await collectionRef.get().then((querySnapshot) {
       for (var result in querySnapshot.docs) {
         products.add(result.data());
       }
     });
-    for (int i = 0; i < products.length; i++) {
-      if (products[i]["uid"] == uid) {
-        itemsInHistoryCart.add(products[i]);
-      }
-    }
-    return itemsInHistoryCart;
+    return products;
   }
 }

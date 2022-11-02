@@ -44,10 +44,10 @@ class _ItemsInCartState extends State<ItemsInCart> {
                       style: const TextStyle(color: Colors.black)),
                 );
               }),
-          Text("$widget.itemsInCart.length items",
-              style: const TextStyle(color: Colors.white)),
-          Text(" Cart Total : R$widget.cartTotal",
-              style: const TextStyle(color: Colors.white)),
+          Text(" " + widget.itemsInCart.length.toString() + " items",
+              style: const TextStyle(color: Colors.black)),
+          Text(" Cart Total : R " + widget.total,
+              style: const TextStyle(color: Colors.black)),
         ],
       )
     ]);

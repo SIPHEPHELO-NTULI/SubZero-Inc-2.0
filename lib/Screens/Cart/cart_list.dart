@@ -39,113 +39,120 @@ class _CartListState extends State<CartList> {
             if (snapshot.connectionState == ConnectionState.done) {
               itemsInCart = snapshot.data as List;
               numProducts = itemsInCart.length;
-              cartTotal = CartTotal().getCartTotal(itemsInCart);
-
-              return Column(
-                children: [
-                  Center(
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: itemsInCart.length,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            elevation: 2,
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                    itemsInCart[index]['imageURL']),
-                              ),
-                              title: Text(
-                                itemsInCart[index]['productName'],
-                                style: const TextStyle(color: Colors.black),
-                              ),
-                              subtitle: Text(itemsInCart[index]['price'],
-                                  style: const TextStyle(color: Colors.black)),
-                              onTap: () {},
-                              trailing: MouseRegion(
-                                cursor: SystemMouseCursors.click,
-                                child: GestureDetector(
-                                  child: const Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
+              if (numProducts == 0) {
+                return SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    height: MediaQuery.of(context).size.height / 2,
+                    child: const Center(child: Text("Cart Is Empty!")));
+              } else {
+                cartTotal = CartTotal().getCartTotal(itemsInCart);
+                return Column(
+                  children: [
+                    Center(
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: itemsInCart.length,
+                          itemBuilder: (context, index) {
+                            return Card(
+                              elevation: 2,
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                      itemsInCart[index]['imageURL']),
+                                ),
+                                title: Text(
+                                  itemsInCart[index]['productName'],
+                                  style: const TextStyle(color: Colors.black),
+                                ),
+                                subtitle: Text(itemsInCart[index]['price'],
+                                    style:
+                                        const TextStyle(color: Colors.black)),
+                                onTap: () {},
+                                trailing: MouseRegion(
+                                  cursor: SystemMouseCursors.click,
+                                  child: GestureDetector(
+                                    child: const Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
+                                    onTap: () {
+                                      CartFunctions(
+                                              fire: FirebaseFirestore.instance)
+                                          .deleteFromCart(
+                                              itemsInCart[index]["productID"]
+                                                  .toString(),
+                                              uid!)
+                                          .then((value) => setState(() {
+                                                itemsInCart.removeAt(index);
+                                              }));
+                                    },
                                   ),
-                                  onTap: () {
-                                    CartFunctions(
-                                            fire: FirebaseFirestore.instance)
-                                        .deleteFromCart(
-                                            itemsInCart[index]["productID"]
-                                                .toString(),
-                                            uid!)
-                                        .then((value) => setState(() {
-                                              itemsInCart.removeAt(index);
-                                            }));
-                                  },
                                 ),
                               ),
-                            ),
-                          );
-                        }),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text("$numProducts items",
-                      style: const TextStyle(color: Colors.black)),
-                  Text(" Cart Total : R$cartTotal",
-                      style: const TextStyle(color: Colors.black)),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: GestureDetector(
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            gradient: const LinearGradient(
-                                begin: Alignment.centerRight,
-                                end: Alignment.centerLeft,
-                                colors: [
-                                  Colors.blue,
-                                  Color.fromARGB(255, 5, 9, 227),
-                                  Color.fromARGB(255, 8, 0, 59),
-                                ])),
-                        child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: RichText(
-                              text: const TextSpan(
-                                children: [
-                                  TextSpan(
-                                      text: " Proceed To Checkout ",
-                                      style: TextStyle(color: Colors.white)),
-                                  WidgetSpan(
-                                    child: Icon(
-                                      Icons.shopping_cart_checkout,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )),
-                      ),
-                      onTap: () async {
-                        if (itemsInCart.isEmpty) {
-                          Navigator.of(context).pop();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  backgroundColor:
-                                      Color.fromARGB(255, 3, 79, 255),
-                                  content: Text("No Items In Cart")));
-                        } else {
-                          await completeCheckout();
-                        }
-                      },
+                            );
+                          }),
                     ),
-                  ),
-                ],
-              );
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text("$numProducts items",
+                        style: const TextStyle(color: Colors.black)),
+                    Text(" Cart Total : R$cartTotal",
+                        style: const TextStyle(color: Colors.black)),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width * 0.2,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              gradient: const LinearGradient(
+                                  begin: Alignment.centerRight,
+                                  end: Alignment.centerLeft,
+                                  colors: [
+                                    Colors.blue,
+                                    Color.fromARGB(255, 5, 9, 227),
+                                    Color.fromARGB(255, 8, 0, 59),
+                                  ])),
+                          child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: RichText(
+                                text: const TextSpan(
+                                  children: [
+                                    TextSpan(
+                                        text: " Proceed To Checkout ",
+                                        style: TextStyle(color: Colors.white)),
+                                    WidgetSpan(
+                                      child: Icon(
+                                        Icons.shopping_cart_checkout,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )),
+                        ),
+                        onTap: () async {
+                          if (itemsInCart.isEmpty) {
+                            Navigator.of(context).pop();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    backgroundColor:
+                                        Color.fromARGB(255, 3, 79, 255),
+                                    content: Text("No Items In Cart")));
+                          } else {
+                            await completeCheckout();
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                );
+              }
             }
             return const Center(child: CircularProgressIndicator());
           },

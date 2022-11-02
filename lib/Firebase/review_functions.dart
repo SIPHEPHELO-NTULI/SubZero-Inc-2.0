@@ -52,18 +52,20 @@ class ReviewFunctions {
   Future<bool> check(String productID, String uid) async {
     bool found = false;
     final CollectionReference collectionRef =
-        fire.collection("PurchaseHistory2");
+        fire.collection("PurchaseHistory").doc(uid).collection("Orders");
     List allpurchases = [];
-
+    List productIDs;
     await collectionRef.get().then((querySnapshot) {
       for (var result in querySnapshot.docs) {
         allpurchases.add(result.data());
       }
     });
     for (int i = 0; i < allpurchases.length; i++) {
-      if (allpurchases[i]["productID"] == productID &&
-          allpurchases[i]["uid"] == uid) {
-        found = true;
+      productIDs = allpurchases[i]["productIDs"] as List;
+      for (int j = 0; j < productIDs.length; j++) {
+        if (productIDs[j] == productID) {
+          found = true;
+        }
       }
     }
     return found;

@@ -17,24 +17,30 @@ void main() {
 //UNIT TEST
 //this test will check that the database acts accordingly when a user rates a product
   test('Rate Product', () async {
-    await mockFirestore.collection("PurchaseHistory2").doc("historyID").set({
+    await mockFirestore
+        .collection("PurchasedProducts")
+        .doc("orderID")
+        .collection("ProductsInOrder")
+        .doc("docID")
+        .set({
+      'orderID': "orderID",
+      'productID': productID,
       'productName': "productName",
       'imageURL': "imageURL",
       'price': "price",
       'category': "category",
-      'historyID': "historyID",
-      'productID': "productID",
       'uid': uid,
-      'isRated': false
+      'isRated': false,
+      'docID': "docID",
     });
-    expect(await cf.rateProduct(productID, 5, "historyID", uid),
+    expect(await cf.rateProduct(productID, 5, "docID", "orderID"),
         "Rating Successful");
   });
 
 //UNIT TEST
 //this test will check that the database acts accordingly when retrieving all the ratings for a product
   test('get Product Ratings', () async {
-    await mockFirestore.collection("ProductRating").doc("docID").set({
+    await mockFirestore.collection("ProductRatings").doc("docID").set({
       'rating': "ratingfromuser",
       'productID': productID,
       'uid': uid,
@@ -53,7 +59,7 @@ void main() {
 //UNIT TEST
 //this test will check that the database returns the correct number of raters for a product
   test('get Number Of Ratings', () async {
-    await mockFirestore.collection("ProductRating").doc("docID").set({
+    await mockFirestore.collection("ProductRatings").doc("docID").set({
       'rating': "ratingfromuser",
       'productID': productID,
       'uid': uid,
@@ -65,13 +71,13 @@ void main() {
 //UNIT TEST
 //this test will check that the database acts accordingly when calculating the average rating for a product
   test('get Average Rating', () async {
-    await mockFirestore.collection("ProductRating").doc("docID2").set({
+    await mockFirestore.collection("ProductRatings").doc("docID2").set({
       'rating': 2.0,
       'productID': productID,
       'uid': uid,
       'ratingID': "docID2"
     });
-    await mockFirestore.collection("ProductRating").doc("docID").set({
+    await mockFirestore.collection("ProductRatings").doc("docID").set({
       'rating': 1.0,
       'productID': productID,
       'uid': "123",
@@ -82,47 +88,61 @@ void main() {
 
 //UNIT TEST
 //this test will check that the database acts accordingly when retrieving the purchase history for a user
-  test('get Products In Hisory', () async {
-    await mockFirestore.collection("PurchaseHistory2").doc("historyID").set({
+  test('get Products In Order', () async {
+    await mockFirestore
+        .collection("PurchasedProducts")
+        .doc("historyID")
+        .collection("ProductsInOrder")
+        .doc("docID")
+        .set({
+      'orderID': "historyID",
+      'productID': productID,
       'productName': "productName",
       'imageURL': "imageURL",
       'price': "price",
       'category': "category",
-      'historyID': "historyID",
-      'productID': "productID",
       'uid': uid,
-      'isRated': false
+      'isRated': false,
+      'docID': "docID",
     });
-    await mockFirestore.collection("PurchaseHistory2").doc("historyID2").set({
+    await mockFirestore
+        .collection("PurchasedProducts")
+        .doc("historyID")
+        .collection("ProductsInOrder")
+        .doc("docID2")
+        .set({
+      'orderID': "historyID",
+      'productID': "productID2",
       'productName': "productName",
       'imageURL': "imageURL",
       'price': "price",
       'category': "category",
-      'historyID': "historyID2",
-      'productID': "productID",
       'uid': uid,
-      'isRated': false
+      'isRated': false,
+      'docID': "docID2",
     });
-    expect(await cf.getProductsInHistory(uid), [
+    expect(await cf.getProductsInOrder("historyID"), [
       {
+        'orderID': "historyID",
+        'productID': productID,
         'productName': "productName",
         'imageURL': "imageURL",
         'price': "price",
         'category': "category",
-        'historyID': "historyID",
-        'productID': "productID",
         'uid': uid,
-        'isRated': false
+        'isRated': false,
+        'docID': "docID",
       },
       {
+        'orderID': "historyID",
+        'productID': "productID2",
         'productName': "productName",
         'imageURL': "imageURL",
         'price': "price",
         'category': "category",
-        'historyID': "historyID2",
-        'productID': "productID",
         'uid': uid,
-        'isRated': false
+        'isRated': false,
+        'docID': "docID2",
       }
     ]);
   });

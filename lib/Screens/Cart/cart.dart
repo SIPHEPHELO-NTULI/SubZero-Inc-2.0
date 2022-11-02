@@ -33,7 +33,7 @@ class Cart extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Text(
-                  " Your Cart ",
+                  " My Cart ",
                   style: Theme.of(context).textTheme.headline4?.copyWith(
                       color: const Color.fromARGB(255, 3, 79, 255),
                       fontStyle: FontStyle.italic,

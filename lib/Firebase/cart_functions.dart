@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:give_a_little_sdp/Firebase/get_products.dart';
 
 //This class houses the necessary firebase functions related to the cart and history services
@@ -38,26 +37,6 @@ class CartFunctions {
       }
     }
     return itemsInHistoryCart;
-  }
-
-  //This function is used when a user has checked out, the products they have  purchased will be added to the collection
-
-  Future<String> addToPurchaseHistory(List itemsInCart, String uid) async {
-    for (var productID in itemsInCart) {
-      String historyID = fire.collection("PurchaseHistory2").doc().id;
-
-      await fire.collection("PurchaseHistory2").doc(historyID).set({
-        'productName': productID["productName"],
-        'imageURL': productID["imageURL"],
-        'price': productID["price"],
-        'category': productID["category"],
-        'historyID': historyID,
-        'productID': productID["productID"],
-        'uid': uid,
-        'isRated': false
-      });
-    }
-    return "Checkout Successful";
   }
 
   //This function is used when a user has added an item to their cart

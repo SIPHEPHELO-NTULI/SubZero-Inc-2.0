@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:give_a_little_sdp/Components/app_bar.dart';
 import 'package:give_a_little_sdp/Firebase/credit_functions.dart';
+import 'package:give_a_little_sdp/Firebase/voucher_code_functions.dart';
 import 'package:give_a_little_sdp/Screens/Home/home_screen.dart';
 import 'package:give_a_little_sdp/Screens/Redeem/redeem_functions.dart';
 import 'package:give_a_little_sdp/Screens/Redeem/voucher_code_validator.dart';
@@ -19,9 +20,7 @@ class _RedeemScreenState extends State<RedeemScreen> {
   final formKey = GlobalKey<FormState>();
   final voucherCodeController = TextEditingController();
   bool temp = false;
-  int clicked = 0;
   String amount = "";
-  String buttonText = "Redeem";
   String? uid = FirebaseAuth.instance.currentUser?.uid;
   @override
   void dispose() {
@@ -116,11 +115,11 @@ class _RedeemScreenState extends State<RedeemScreen> {
                                   Color.fromARGB(255, 5, 9, 227),
                                   Color.fromARGB(255, 8, 0, 59),
                                 ])),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
+                        child: const Padding(
+                          padding: EdgeInsets.all(12.0),
                           child: Text(
-                            buttonText,
-                            style: const TextStyle(
+                            "Redeem",
+                            style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
@@ -128,27 +127,39 @@ class _RedeemScreenState extends State<RedeemScreen> {
                         ),
                       ),
                       onTap: () async {
-                        if (buttonText == "Done") {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const HomeScreen()));
-                        }
-                        if (formKey.currentState!.validate() && clicked == 0) {
-                          setState(() {
-                            temp = true;
-                            amount = RedeemFunctions().getAmount();
-                            buttonText = "Done";
-                            clicked++;
-                          });
-                          await CreditFunctions(
+                        if (formKey.currentState!.validate()) {
+                          bool valid = await VoucherCodeFunctions(
                                   fire: FirebaseFirestore.instance)
-                              .updateCredits(uid!, amount, "+")
-                              .then((value) => ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
-                                      backgroundColor:
-                                          const Color.fromARGB(255, 3, 79, 255),
-                                      content: Text(value))));
+                              .checkCode(voucherCodeController.text);
+                          if (valid) {
+                            setState(() {
+                              temp = true;
+                              amount = RedeemFunctions().getAmount();
+                            });
+                            await VoucherCodeFunctions(
+                                    fire: FirebaseFirestore.instance)
+                                .sendVoucherCode(voucherCodeController.text);
+                            await CreditFunctions(
+                                    fire: FirebaseFirestore.instance)
+                                .updateCredits(uid!, amount, "+")
+                                .then((value) => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const HomeScreen())))
+                                .then((value) => ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                        backgroundColor:
+                                            Color.fromARGB(255, 3, 79, 255),
+                                        content: Text("Balance Updated"))));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    backgroundColor:
+                                        Color.fromARGB(255, 3, 79, 255),
+                                    content: Text(
+                                        "Voucher Code Has Been Redeemed Already")));
+                          }
                         }
                       },
                     ),

@@ -41,7 +41,7 @@ class WishlistScreen extends StatelessWidget {
                             color: Colors.pink,
                           ),
                           Text(
-                            " Your Wishlist ",
+                            " My Wishlist ",
                             style: Theme.of(context)
                                 .textTheme
                                 .headline4
