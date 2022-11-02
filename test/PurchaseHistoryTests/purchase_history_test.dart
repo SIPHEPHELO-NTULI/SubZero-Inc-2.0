@@ -14,6 +14,16 @@ void main() {
 
 //UNIT TEST
 //this test will check that the database acts accordingly when adding items to users purchase history
+  test('Add To Purchase History', () async {
+    expect(
+        await pf.addToOrders([
+          {"productID": "productID12", "docID": "docIDabc"},
+          {"productID": "productID11", "docID": "docID22"}
+        ], uid, "100", "2", "recipientName", "mobileNumber", "complex"),
+        "Checkout Successful");
+  });
+//UNIT TEST
+//this test will check that the database acts accordingly when retrieving the purchase history for a user
   test('get Orders', () async {
     await mockFirestore
         .collection("PurchaseHistory")
@@ -72,7 +82,4 @@ void main() {
       }
     ]);
   });
-
-//UNIT TEST
-//this test will check that the database acts accordingly when retrieving the purchase history for a user
 }
