@@ -27,7 +27,7 @@ void main() {
 
 //UNIT TEST
 //this test will check that database acts accordingly when a user tries to redeem a new voucher code
-  test('validate code returns false', () async {
+  test('validate code returns true', () async {
     mockFirestore
         .collection("VoucherCodes")
         .add({"vouchercode": "1234567abder"});

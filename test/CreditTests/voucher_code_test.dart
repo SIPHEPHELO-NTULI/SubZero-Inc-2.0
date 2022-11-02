@@ -16,7 +16,7 @@ void main() {
   });
 
 //this test will check that voucher code validator correctly validates a long voucher code
-  test('voucher code length less than 12 returns error string', () async {
+  test('voucher code length greater than 12 returns error string', () async {
     var result = VoucherCodeValidator.validate('12212123123123');
     expect(result, "Please Enter Valid Voucher Code (12 Character Code Only)");
   });

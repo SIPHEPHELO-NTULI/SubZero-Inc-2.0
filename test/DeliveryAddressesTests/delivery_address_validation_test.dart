@@ -106,13 +106,6 @@ void main() {
     expect(result, "Phone number must contain numeric values only");
   });
 
-  //UNIT TEST
-//this test will check that phone number validator correctly validates a phone number with length not equal to 10
-  test('invalid phone number returns error string', () async {
-    var result = PhoneNumberValidator.validate('101010101010');
-    expect(result, "Phone number must be 10 digits");
-  });
-
 //UNIT TEST
 //this test will check that phone number field validator correctly validates a correct phone number
   test('valid phone number returns null', () async {
