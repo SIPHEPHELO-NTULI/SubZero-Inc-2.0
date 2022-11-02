@@ -20,12 +20,11 @@ class ReviewFunctions {
     var collection = fire.collection('Users');
     var docSnapshot = await collection.doc(uid).get();
 
-    if (docSnapshot.exists) {
-      Map<String, dynamic>? data = docSnapshot.data();
-      name = data?['name'];
-      surname = data?['surname'];
-      finalName = name + " " + surname;
-    }
+    Map<String, dynamic>? data = docSnapshot.data();
+    name = data?['name'];
+    surname = data?['surname'];
+    finalName = name + " " + surname;
+
     String date = DateFormat("dd-MMM-yyyy").format(DateTime.now());
 
     await fire

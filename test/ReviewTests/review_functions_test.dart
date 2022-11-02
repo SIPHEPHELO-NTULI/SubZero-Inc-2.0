@@ -35,18 +35,13 @@ void main() {
 //UNIT TEST
 //this test will check that the database acts accordingly when a user reviews a product
   test('Upload Comment', () async {
-    when(mockFirestore
-        .collection('Products')
-        .doc(productID)
-        .collection('Reviews')
-        .doc(uid)
-        .set({
-      'productID': productID,
+    await mockFirestore.collection('Users').doc(uid).set({
       'name': "name",
-      'uid': uid,
-      'comment': text,
-      'date': "date"
-    }));
+      'surname': "surname",
+      'username': "username",
+      'email': "email@gmail.com",
+      'uid': uid
+    });
     expect(await rf.uploadReview(productID, text, uid), "Comment Posted");
   });
 
