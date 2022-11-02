@@ -4,13 +4,11 @@ import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 
 void main() {
   late FakeFirebaseFirestore mockFirestore;
-  late String productID;
   late String uid;
   late PurchaseHistoryFunctions pf;
   setUp(() {
     mockFirestore = FakeFirebaseFirestore();
     uid = "abc";
-    productID = "1232jk3h";
     pf = PurchaseHistoryFunctions(fire: mockFirestore);
   });
 

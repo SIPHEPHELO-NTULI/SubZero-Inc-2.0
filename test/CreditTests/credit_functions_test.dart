@@ -6,7 +6,6 @@ void main() {
   late FakeFirebaseFirestore mockFirestore;
   late String amount;
   late String uid;
-  late String sign;
   late CreditFunctions cf;
   setUp(() {
     mockFirestore = FakeFirebaseFirestore();

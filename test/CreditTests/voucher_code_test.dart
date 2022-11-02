@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:give_a_little_sdp/Firebase/voucher_code_functions.dart';
 import 'package:give_a_little_sdp/Screens/Redeem/voucher_code_validator.dart';
 
 void main() {
