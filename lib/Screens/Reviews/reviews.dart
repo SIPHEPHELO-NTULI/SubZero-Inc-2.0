@@ -8,6 +8,7 @@ import 'package:give_a_little_sdp/Screens/Reviews/review_card.dart';
 // it then calls the reviews method to find related products based
 //on the category
 //when a product is clicked it will navigate to a new details screen
+// ignore: must_be_immutable
 class Reviews extends StatefulWidget {
   String productID;
   Reviews({required this.productID, Key? key}) : super(key: key);

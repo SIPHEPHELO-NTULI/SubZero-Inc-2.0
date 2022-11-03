@@ -11,6 +11,7 @@ import 'package:give_a_little_sdp/Screens/Home/home_screen.dart';
 //it will display the list of items the user wants to purchase
 //as well as display a list of the available delivery addresses
 
+// ignore: must_be_immutable
 class CheckoutScreen extends StatefulWidget {
   List itemsInCart;
   String total;

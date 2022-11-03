@@ -12,6 +12,7 @@ import 'package:give_a_little_sdp/Screens/Wishlist/wishlist_screen.dart';
 //it has been customised to display the profile image of the user(if chosen)
 //as the leading button for the menu
 
+// ignore: must_be_immutable
 class DropDownAccount extends StatelessWidget {
   String imageURL;
   DropDownAccount({Key? key, required this.imageURL}) : super(key: key);

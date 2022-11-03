@@ -3,6 +3,7 @@ import 'package:give_a_little_sdp/Components/app_bar.dart';
 import 'package:give_a_little_sdp/Screens/Home/product_card.dart';
 import 'package:give_a_little_sdp/Screens/ProductDetails/product_details.dart';
 
+// ignore: must_be_immutable
 class BrowseCategories extends StatefulWidget {
   List products;
   BrowseCategories({Key? key, required this.products}) : super(key: key);
@@ -106,7 +107,7 @@ class CategoryList extends StatelessWidget {
             ),
           ),
         ),
-        Container(
+        SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.4,
           child: ListView.builder(

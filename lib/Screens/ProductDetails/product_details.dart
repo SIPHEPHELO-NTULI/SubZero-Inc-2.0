@@ -17,6 +17,7 @@ import '../../Firebase/rating_functions.dart';
 //of the page and an add to cart button
 //below this is the suggested product widget
 // it helps to expand the layout in the future
+// ignore: must_be_immutable
 class DetailsScreen extends StatefulWidget {
   String image, productName, description, price, category, productID;
   DetailsScreen(

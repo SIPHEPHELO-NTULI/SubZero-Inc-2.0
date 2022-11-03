@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 //with the exception that it requires parameters of a list and a string and a user cannot remove items from the cart
 //The list will be all the items in the cart, this is so the user can view their final order
 
+// ignore: must_be_immutable
 class ItemsInCart extends StatefulWidget {
   List itemsInCart;
   String total;

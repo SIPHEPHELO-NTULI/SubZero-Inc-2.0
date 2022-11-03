@@ -8,6 +8,7 @@ import 'package:give_a_little_sdp/Firebase/rating_functions.dart';
 //it displays the in a list
 // with a rating scheme next to each product
 // a user can indicate how they choose to rate the product they p
+// ignore: must_be_immutable
 class RatingScreen extends StatefulWidget {
   String orderID;
   RatingScreen({required this.orderID, Key? key}) : super(key: key);

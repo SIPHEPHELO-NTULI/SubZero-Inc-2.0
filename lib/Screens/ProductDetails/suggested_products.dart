@@ -9,6 +9,7 @@ import 'package:give_a_little_sdp/Screens/ProductDetails/product_details.dart';
 // it then calls the suggestedproducts method to find related products based
 //on the category
 //when a product is clicked it will navigate to a new details screen
+// ignore: must_be_immutable
 class SuggestedProducts extends StatelessWidget {
   String category;
   String productID;

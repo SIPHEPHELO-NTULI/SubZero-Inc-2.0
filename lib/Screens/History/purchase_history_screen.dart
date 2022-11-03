@@ -44,7 +44,7 @@ class _PurchaseHistoryScreen extends State<PurchaseHistoryScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          " My Orders ",
+                          " Purchase History ",
                           style: Theme.of(context)
                               .textTheme
                               .headline4
