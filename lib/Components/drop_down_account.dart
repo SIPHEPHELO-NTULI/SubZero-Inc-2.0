@@ -82,7 +82,7 @@ class DropDownAccount extends StatelessWidget {
 //Each item in the drop down is of MenuItem type
 //this allows us to easily add and remove items as we see fit
 //currently it consists of the profile,addressbook,sell
-//hsitory,redeem and wishlist tabs
+//history,redeem and wishlist tabs
 
 class MenuItem {
   final String text;

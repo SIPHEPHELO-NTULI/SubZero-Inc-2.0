@@ -6,6 +6,8 @@ import 'package:give_a_little_sdp/Screens/History/order_card.dart';
 
 import '../../Components/app_bar.dart';
 
+//this widget displays all the users purchases in a list
+//using the order card to layout the information
 class PurchaseHistoryScreen extends StatefulWidget {
   const PurchaseHistoryScreen({Key? key}) : super(key: key);
 

@@ -3,6 +3,7 @@ import 'package:give_a_little_sdp/Components/app_bar.dart';
 import 'package:give_a_little_sdp/Screens/Home/product_card.dart';
 import 'package:give_a_little_sdp/Screens/ProductDetails/product_details.dart';
 
+//This screen shows all products in their relevant categories
 // ignore: must_be_immutable
 class BrowseCategories extends StatefulWidget {
   List products;

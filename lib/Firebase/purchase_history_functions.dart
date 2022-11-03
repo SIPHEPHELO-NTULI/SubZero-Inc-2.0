@@ -6,8 +6,9 @@ class PurchaseHistoryFunctions {
 
   PurchaseHistoryFunctions({required this.fire});
 
-  //This function is used when a user has checked out, the products they have  purchased will be added to the collection
-
+//This function adds the order to the purchase History collection
+//it also adds each product to the purchased products collection
+//so that they can be viewed and rated
   Future<String> addToOrders(
       List itemsInCart,
       String uid,
