@@ -18,6 +18,7 @@ In this project we will be designing and implementing an online marketplace, sim
 
 -etc.
 
+=======
 
 ## Getting Started
 
@@ -34,15 +35,15 @@ Downloads/Installations needed:
 
 =======
 
-A few resources to get you started if this is your first Flutter project:
+## How to run the project
+Run in terminal using:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+flutter run -d -chrome --web-renderer html
+or
+flutter run -d -chrome
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
 
+=======
 
 ## Architecture Description
 
@@ -56,7 +57,6 @@ Firebase is a platform developed by Google for creating mobile and web applicati
  -uses Firebase Authentication and Cloud Firestore Security Rules to handle serverless authentication, authorization, and data validation
  -keeps your data private and secure
  -very low maintenance
-
 
 ### VS Code
 Visual Studio Code, also commonly referred to as VS Code, is a source-code editor made by Microsoft for Windows, Linux and macOS. GiveALittle uses VS Code as an editor to run,edit and make the application with the Flutter development kit.
