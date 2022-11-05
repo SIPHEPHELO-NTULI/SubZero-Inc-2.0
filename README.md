@@ -39,7 +39,9 @@ Downloads/Installations needed:
 Run in terminal using:
 
 flutter run -d -chrome --web-renderer html
+
 or
+
 flutter run -d -chrome
 
 
